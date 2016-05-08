@@ -1,5 +1,15 @@
-sudo: false
 language: ruby
-rvm:
-  - 2.3.0
+
+cache: bundler
+
+matrix:
+  include:
+    - rvm: 2.3
+    - rvm: 2.2
+    - rvm: 2.1
+    - rvm: jruby-head
+    - rvm: jruby-19mode
+    - rvm: rbx-2
+  allow_failures:
+    - rvm: ruby-head
 before_install: gem install bundler -v 1.12.1
