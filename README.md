@@ -1,4 +1,4 @@
-# GrapeSwagger::Entity [![Build Status](https://travis-ci.org/Bugagazavr/grape-swagger-entity.svg)](https://travis-ci.org/Bugagazavr/grape-swagger-entity)
+# GrapeSwagger::Entity [![Build Status](https://travis-ci.org/ruby-grape/grape-swagger-entity.svg)](https://travis-ci.org/ruby-grape/grape-swagger-entity)
 
 A simple grape-swagger adapter to allow parse representers as response model
 
