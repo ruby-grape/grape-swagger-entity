@@ -65,7 +65,15 @@ module GrapeSwagger
             if entity_options[:values] && entity_options[:values].is_a?(Array)
               memo[entity_name][:enum] = entity_options[:values]
             end
+
+            if entity_options[:documentation] && entity_options[:documentation][:is_array]
+              memo[entity_name] = {
+                type: :array,
+                items: memo.delete(entity_name)
+              }
+            end
           end
+
           if entity_options[:documentation] && entity_options[:documentation][:desc]
             memo[entity_name][:description] = entity_options[:documentation][:desc]
           end
@@ -86,7 +94,7 @@ module GrapeSwagger
           !GrapeSwagger::DocMethods::DataType.primitive?(type.name.downcase) &&
           !type == Array
       end
-      
+
       def entity_model_type(name, entity_options)
         if entity_options[:documentation] && entity_options[:documentation][:is_array]
           {
