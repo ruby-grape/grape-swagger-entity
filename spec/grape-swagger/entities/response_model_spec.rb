@@ -21,6 +21,7 @@ describe 'responseModel' do
 
         class Something < Grape::Entity
           expose :text, documentation: { type: 'string', desc: 'Content of something.' }
+          expose :colors, documentation: { type: 'string', desc: 'Colors', is_array: true }
           expose :kind, using: Kind, documentation: { type: 'ThisApi::Kind', desc: 'The kind of this something.' }
           expose :kind2, using: Kind, documentation: { desc: 'Secondary kind.' }
           expose :kind3, using: ThisApi::Entities::Kind, documentation: { desc: 'Tertiary kind.' }
@@ -79,7 +80,8 @@ describe 'responseModel' do
         'description' => 'OK',
         'schema' => {
           'type' => 'array',
-          'items' => { '$ref' => '#/definitions/Something' } }
+          'items' => { '$ref' => '#/definitions/Something' }
+        }
       }
     )
   end
@@ -111,6 +113,7 @@ describe 'responseModel' do
       'description' => 'This returns something or an error',
       'properties' =>
           { 'text' => { 'type' => 'string', 'description' => 'Content of something.' },
+            'colors' => { 'type' => 'array', 'items' => { 'type' => 'string' }, 'description' => 'Colors' },
             'kind' => { '$ref' => '#/definitions/Kind', 'description' => 'The kind of this something.' },
             'kind2' => { '$ref' => '#/definitions/Kind', 'description' => 'Secondary kind.' },
             'kind3' => { '$ref' => '#/definitions/Kind', 'description' => 'Tertiary kind.' },
@@ -189,7 +192,9 @@ describe 'should build definition from given entity' do
       'Kind' => {
         'type' => 'object',
         'properties' => {
-          'id' => { 'type' => 'integer', 'format' => 'int32', 'description' => 'Title of the kind.' } } },
+          'id' => { 'type' => 'integer', 'format' => 'int32', 'description' => 'Title of the kind.' }
+        }
+      },
       'Tag' => { 'type' => 'object', 'properties' => { 'name' => { 'type' => 'string', 'description' => 'Name' } } },
       'Relation' => { 'type' => 'object', 'properties' => { 'name' => { 'type' => 'string', 'description' => 'Name' } } },
       'SomeEntity' => {
@@ -203,6 +208,7 @@ describe 'should build definition from given entity' do
           'relation' => { '$ref' => '#/definitions/Relation', 'description' => 'A related model.' }
         },
         'description' => 'This returns something'
-      })
+      }
+    )
   end
 end
