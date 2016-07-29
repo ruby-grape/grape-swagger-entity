@@ -138,12 +138,12 @@ describe 'responseModel' do
   end
 end
 
-describe 'should build definition from given entity' do
+describe 'building definitions from given entities' do
   before :all do
     module TheseApi
       module Entities
         class Kind < Grape::Entity
-          expose :id, documentation: { type: Integer, desc: 'Title of the kind.' }
+          expose :id, documentation: { type: Integer, desc: 'Title of the kind.', values: [1, 2] }
         end
 
         class Relation < Grape::Entity
@@ -187,12 +187,12 @@ describe 'should build definition from given entity' do
     JSON.parse(last_response.body)
   end
 
-  it 'it prefer entity over others' do
+  it 'prefers entity over other `using` values' do
     expect(subject['definitions']).to eql(
       'Kind' => {
         'type' => 'object',
         'properties' => {
-          'id' => { 'type' => 'integer', 'format' => 'int32', 'description' => 'Title of the kind.' }
+          'id' => { 'type' => 'integer', 'format' => 'int32', 'description' => 'Title of the kind.', 'enum' => [1, 2] }
         }
       },
       'Tag' => { 'type' => 'object', 'properties' => { 'name' => { 'type' => 'string', 'description' => 'Name' } } },

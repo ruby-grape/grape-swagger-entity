@@ -62,8 +62,9 @@ module GrapeSwagger
               }
             end
 
-            if entity_options[:values] && entity_options[:values].is_a?(Array)
-              memo[entity_name][:enum] = entity_options[:values]
+            if entity_options[:documentation] && entity_options[:documentation][:values]
+              values = entity_options[:documentation][:values]
+              memo[entity_name][:enum] = values if values.is_a?(Array)
             end
 
             if entity_options[:documentation] && entity_options[:documentation][:is_array]
