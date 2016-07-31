@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gemspec
 
 gem 'grape-swagger', github: 'ruby-grape/grape-swagger'
+gem 'danger', '~> 2.0', require: false unless RUBY_PLATFORM == 'java'
 
 if RUBY_VERSION < '2.2.2'
   gem 'rack', '<2.0.0'
