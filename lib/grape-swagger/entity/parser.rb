@@ -38,7 +38,7 @@ module GrapeSwagger
           end
 
           if model
-            name = endpoint.send(:expose_params_from_model, model)
+            name = endpoint.nil? ? model.to_s.demodulize : endpoint.send(:expose_params_from_model, model)
             memo[entity_name] = entity_model_type(name, entity_options)
           else
             documented_type = entity_options[:type]

@@ -3,6 +3,7 @@
 #### Features
 
 * [#11](https://github.com/ruby-grape/grape-swagger-entity/pull/11): Use an automated PR linter, [danger.systems](http://danger.systems) - [@Bugagazavr](https://github.com/Bugagazavr).
+* [#12](https://github.com/ruby-grape/grape-swagger-entity/pull/12): Allow parsing Entity with no endpoint - [@lordnibbler](https://github.com/lordnibbler).
 * Your contribution here.
 
 #### Fixes
