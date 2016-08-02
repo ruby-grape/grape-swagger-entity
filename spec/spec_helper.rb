@@ -18,3 +18,5 @@ RSpec.configure do |config|
   config.order = 'random'
   config.seed = 40_834
 end
+
+Dir['spec/support/**/*.rb'].each { |file| require "./#{file}" }

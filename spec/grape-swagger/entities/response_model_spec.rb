@@ -1,5 +1,4 @@
 require 'spec_helper'
-require_relative '../../../spec/support/shared_contexts/this_api'
 
 describe 'responseModel' do
   include_context 'this api'
