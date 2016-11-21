@@ -9,6 +9,7 @@
 #### Fixes
 
 * [#8](https://github.com/ruby-grape/grape-swagger-entity/pull/8): Generate enum property if values key is passed in documentation - [@lordnibbler](https://github.com/lordnibbler).
+* [#15](https://github.com/ruby-grape/grape-swagger-entity/pull/15): Support grape entity 0.6.x and later - [@Bugagazavr](https://github.com/Bugagazavr).
 * Your contribution here.
 
 ### 0.1.4 (June 7, 2016)

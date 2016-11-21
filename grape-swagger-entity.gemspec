@@ -10,7 +10,7 @@ Gem::Specification.new do |s|
   s.email         = ['kirik910@gmail.com']
 
   s.summary       = 'Grape swagger adapter to support grape-entity object parsing'
-  s.homepage      = 'https://github.com/Bugagazavr/grape-swagger-entity'
+  s.homepage      = 'https://github.com/ruby-grape/grape-swagger-entity'
   s.license       = 'MIT'
 
   s.files         = `git ls-files -z`.split("\x0").reject { |f| f.match(%r{^(test|spec|features)/}) }
