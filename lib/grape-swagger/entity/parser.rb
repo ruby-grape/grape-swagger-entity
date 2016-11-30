@@ -33,8 +33,9 @@ module GrapeSwagger
           entity_name = entity_options[:as] if entity_options[:as]
           model = entity_options[:using] if entity_options[:using].present?
 
-          if entity_options[:documentation] && could_it_be_a_model?(entity_options[:documentation])
-            model ||= entity_options[:documentation][:type]
+          if entity_options[:documentation]
+            entity_name = entity_options[:documentation][:name] if entity_options[:documentation][:name]
+            model ||= entity_options[:documentation][:type] if could_it_be_a_model?(entity_options[:documentation])
           end
 
           if model
