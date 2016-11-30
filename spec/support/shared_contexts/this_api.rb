@@ -25,6 +25,7 @@ shared_context 'this api' do
           expose :kind3, using: ThisApi::Entities::Kind, documentation: { desc: 'Tertiary kind.' }
           expose :tags, using: ThisApi::Entities::Tag, documentation: { desc: 'Tags.', is_array: true }
           expose :relation, using: ThisApi::Entities::Relation, documentation: { type: 'ThisApi::Relation', desc: 'A related model.' }
+          expose :override_name, documentation: { name: 'goodname', desc: 'Doc name override.' }
         end
       end
 

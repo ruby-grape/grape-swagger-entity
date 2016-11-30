@@ -56,7 +56,9 @@ describe 'responseModel' do
             'kind2' => { '$ref' => '#/definitions/Kind', 'description' => 'Secondary kind.' },
             'kind3' => { '$ref' => '#/definitions/Kind', 'description' => 'Tertiary kind.' },
             'tags' => { 'type' => 'array', 'items' => { '$ref' => '#/definitions/Tag' }, 'description' => 'Tags.' },
-            'relation' => { '$ref' => '#/definitions/Relation', 'description' => 'A related model.' } }
+            'relation' => { '$ref' => '#/definitions/Relation', 'description' => 'A related model.' },
+            "goodname"=>{"type"=>"string", "description"=>"Doc name override."}
+           }
     )
 
     expect(subject['definitions'].keys).to include 'Kind'
@@ -73,6 +75,7 @@ describe 'responseModel' do
     expect(subject['definitions']['Tag']).to eq(
       'type' => 'object', 'properties' => { 'name' => { 'type' => 'string', 'description' => 'Name' } }
     )
+
   end
 end
 
@@ -98,6 +101,7 @@ describe 'building definitions from given entities' do
           expose :kind3, using: TheseApi::Entities::Kind, documentation: { desc: 'Tertiary kind.' }
           expose :tags, using: TheseApi::Entities::Tag, documentation: { desc: 'Tags.', is_array: true }
           expose :relation, using: TheseApi::Entities::Relation, documentation: { type: 'TheseApi::Relation', desc: 'A related model.' }
+          expose :override_name, documentation: { name: 'goodname', desc: 'Doc name override.' }
         end
       end
 
@@ -143,7 +147,8 @@ describe 'building definitions from given entities' do
           'kind2' => { '$ref' => '#/definitions/Kind', 'description' => 'Secondary kind.' },
           'kind3' => { '$ref' => '#/definitions/Kind', 'description' => 'Tertiary kind.' },
           'tags' => { 'type' => 'array', 'items' => { '$ref' => '#/definitions/Tag' }, 'description' => 'Tags.' },
-          'relation' => { '$ref' => '#/definitions/Relation', 'description' => 'A related model.' }
+          'relation' => { '$ref' => '#/definitions/Relation', 'description' => 'A related model.' },
+          'goodname' => { 'type' => 'string', 'description' => 'Doc name override.' }
         },
         'description' => 'This returns something'
       }
