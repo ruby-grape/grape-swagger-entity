@@ -1,30 +1,31 @@
-language: ruby
+before_install:
+  - gem update --system
+  - gem install bundler
 
-cache: bundler
+after_success:
+  - bundle exec danger
+
+rvm:
+  - 2.4.0
+  - 2.3.3
+  - 2.2.6
+
+env:
+  - GRAPE_ENTITY=0.5.2
+  - GRAPE_ENTITY=0.6.1
 
 matrix:
+  fast_finish: true
+
   include:
-    - rvm: 2.3.0
-      script:
-        - bundle exec danger
-    - rvm: 2.3.0
-      env:
-        - GRAPE_ENTITY="~> 0.4.0"
-    - rvm: 2.3.0
-      env:
-        - GRAPE_ENTITY="~> 0.5.0"
-    - rvm: 2.3.0
-      env:
-        - GRAPE_ENTITY="~> 0.6.0"
-    - rvm: 2.2
-    - rvm: 2.1
-    - rvm: jruby-9.1.2.0
     - rvm: ruby-head
+      env:
     - rvm: jruby-head
+      env:
     - rvm: rbx-2
+      env:
+
   allow_failures:
     - rvm: ruby-head
     - rvm: jruby-head
     - rvm: rbx-2
-
-before_install: gem install bundler -v 1.12.1

@@ -12,6 +12,7 @@ module GrapeSwagger
       def call
         # TODO: this should only be a temporary hack ;)
         if ::GrapeEntity::VERSION =~ /0\.4\.\d/
+          warn 'usage of grape-entity <0.5.0 is deprecated'
           parameters = model.exposures ? model.exposures : model.documentation
         else
           parameters = model.root_exposures.each_with_object({}) do |value, memo|
@@ -65,6 +66,10 @@ module GrapeSwagger
             if entity_options[:documentation] && entity_options[:documentation][:values]
               values = entity_options[:documentation][:values]
               memo[entity_name][:enum] = values if values.is_a?(Array)
+            end
+
+            if entity_options[:documentation] && entity_options[:documentation][:default]
+              memo[entity_name][:default] = entity_options[:documentation][:default]
             end
 
             if entity_options[:documentation] && entity_options[:documentation][:is_array]

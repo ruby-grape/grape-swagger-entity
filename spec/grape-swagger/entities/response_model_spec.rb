@@ -80,6 +80,10 @@ describe 'building definitions from given entities' do
   before :all do
     module TheseApi
       module Entities
+        class Values < Grape::Entity
+          expose :guid, documentation: { desc: 'Some values', values: %w(a b c), default: 'c' }
+        end
+
         class Kind < Grape::Entity
           expose :id, documentation: { type: Integer, desc: 'Title of the kind.', values: [1, 2] }
         end
@@ -98,6 +102,7 @@ describe 'building definitions from given entities' do
           expose :kind3, using: TheseApi::Entities::Kind, documentation: { desc: 'Tertiary kind.' }
           expose :tags, using: TheseApi::Entities::Tag, documentation: { desc: 'Tags.', is_array: true }
           expose :relation, using: TheseApi::Entities::Relation, documentation: { type: 'TheseApi::Relation', desc: 'A related model.' }
+          expose :values, using: TheseApi::Entities::Values, documentation: { desc: 'Tertiary kind.' }
         end
       end
 
@@ -122,31 +127,40 @@ describe 'building definitions from given entities' do
 
   subject do
     get '/swagger_doc'
-    JSON.parse(last_response.body)
+    JSON.parse(last_response.body)['definitions']
   end
 
   it 'prefers entity over other `using` values' do
-    expect(subject['definitions']).to eql(
-      'Kind' => {
-        'type' => 'object',
-        'properties' => {
-          'id' => { 'type' => 'integer', 'format' => 'int32', 'description' => 'Title of the kind.', 'enum' => [1, 2] }
-        }
-      },
-      'Tag' => { 'type' => 'object', 'properties' => { 'name' => { 'type' => 'string', 'description' => 'Name' } } },
-      'Relation' => { 'type' => 'object', 'properties' => { 'name' => { 'type' => 'string', 'description' => 'Name' } } },
-      'SomeEntity' => {
-        'type' => 'object',
-        'properties' => {
-          'text' => { 'type' => 'string', 'description' => 'Content of something.' },
-          'kind' => { '$ref' => '#/definitions/Kind', 'description' => 'The kind of this something.' },
-          'kind2' => { '$ref' => '#/definitions/Kind', 'description' => 'Secondary kind.' },
-          'kind3' => { '$ref' => '#/definitions/Kind', 'description' => 'Tertiary kind.' },
-          'tags' => { 'type' => 'array', 'items' => { '$ref' => '#/definitions/Tag' }, 'description' => 'Tags.' },
-          'relation' => { '$ref' => '#/definitions/Relation', 'description' => 'A related model.' }
-        },
-        'description' => 'This returns something'
+    expect(subject['Values']).to eql(
+      'type' => 'object',
+      'properties' => {
+        'guid' => { 'type' => 'string', 'description' => 'Some values', 'enum' => ['a', 'b', 'c'], 'default' => 'c' }
       }
+    )
+    expect(subject['Kind']).to eql(
+      'type' => 'object',
+      'properties' => {
+        'id' => { 'type' => 'integer', 'format' => 'int32', 'description' => 'Title of the kind.', 'enum' => [1, 2] }
+      }
+    )
+    expect(subject['Tag']).to eql(
+      'type' => 'object', 'properties' => { 'name' => { 'type' => 'string', 'description' => 'Name' } }
+    )
+    expect(subject['Relation']).to eql(
+      'type' => 'object', 'properties' => { 'name' => { 'type' => 'string', 'description' => 'Name' } }
+    )
+    expect(subject['SomeEntity']).to eql(
+      'type' => 'object',
+      'properties' => {
+        'text' => { 'type' => 'string', 'description' => 'Content of something.' },
+        'kind' => { '$ref' => '#/definitions/Kind', 'description' => 'The kind of this something.' },
+        'kind2' => { '$ref' => '#/definitions/Kind', 'description' => 'Secondary kind.' },
+        'kind3' => { '$ref' => '#/definitions/Kind', 'description' => 'Tertiary kind.' },
+        'tags' => { 'type' => 'array', 'items' => { '$ref' => '#/definitions/Tag' }, 'description' => 'Tags.' },
+        'relation' => { '$ref' => '#/definitions/Relation', 'description' => 'A related model.' },
+        'values' => { '$ref' => '#/definitions/Values', 'description' => 'Tertiary kind.' }
+      },
+      'description' => 'This returns something'
     )
   end
 end
