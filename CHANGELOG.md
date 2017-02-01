@@ -2,6 +2,8 @@
 
 #### Features
 
+* [#19](https://github.com/ruby-grape/grape-swagger-entity/pull/19): Adds support for default value - [@LeFnord](https://github.com/LeFnord).
+
 * Your contribution here.
 
 #### Fixes

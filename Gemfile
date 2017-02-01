@@ -3,11 +3,21 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in grape-swagger-entity.gemspec
 gemspec
 
-gem 'grape-entity', ENV.fetch('GRAPE_ENTITY', '0.5.0')
-gem 'grape-swagger', github: 'ruby-grape/grape-swagger'
-gem 'ruby-grape-danger', '~> 0.1.0', require: false
+group :development, :test do
+  gem 'bundler'
+  gem 'pry', platforms: [:mri]
+  gem 'pry-byebug', platforms: [:mri]
+  gem 'rack'
+  gem 'rack-cors'
+  gem 'rack-test'
+  gem 'rake'
+  gem 'rdoc'
+  gem 'rspec', '~> 3.0'
+  gem 'rubocop', '~> 0.46'
+end
 
-if RUBY_VERSION < '2.2.2'
-  gem 'rack', '<2.0.0'
-  gem 'activesupport', '<5.0.0'
+group :test do
+  gem 'grape-entity', ENV.fetch('GRAPE_ENTITY', '0.6.1')
+  gem 'ruby-grape-danger', '~> 0.1.1', require: false
+  gem 'simplecov', require: false
 end
