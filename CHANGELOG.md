@@ -2,6 +2,7 @@
 
 #### Features
 
+* [#20](https://github.com/ruby-grape/grape-swagger-entity/pull/20): Adds support for own format - [@LeFnord](https://github.com/LeFnord).
 * [#19](https://github.com/ruby-grape/grape-swagger-entity/pull/19): Adds support for default value - [@LeFnord](https://github.com/LeFnord).
 
 * Your contribution here.
