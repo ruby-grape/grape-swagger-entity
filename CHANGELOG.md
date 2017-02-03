@@ -2,14 +2,18 @@
 
 #### Features
 
-* [#21](https://github.com/ruby-grape/grape-swagger-entity/pull/21): Adds support for own format - [@LeFnord](https://github.com/LeFnord).
-* [#19](https://github.com/ruby-grape/grape-swagger-entity/pull/19): Adds support for default value - [@LeFnord](https://github.com/LeFnord).
-
 * Your contribution here.
 
 #### Fixes
 
 * Your contribution here.
+
+### 0.1.6 (February 3, 2017)
+
+#### Features
+
+* [#21](https://github.com/ruby-grape/grape-swagger-entity/pull/21): Adds support for own format - [@LeFnord](https://github.com/LeFnord).
+* [#19](https://github.com/ruby-grape/grape-swagger-entity/pull/19): Adds support for default value - [@LeFnord](https://github.com/LeFnord).
 
 ### 0.1.5 (November 21, 2016)
 
