@@ -32,47 +32,23 @@ module GrapeSwagger
           next if entity_options.fetch(:documentation, {}).fetch(:in, nil).to_s == 'header'
 
           entity_name = entity_options[:as] if entity_options[:as]
-          model = entity_options[:using] if entity_options[:using].present?
-
-          if entity_options[:documentation] && could_it_be_a_model?(entity_options[:documentation])
-            model ||= entity_options[:documentation][:type]
-          end
+          documentation = entity_options[:documentation]
+          model = model_from(entity_options)
 
           if model
             name = endpoint.nil? ? model.to_s.demodulize : endpoint.send(:expose_params_from_model, model)
             memo[entity_name] = entity_model_type(name, entity_options)
           else
-            documented_type = entity_options[:type]
+            memo[entity_name] = data_type_from(entity_options)
+            next unless documentation
 
-            if entity_options[:documentation]
-              documented_type ||= entity_options[:documentation][:type]
-            end
+            memo[entity_name][:default] = documentation[:default] if documentation[:default]
 
-            data_type = GrapeSwagger::DocMethods::DataType.call(documented_type)
-
-            if GrapeSwagger::DocMethods::DataType.primitive?(data_type)
-              data = GrapeSwagger::DocMethods::DataType.mapping(data_type)
-
-              memo[entity_name] = {
-                type: data.first,
-                format: data.last
-              }
-            else
-              memo[entity_name] = {
-                type: data_type
-              }
-            end
-
-            if entity_options[:documentation] && entity_options[:documentation][:values]
-              values = entity_options[:documentation][:values]
+            if (values = documentation[:values])
               memo[entity_name][:enum] = values if values.is_a?(Array)
             end
 
-            if entity_options[:documentation] && entity_options[:documentation][:default]
-              memo[entity_name][:default] = entity_options[:documentation][:default]
-            end
-
-            if entity_options[:documentation] && entity_options[:documentation][:is_array]
+            if documentation[:is_array]
               memo[entity_name] = {
                 type: :array,
                 items: memo.delete(entity_name)
@@ -80,13 +56,22 @@ module GrapeSwagger
             end
           end
 
-          if entity_options[:documentation] && entity_options[:documentation][:desc]
-            memo[entity_name][:description] = entity_options[:documentation][:desc]
-          end
+          memo[entity_name][:description] = documentation[:desc] if documentation && documentation[:desc]
         end
       end
 
+      def model_from(entity_options)
+        model = entity_options[:using] if entity_options[:using].present?
+
+        if could_it_be_a_model?(entity_options[:documentation])
+          model ||= entity_options[:documentation][:type]
+        end
+
+        model
+      end
+
       def could_it_be_a_model?(value)
+        return false if value.nil?
         direct_model_type?(value[:type]) || ambiguous_model_type?(value[:type])
       end
 
@@ -99,6 +84,27 @@ module GrapeSwagger
           type.is_a?(Class) &&
           !GrapeSwagger::DocMethods::DataType.primitive?(type.name.downcase) &&
           !type == Array
+      end
+
+      def data_type_from(documentation)
+        documented_type = documentation[:type]
+        documented_type ||= (documentation[:documentation] && documentation[:documentation][:type])
+
+        data_type = GrapeSwagger::DocMethods::DataType.call(documented_type)
+
+        document_data_type(documentation[:documentation], data_type)
+      end
+
+      def document_data_type(documentation, data_type)
+        type = if GrapeSwagger::DocMethods::DataType.primitive?(data_type)
+                 data = GrapeSwagger::DocMethods::DataType.mapping(data_type)
+                 { type: data.first, format: data.last }
+               else
+                 { type: data_type }
+               end
+        type[:format] = documentation[:format] if documentation && documentation.key?(:format)
+
+        type
       end
 
       def entity_model_type(name, entity_options)
