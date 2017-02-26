@@ -96,6 +96,23 @@ describe 'building definitions from given entities' do
           expose :name, documentation: { type: 'string', desc: 'Name' }
         end
 
+        class Nested < Grape::Entity
+          expose :nested, documentation: { type: 'Object', desc: 'Nested entity' } do
+            expose :some1, documentation: { type: 'String', desc: 'Nested some 1' }
+            expose :some2, documentation: { type: 'String', desc: 'Nested some 2' }
+          end
+          expose :deep_nested, documentation: { type: 'Object', desc: 'Deep nested entity' } do
+            expose :level_1, documentation: { type: 'Object', desc: 'More deepest nested entity' } do
+              expose :level_2, documentation: { type: 'String', desc: 'Level 2' }
+            end
+          end
+
+          expose :nested_array, documentation: { type: 'Array', desc: 'Nested array' } do
+            expose :id, documentation: { type: 'Integer', desc: 'Collection element id' }
+            expose :name, documentation: { type: 'String', desc: 'Collection element name' }
+          end
+        end
+
         class SomeEntity < Grape::Entity
           expose :text, documentation: { type: 'string', desc: 'Content of something.' }
           expose :kind, using: Kind, documentation: { type: 'TheseApi::Kind', desc: 'The kind of this something.' }
@@ -104,6 +121,7 @@ describe 'building definitions from given entities' do
           expose :tags, using: TheseApi::Entities::Tag, documentation: { desc: 'Tags.', is_array: true }
           expose :relation, using: TheseApi::Entities::Relation, documentation: { type: 'TheseApi::Relation', desc: 'A related model.' }
           expose :values, using: TheseApi::Entities::Values, documentation: { desc: 'Tertiary kind.' }
+          expose :nested, using: TheseApi::Entities::Nested, documentation: { desc: 'Nested object.' }
         end
       end
 
@@ -151,6 +169,44 @@ describe 'building definitions from given entities' do
     expect(subject['Relation']).to eql(
       'type' => 'object', 'properties' => { 'name' => { 'type' => 'string', 'description' => 'Name' } }
     )
+    expect(subject['Nested']).to eq(
+      'properties' => {
+        'nested' => {
+          'type' => 'object',
+          'properties' => {
+            'some1' => { 'type' => 'string', 'description' => 'Nested some 1' },
+            'some2' => { 'type' => 'string', 'description' => 'Nested some 2' }
+          },
+          'description' => 'Nested entity'
+        },
+        'deep_nested' => {
+          'type' => 'object',
+          'properties' => {
+            'level_1' => {
+              'type' => 'object',
+              'properties' => {
+                'level_2' => { 'type' => 'string', 'description' => 'Level 2' }
+              },
+              'description' => 'More deepest nested entity'
+            }
+          },
+          'description' => 'Deep nested entity'
+        },
+        'nested_array' => {
+          'type' => 'array',
+          'items' => {
+            'type' => 'object',
+            'properties' => {
+              'id' => { 'type' => 'integer', 'format' => 'int32', 'description' => 'Collection element id' },
+              'name' => { 'type' => 'string', 'description' => 'Collection element name' }
+            }
+          },
+          'description' => 'Nested array'
+        }
+      },
+      'type' => 'object'
+    )
+
     expect(subject['SomeEntity']).to eql(
       'type' => 'object',
       'properties' => {
@@ -160,7 +216,8 @@ describe 'building definitions from given entities' do
         'kind3' => { '$ref' => '#/definitions/Kind', 'description' => 'Tertiary kind.' },
         'tags' => { 'type' => 'array', 'items' => { '$ref' => '#/definitions/Tag' }, 'description' => 'Tags.' },
         'relation' => { '$ref' => '#/definitions/Relation', 'description' => 'A related model.' },
-        'values' => { '$ref' => '#/definitions/Values', 'description' => 'Tertiary kind.' }
+        'values' => { '$ref' => '#/definitions/Values', 'description' => 'Tertiary kind.' },
+        'nested' => { '$ref' => '#/definitions/Nested', 'description' => 'Nested object.' }
       },
       'description' => 'This returns something'
     )

@@ -25,7 +25,7 @@ module GrapeSwagger
 
       private
 
-      def parse_grape_entity_params(params)
+      def parse_grape_entity_params(params, parent_model = nil)
         return unless params
 
         params.each_with_object({}) do |(entity_name, entity_options), memo|
@@ -33,11 +33,13 @@ module GrapeSwagger
 
           entity_name = entity_options[:as] if entity_options[:as]
           documentation = entity_options[:documentation]
-          model = model_from(entity_options)
+          entity_model = model_from(entity_options)
 
-          if model
-            name = endpoint.nil? ? model.to_s.demodulize : endpoint.send(:expose_params_from_model, model)
+          if entity_model
+            name = endpoint.nil? ? entity_model.to_s.demodulize : endpoint.send(:expose_params_from_model, entity_model)
             memo[entity_name] = entity_model_type(name, entity_options)
+          elsif entity_options[:nesting]
+            memo[entity_name] = parse_nested(entity_name, entity_options, parent_model)
           else
             memo[entity_name] = data_type_from(entity_options)
             next unless documentation
@@ -68,6 +70,39 @@ module GrapeSwagger
         end
 
         model
+      end
+
+      def parse_nested(entity_name, entity_options, parent_model = nil)
+        nested_entity = if parent_model.nil?
+                          model.root_exposures.find_by(entity_name)
+                        else
+                          parent_model.nested_exposures.find_by(entity_name)
+                        end
+
+        params = nested_entity.nested_exposures.each_with_object({}) do |value, memo|
+          memo[value.attribute] = value.send(:options)
+        end
+
+        properties = parse_grape_entity_params(params, nested_entity)
+        is_a_collection = entity_options[:documentation].is_a?(Hash) &&
+                          entity_options[:documentation][:type].to_s.casecmp('array').zero?
+
+        if is_a_collection
+          {
+            type: :array,
+            items: {
+              type: :object,
+              properties: properties
+            },
+            description: entity_options[:desc] || ''
+          }
+        else
+          {
+            type: :object,
+            properties: properties,
+            description: entity_options[:desc] || ''
+          }
+        end
       end
 
       def could_it_be_a_model?(value)
