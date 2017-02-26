@@ -38,7 +38,6 @@ Metrics/PerceivedComplexity:
 Style/Documentation:
   Exclude:
     - 'spec/**/*'
-    - 'test/**/*'
     - 'lib/grape-swagger/entity.rb'
     - 'lib/grape-swagger/entity/parser.rb'
 

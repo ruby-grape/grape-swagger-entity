@@ -97,7 +97,7 @@ describe 'building definitions from given entities' do
         end
 
         class Nested < Grape::Entity
-          expose :nested, documentation: { type: 'Object', desc: 'Nested entity' } do
+          expose :nested, documentation: { type: Hash, desc: 'Nested entity' } do
             expose :some1, documentation: { type: 'String', desc: 'Nested some 1' }
             expose :some2, documentation: { type: 'String', desc: 'Nested some 2' }
           end
