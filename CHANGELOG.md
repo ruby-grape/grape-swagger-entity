@@ -2,12 +2,17 @@
 
 #### Features
 
-* [#22](https://github.com/ruby-grape/grape-swagger-entity/pull/22): Nested exposures - [@Bugagazavr](https://github.com/Bugagazavr).
 * Your contribution here.
 
 #### Fixes
 
 * Your contribution here.
+
+### 0.2.0 (March 2, 2017)
+
+#### Features
+
+* [#22](https://github.com/ruby-grape/grape-swagger-entity/pull/22): Nested exposures - [@Bugagazavr](https://github.com/Bugagazavr).
 
 ### 0.1.6 (February 3, 2017)
 

@@ -10,14 +10,8 @@ module GrapeSwagger
       end
 
       def call
-        # TODO: this should only be a temporary hack ;)
-        if ::GrapeEntity::VERSION =~ /0\.4\.\d/
-          warn 'usage of grape-entity <0.5.0 is deprecated'
-          parameters = model.exposures ? model.exposures : model.documentation
-        else
-          parameters = model.root_exposures.each_with_object({}) do |value, memo|
-            memo[value.attribute] = value.send(:options)
-          end
+        parameters = model.root_exposures.each_with_object({}) do |value, memo|
+          memo[value.attribute] = value.send(:options)
         end
 
         parse_grape_entity_params(parameters)
