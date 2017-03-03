@@ -61,7 +61,10 @@ describe 'responseModel' do
 
     expect(subject['definitions'].keys).to include 'Kind'
     expect(subject['definitions']['Kind']).to eq(
-      'type' => 'object', 'properties' => { 'title' => { 'type' => 'string', 'description' => 'Title of the kind.' } }
+      'type' => 'object', 'properties' => {
+        'title' => { 'type' => 'string', 'description' => 'Title of the kind.' },
+        'type'  => { 'type' => 'string', 'description' => 'Type of the kind.', 'read_only' => true }
+      },
     )
 
     expect(subject['definitions'].keys).to include 'Relation'

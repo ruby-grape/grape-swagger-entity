@@ -4,6 +4,7 @@ shared_context 'this api' do
       module Entities
         class Kind < Grape::Entity
           expose :title, documentation: { type: 'string', desc: 'Title of the kind.' }
+          expose :type, documentation: { type: 'string', read_only: true, desc: 'Type of the kind.' }
         end
 
         class Relation < Grape::Entity
