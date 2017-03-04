@@ -57,7 +57,7 @@ module GrapeSwagger
           end
 
           memo[entity_name][:description] = documentation[:desc] if documentation && documentation[:desc]
-          memo[entity_name][:read_only] = documentation[:read_only].to_s == "true" if documentation[:read_only]
+          memo[entity_name][:read_only] = documentation[:read_only].to_s == 'true' if documentation[:read_only]
         end
       end
 
