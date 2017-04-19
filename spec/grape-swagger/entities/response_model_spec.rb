@@ -81,7 +81,7 @@ describe 'building definitions from given entities' do
     module TheseApi
       module Entities
         class Values < Grape::Entity
-          expose :guid, documentation: { desc: 'Some values', values: %w(a b c), default: 'c' }
+          expose :guid, documentation: { desc: 'Some values', values: %w[a b c], default: 'c' }
           expose :uuid, documentation: { desc: 'customer uuid', type: String, format: 'own' }
         end
 
@@ -153,7 +153,7 @@ describe 'building definitions from given entities' do
     expect(subject['Values']).to eql(
       'type' => 'object',
       'properties' => {
-        'guid' => { 'type' => 'string', 'enum' => %w(a b c), 'default' => 'c', 'description' => 'Some values' },
+        'guid' => { 'type' => 'string', 'enum' => %w[a b c], 'default' => 'c', 'description' => 'Some values' },
         'uuid' => { 'type' => 'string', 'format' => 'own', 'description' => 'customer uuid' }
       }
     )

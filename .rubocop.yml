@@ -16,5 +16,8 @@ Metrics/MethodLength:
   Exclude:
     - spec/**/*
 
+Style/FileName:
+  Enabled: false
+
 Style/IndentHash:
   EnforcedStyle: consistent
