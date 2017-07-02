@@ -86,7 +86,9 @@ describe 'building definitions from given entities' do
         end
 
         class Kind < Grape::Entity
-          expose :id, documentation: { type: Integer, desc: 'Title of the kind.', values: [1, 2] }
+          expose :id, documentation: { type: Integer, desc: 'id of the kind.', values: [1, 2] }
+          expose :title, documentation: { type: String, desc: 'Title of the kind.', read_only: 'false' }
+          expose :type, documentation: { type: String, desc: 'Type of the kind.', read_only: 'true' }
         end
 
         class Relation < Grape::Entity
@@ -160,7 +162,9 @@ describe 'building definitions from given entities' do
     expect(subject['Kind']).to eql(
       'type' => 'object',
       'properties' => {
-        'id' => { 'type' => 'integer', 'format' => 'int32', 'description' => 'Title of the kind.', 'enum' => [1, 2] }
+        'id' => { 'type' => 'integer', 'format' => 'int32', 'description' => 'id of the kind.', 'enum' => [1, 2] },
+        'title' => { 'type' => 'string', 'description' => 'Title of the kind.', 'read_only' => false },
+        'type' => { 'type' => 'string', 'description' => 'Type of the kind.', 'read_only' => true }
       }
     )
     expect(subject['Tag']).to eql(
