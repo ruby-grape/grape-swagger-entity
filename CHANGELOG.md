@@ -8,6 +8,12 @@
 
 * Your contribution here.
 
+### 0.2.1 (Jule 2, 2017)
+
+#### Features
+
+* [#26](https://github.com/ruby-grape/grape-swagger-entity/pull/26): Add support for read only field - [@FChaack](https://github.com/FChaack).
+
 ### 0.2.0 (March 2, 2017)
 
 #### Features
