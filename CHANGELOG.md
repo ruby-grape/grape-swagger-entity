@@ -8,7 +8,7 @@
 
 * Your contribution here.
 
-### 0.2.1 (Jule 2, 2017)
+### 0.2.1 (Jule 5, 2017)
 
 #### Features
 
