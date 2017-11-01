@@ -39,7 +39,7 @@ module GrapeSwagger
             next unless documentation
 
             memo[entity_name][:default] = documentation[:default] if documentation[:default]
-            memo[entity_name][:example] = documentation[:example] if documentation[:example]
+            add_attribute_example(memo[entity_name], documentation[:example])
 
             if (values = documentation[:values])
               memo[entity_name][:enum] = values if values.is_a?(Array)
@@ -153,6 +153,11 @@ module GrapeSwagger
             '$ref' => "#/definitions/#{name}"
           }
         end
+      end
+
+      def add_attribute_example(attribute, example)
+        return unless example
+        attribute[:example] = example.is_a?(Proc) ? example.call : example
       end
     end
   end

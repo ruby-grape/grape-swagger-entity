@@ -96,7 +96,8 @@ describe 'building definitions from given entities' do
           expose :name, documentation: { type: String, desc: 'Name' }
         end
         class Tag < Grape::Entity
-          expose :name, documentation: { type: 'string', desc: 'Name' }
+          expose :name, documentation: { type: 'string', desc: 'Name',
+                                         example: -> { 'random_tag' } }
         end
 
         class Nested < Grape::Entity
@@ -169,7 +170,7 @@ describe 'building definitions from given entities' do
       }
     )
     expect(subject['Tag']).to eql(
-      'type' => 'object', 'properties' => { 'name' => { 'type' => 'string', 'description' => 'Name' } }
+      'type' => 'object', 'properties' => { 'name' => { 'type' => 'string', 'description' => 'Name', 'example' => 'random_tag' } }
     )
     expect(subject['Relation']).to eql(
       'type' => 'object', 'properties' => { 'name' => { 'type' => 'string', 'description' => 'Name' } }
