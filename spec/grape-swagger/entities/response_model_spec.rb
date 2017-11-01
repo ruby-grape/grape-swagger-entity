@@ -82,7 +82,8 @@ describe 'building definitions from given entities' do
       module Entities
         class Values < Grape::Entity
           expose :guid, documentation: { desc: 'Some values', values: %w[a b c], default: 'c' }
-          expose :uuid, documentation: { desc: 'customer uuid', type: String, format: 'own' }
+          expose :uuid, documentation: { desc: 'customer uuid', type: String, format: 'own',
+                                         example: 'e3008fba-d53d-4bcc-a6ae-adc56dff8020'}
         end
 
         class Kind < Grape::Entity
@@ -156,7 +157,7 @@ describe 'building definitions from given entities' do
       'type' => 'object',
       'properties' => {
         'guid' => { 'type' => 'string', 'enum' => %w[a b c], 'default' => 'c', 'description' => 'Some values' },
-        'uuid' => { 'type' => 'string', 'format' => 'own', 'description' => 'customer uuid' }
+        'uuid' => { 'type' => 'string', 'format' => 'own', 'description' => 'customer uuid', 'example' => 'e3008fba-d53d-4bcc-a6ae-adc56dff8020' }
       }
     )
     expect(subject['Kind']).to eql(

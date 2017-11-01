@@ -39,6 +39,7 @@ module GrapeSwagger
             next unless documentation
 
             memo[entity_name][:default] = documentation[:default] if documentation[:default]
+            memo[entity_name][:example] = documentation[:example] if documentation[:example]
 
             if (values = documentation[:values])
               memo[entity_name][:enum] = values if values.is_a?(Array)
