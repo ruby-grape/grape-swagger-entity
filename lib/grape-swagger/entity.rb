@@ -2,6 +2,7 @@ require 'grape-swagger'
 require 'grape-entity'
 
 require 'grape-swagger/entity/version'
+require 'grape-swagger/entity/attribute_parser'
 require 'grape-swagger/entity/parser'
 
 module GrapeSwagger

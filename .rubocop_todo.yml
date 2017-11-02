@@ -46,3 +46,4 @@ Style/Documentation:
     - 'test/**/*'
     - 'lib/grape-swagger/entity.rb'
     - 'lib/grape-swagger/entity/parser.rb'
+    - 'lib/grape-swagger/entity/attribute_parser.rb'
