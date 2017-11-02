@@ -27,36 +27,38 @@ module GrapeSwagger
 
           entity_name = entity_options[:as] if entity_options[:as]
           documentation = entity_options[:documentation]
-          entity_model = model_from(entity_options)
 
-          if entity_model
-            name = endpoint.nil? ? entity_model.to_s.demodulize : endpoint.send(:expose_params_from_model, entity_model)
-            memo[entity_name] = entity_model_type(name, entity_options)
-          elsif entity_options[:nesting]
-            memo[entity_name] = parse_nested(entity_name, entity_options, parent_model)
-          else
-            memo[entity_name] = data_type_from(entity_options)
-            next unless documentation
-
-            memo[entity_name][:default] = documentation[:default] if documentation[:default]
-            add_attribute_example(memo[entity_name], documentation[:example])
-
-            if (values = documentation[:values])
-              memo[entity_name][:enum] = values if values.is_a?(Array)
-            end
-
-            if documentation[:is_array]
-              memo[entity_name] = {
-                type: :array,
-                items: memo.delete(entity_name)
-              }
-            end
-          end
+          memo[entity_name] = parse_grape_param(entity_name, entity_options, parent_model)
 
           if documentation
             memo[entity_name][:read_only] = documentation[:read_only].to_s == 'true' if documentation[:read_only]
             memo[entity_name][:description] = documentation[:desc] if documentation[:desc]
           end
+        end
+      end
+
+      def parse_grape_param(entity_name, entity_options, parent_model = nil)
+        documentation = entity_options[:documentation]
+        entity_model = model_from(entity_options)
+
+        if entity_model
+          name = endpoint.nil? ? entity_model.to_s.demodulize : endpoint.send(:expose_params_from_model, entity_model)
+          return entity_model_type(name, entity_options)
+        elsif entity_options[:nesting]
+          return parse_nested(entity_name, entity_options, parent_model)
+        else
+          param = data_type_from(entity_options)
+          return param unless documentation
+
+          param[:default] = documentation[:default] if documentation[:default]
+          add_attribute_example(param, documentation[:example])
+
+          if (values = documentation[:values])
+            param[:enum] = values if values.is_a?(Array)
+          end
+
+          param = { type: :array, items: param } if documentation[:is_array]
+          param
         end
       end
 

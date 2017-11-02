@@ -83,7 +83,7 @@ describe 'building definitions from given entities' do
         class Values < Grape::Entity
           expose :guid, documentation: { desc: 'Some values', values: %w[a b c], default: 'c' }
           expose :uuid, documentation: { desc: 'customer uuid', type: String, format: 'own',
-                                         example: 'e3008fba-d53d-4bcc-a6ae-adc56dff8020'}
+                                         example: 'e3008fba-d53d-4bcc-a6ae-adc56dff8020' }
         end
 
         class Kind < Grape::Entity
