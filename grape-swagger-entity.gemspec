@@ -1,5 +1,3 @@
-# coding: utf-8
-
 lib = File.expand_path('../lib', __FILE__)
 $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 require 'grape-swagger/entity/version'
@@ -20,6 +18,6 @@ Gem::Specification.new do |s|
   s.require_paths = ['lib']
 
   s.required_ruby_version = '>= 2.2.6'
-  s.add_runtime_dependency 'grape-swagger', '>= 0.20.4'
   s.add_runtime_dependency 'grape-entity', '>= 0.5.0'
+  s.add_runtime_dependency 'grape-swagger', '>= 0.20.4'
 end
