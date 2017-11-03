@@ -2,12 +2,17 @@
 
 #### Features
 
-* [#27](https://github.com/ruby-grape/grape-swagger-entity/pull/27): Add support for attribute examples - [@Kukunin](https://github.com/Kukunin).
 * Your contribution here.
 
 #### Fixes
 
 * Your contribution here.
+
+### 0.2.2 (November 3, 2017)
+
+#### Features
+
+* [#27](https://github.com/ruby-grape/grape-swagger-entity/pull/27): Add support for attribute examples - [@Kukunin](https://github.com/Kukunin).
 
 ### 0.2.1 (Jule 5, 2017)
 
