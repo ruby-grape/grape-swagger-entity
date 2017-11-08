@@ -7,6 +7,7 @@
 #### Fixes
 
 * Your contribution here.
+* [#31](https://github.com/ruby-grape/grape-swagger-entity/pull/31): Respect `required: true` for nested attributes as well - [@Kukunin](https://github.com/Kukunin).
 
 ### 0.2.2 (November 3, 2017)
 
