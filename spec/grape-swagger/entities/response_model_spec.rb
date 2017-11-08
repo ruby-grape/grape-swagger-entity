@@ -112,7 +112,8 @@ describe 'building definitions from given entities' do
           end
           expose :nested_required do
             expose :some1, documentation: { required: true, desc: 'Required some 1' }
-            expose :some2, documentation: { desc: 'Optional some 2' }
+            expose :attr, as: :some2, documentation: { required: true, desc: 'Required some 2' }
+            expose :some3, documentation: { desc: 'Optional some 3' }
           end
 
           expose :nested_array, documentation: { type: 'Array', desc: 'Nested array' } do
@@ -206,9 +207,10 @@ describe 'building definitions from given entities' do
           'type' => 'object',
           'properties' => {
             'some1' => { 'type' => 'string', 'description' => 'Required some 1' },
-            'some2' => { 'type' => 'string', 'description' => 'Optional some 2' }
+            'some2' => { 'type' => 'string', 'description' => 'Required some 2' },
+            'some3' => { 'type' => 'string', 'description' => 'Optional some 3' }
           },
-          'required' => ['some1']
+          'required' => ['some1', 'some2']
         },
         'nested_array' => {
           'type' => 'array',
