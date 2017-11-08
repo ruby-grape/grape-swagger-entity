@@ -7,6 +7,7 @@
 #### Fixes
 
 * Your contribution here.
+* [#30](https://github.com/ruby-grape/grape-swagger-entity/pull/30): Fix nested exposures with an alias - [@Kukunin](https://github.com/Kukunin).
 
 ### 0.2.2 (November 3, 2017)
 
