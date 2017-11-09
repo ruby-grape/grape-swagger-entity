@@ -77,7 +77,7 @@ module GrapeSwagger
       end
 
       def required_params(params)
-        params.select { |_, options| options.dig(:documentation, :required) }
+        params.select { |_, options| options.fetch(:documentation, {}).fetch(:required, false) }
               .map { |(key, options)| [options.fetch(:as, key), options] }
               .map(&:first)
       end
