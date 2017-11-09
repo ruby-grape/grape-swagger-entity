@@ -210,7 +210,7 @@ describe 'building definitions from given entities' do
             'some2' => { 'type' => 'string', 'description' => 'Required some 2' },
             'some3' => { 'type' => 'string', 'description' => 'Optional some 3' }
           },
-          'required' => ['some1', 'some2']
+          'required' => %w[some1 some2]
         },
         'nested_array' => {
           'type' => 'array',
