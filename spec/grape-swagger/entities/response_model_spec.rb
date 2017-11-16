@@ -105,6 +105,9 @@ describe 'building definitions from given entities' do
             expose :some1, documentation: { type: 'String', desc: 'Nested some 1' }
             expose :some2, documentation: { type: 'String', desc: 'Nested some 2' }
           end
+          expose :nested_with_alias, as: :aliased do
+            expose :some1, documentation: { type: 'String', desc: 'Alias some 1' }
+          end
           expose :deep_nested, documentation: { type: 'Object', desc: 'Deep nested entity' } do
             expose :level_1, documentation: { type: 'Object', desc: 'More deepest nested entity' } do
               expose :level_2, documentation: { type: 'String', desc: 'Level 2' }
@@ -189,6 +192,12 @@ describe 'building definitions from given entities' do
             'some2' => { 'type' => 'string', 'description' => 'Nested some 2' }
           },
           'description' => 'Nested entity'
+        },
+        'aliased' => {
+          'type' => 'object',
+          'properties' => {
+            'some1' => { 'type' => 'string', 'description' => 'Alias some 1' }
+          }
         },
         'deep_nested' => {
           'type' => 'object',

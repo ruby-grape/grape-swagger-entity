@@ -27,19 +27,20 @@ module GrapeSwagger
         params.each_with_object({}) do |(entity_name, entity_options), memo|
           next if entity_options.fetch(:documentation, {}).fetch(:in, nil).to_s == 'header'
 
-          entity_name = entity_options[:as] if entity_options[:as]
+          final_entity_name = entity_options.fetch(:as, entity_name)
           documentation = entity_options[:documentation]
 
-          memo[entity_name] = if entity_options[:nesting]
-                                parse_nested(entity_name, entity_options, parent_model)
-                              else
-                                attribute_parser.call(entity_options)
-                              end
+          memo[final_entity_name] = if entity_options[:nesting]
+                                      parse_nested(entity_name, entity_options, parent_model)
+                                    else
+                                      attribute_parser.call(entity_options)
+                                    end
 
-          if documentation
-            memo[entity_name][:read_only] = documentation[:read_only].to_s == 'true' if documentation[:read_only]
-            memo[entity_name][:description] = documentation[:desc] if documentation[:desc]
+          next unless documentation
+          if documentation[:read_only]
+            memo[final_entity_name][:read_only] = documentation[:read_only].to_s == 'true'
           end
+          memo[final_entity_name][:description] = documentation[:desc] if documentation[:desc]
         end
       end
 
