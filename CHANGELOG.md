@@ -7,6 +7,11 @@
 #### Fixes
 
 * Your contribution here.
+
+### 0.2.3 (November 19, 2017)
+
+#### Fixes
+
 * [#30](https://github.com/ruby-grape/grape-swagger-entity/pull/30): Fix nested exposures with an alias - [@Kukunin](https://github.com/Kukunin).
 * [#31](https://github.com/ruby-grape/grape-swagger-entity/pull/31): Respect `required: true` for nested attributes as well - [@Kukunin](https://github.com/Kukunin).
 
