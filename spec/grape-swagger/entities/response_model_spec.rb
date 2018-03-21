@@ -48,7 +48,7 @@ describe 'responseModel' do
     expect(subject['definitions'].keys).to include 'Something'
     expect(subject['definitions']['Something']).to eq(
       'type' => 'object',
-      'description' => 'This returns something or an error',
+      'description' => 'This returns something',
       'properties' =>
           { 'text' => { 'type' => 'string', 'description' => 'Content of something.' },
             'colors' => { 'type' => 'array', 'items' => { 'type' => 'string' }, 'description' => 'Colors' },
