@@ -172,9 +172,9 @@ describe 'building definitions from given entities' do
     expect(subject['Kind']).to eql(
       'type' => 'object',
       'properties' => {
-        'id' => { 'type' => 'integer', 'format' => 'int32', 'description' => 'id of the kind.', 'enum' => [1, 2], 'read_only' => true },
-        'title' => { 'type' => 'string', 'description' => 'Title of the kind.', 'read_only' => false },
-        'type' => { 'type' => 'string', 'description' => 'Type of the kind.', 'read_only' => true }
+        'id' => { 'type' => 'integer', 'format' => 'int32', 'description' => 'id of the kind.', 'enum' => [1, 2], 'readOnly' => true },
+        'title' => { 'type' => 'string', 'description' => 'Title of the kind.', 'readOnly' => false },
+        'type' => { 'type' => 'string', 'description' => 'Type of the kind.', 'readOnly' => true }
       }
     )
     expect(subject['Tag']).to eql(
