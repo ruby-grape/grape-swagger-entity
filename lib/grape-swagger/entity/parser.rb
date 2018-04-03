@@ -37,9 +37,7 @@ module GrapeSwagger
                                     end
 
           next unless documentation
-          if documentation[:read_only]
-            memo[final_entity_name][:read_only] = documentation[:read_only].to_s == 'true'
-          end
+          memo[final_entity_name][:readOnly] = documentation[:read_only].to_s == 'true' if documentation[:read_only]
           memo[final_entity_name][:description] = documentation[:desc] if documentation[:desc]
         end
       end
