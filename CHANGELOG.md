@@ -6,7 +6,7 @@
 
 #### Fixes
 
-* Your contribution here.
+* [#32](https://github.com/ruby-grape/grape-swagger-entity/pull/32): Fix issue with read_only fields - [@mcfilib](https://github.com/mcfilib).
 
 ### 0.2.3 (November 19, 2017)
 
