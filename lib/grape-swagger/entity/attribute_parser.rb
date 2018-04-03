@@ -35,9 +35,7 @@ module GrapeSwagger
       def model_from(entity_options)
         model = entity_options[:using] if entity_options[:using].present?
 
-        if could_it_be_a_model?(entity_options[:documentation])
-          model ||= entity_options[:documentation][:type]
-        end
+        model ||= entity_options[:documentation][:type] if could_it_be_a_model?(entity_options[:documentation])
 
         model
       end
