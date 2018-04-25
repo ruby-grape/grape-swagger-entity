@@ -15,6 +15,13 @@ describe GrapeSwagger::Entity::Parser do
         expect(parsed_entity[:kind2]['$ref']).to eq('#/definitions/Kind')
         expect(parsed_entity[:kind3]['$ref']).to eq('#/definitions/Kind')
       end
+
+      it 'merges attributes that have merge: true defined' do
+        expect(parsed_entity[:merged_attribute]).to be_nil
+        expect(parsed_entity[:code][:type]).to eq('string')
+        expect(parsed_entity[:message][:type]).to eq('string')
+        expect(parsed_entity[:attr][:type]).to eq('string')
+      end
     end
   end
 end
