@@ -2,11 +2,17 @@
 
 #### Features
 
-* [#33](https://github.com/ruby-grape/grape-swagger-entity/pull/33): Update parser to respect merge option for entities - [@b-boogaard](https://github.com/b-boogaard).
+* Your contribution here.
 
 #### Fixes
 
 * Your contribution here.
+
+### 0.2.5 (April 26, 2018)
+
+#### Features
+
+* [#33](https://github.com/ruby-grape/grape-swagger-entity/pull/33): Update parser to respect merge option for entities - [@b-boogaard](https://github.com/b-boogaard).
 
 ### 0.2.4 (April 3, 2018)
 
