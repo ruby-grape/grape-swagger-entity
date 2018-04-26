@@ -56,7 +56,10 @@ describe 'responseModel' do
             'kind2' => { '$ref' => '#/definitions/Kind', 'description' => 'Secondary kind.' },
             'kind3' => { '$ref' => '#/definitions/Kind', 'description' => 'Tertiary kind.' },
             'tags' => { 'type' => 'array', 'items' => { '$ref' => '#/definitions/Tag' }, 'description' => 'Tags.' },
-            'relation' => { '$ref' => '#/definitions/Relation', 'description' => 'A related model.' } }
+            'relation' => { '$ref' => '#/definitions/Relation', 'description' => 'A related model.' },
+            'code' => { 'type' => 'string', 'description' => 'Error code' },
+            'message' => { 'type' => 'string', 'description' => 'Error message' },
+            'attr' => { 'type' => 'string', 'description' => 'Attribute' } }
     )
 
     expect(subject['definitions'].keys).to include 'Kind'
@@ -134,6 +137,7 @@ describe 'building definitions from given entities' do
           expose :relation, using: TheseApi::Entities::Relation, documentation: { type: 'TheseApi::Relation', desc: 'A related model.' }
           expose :values, using: TheseApi::Entities::Values, documentation: { desc: 'Tertiary kind.' }
           expose :nested, using: TheseApi::Entities::Nested, documentation: { desc: 'Nested object.' }
+          expose :merged_attribute, using: ThisApi::Entities::Nested, merge: true
         end
       end
 
@@ -246,7 +250,10 @@ describe 'building definitions from given entities' do
         'tags' => { 'type' => 'array', 'items' => { '$ref' => '#/definitions/Tag' }, 'description' => 'Tags.' },
         'relation' => { '$ref' => '#/definitions/Relation', 'description' => 'A related model.' },
         'values' => { '$ref' => '#/definitions/Values', 'description' => 'Tertiary kind.' },
-        'nested' => { '$ref' => '#/definitions/Nested', 'description' => 'Nested object.' }
+        'nested' => { '$ref' => '#/definitions/Nested', 'description' => 'Nested object.' },
+        'code' => { 'type' => 'string', 'description' => 'Error code' },
+        'message' => { 'type' => 'string', 'description' => 'Error message' },
+        'attr' => { 'type' => 'string', 'description' => 'Attribute' }
       },
       'description' => 'This returns something'
     )

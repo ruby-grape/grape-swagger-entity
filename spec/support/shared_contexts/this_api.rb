@@ -17,6 +17,11 @@ shared_context 'this api' do
           expose :message, documentation: { type: 'string', desc: 'Error message' }
         end
 
+        class Nested < Grape::Entity
+          expose :attr, documentation: { type: 'string', desc: 'Attribute' }
+          expose :nested_attrs, merge: true, using: ThisApi::Entities::Error
+        end
+
         class Something < Grape::Entity
           expose :text, documentation: { type: 'string', desc: 'Content of something.' }
           expose :colors, documentation: { type: 'string', desc: 'Colors', is_array: true }
@@ -25,6 +30,7 @@ shared_context 'this api' do
           expose :kind3, using: ThisApi::Entities::Kind, documentation: { desc: 'Tertiary kind.' }
           expose :tags, using: ThisApi::Entities::Tag, documentation: { desc: 'Tags.', is_array: true }
           expose :relation, using: ThisApi::Entities::Relation, documentation: { type: 'ThisApi::Relation', desc: 'A related model.' }
+          expose :merged_attribute, using: ThisApi::Entities::Nested, merge: true
         end
       end
 

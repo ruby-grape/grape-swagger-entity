@@ -12,14 +12,22 @@ module GrapeSwagger
       end
 
       def call
-        parameters = model.root_exposures.each_with_object({}) do |value, memo|
-          memo[value.attribute] = value.send(:options)
-        end
-
-        parse_grape_entity_params(parameters)
+        parse_grape_entity_params(extract_params(model))
       end
 
       private
+
+      def extract_params(exposure)
+        exposure.root_exposures.each_with_object({}) do |value, memo|
+          if value.for_merge && (value.respond_to?(:entity_class) || value.respond_to?(:using_class_name))
+            entity_class = value.respond_to?(:entity_class) ? value.entity_class : value.using_class_name
+
+            memo.merge!(extract_params(entity_class))
+          else
+            memo[value.attribute] = value.send(:options)
+          end
+        end
+      end
 
       def parse_grape_entity_params(params, parent_model = nil)
         return unless params
