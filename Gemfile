@@ -16,6 +16,8 @@ group :development, :test do
   gem 'rubocop', '~> 0.48'
 end
 
+gem 'grape-swagger', path: '../grape-swagger'
+
 group :test do
   gem 'grape-entity', ENV.fetch('GRAPE_ENTITY', '0.6.1')
   gem 'ruby-grape-danger', '~> 0.1.1', require: false
