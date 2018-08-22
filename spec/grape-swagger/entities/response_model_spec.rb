@@ -59,7 +59,8 @@ describe 'responseModel' do
             'relation' => { '$ref' => '#/definitions/Relation', 'description' => 'A related model.' },
             'code' => { 'type' => 'string', 'description' => 'Error code' },
             'message' => { 'type' => 'string', 'description' => 'Error message' },
-            'attr' => { 'type' => 'string', 'description' => 'Attribute' } }
+            'attr' => { 'type' => 'string', 'description' => 'Attribute' } },
+      'required' => ['attr']
     )
 
     expect(subject['definitions'].keys).to include 'Kind'
@@ -255,6 +256,7 @@ describe 'building definitions from given entities' do
         'message' => { 'type' => 'string', 'description' => 'Error message' },
         'attr' => { 'type' => 'string', 'description' => 'Attribute' }
       },
+      'required' => %w[attr],
       'description' => 'This returns something'
     )
   end

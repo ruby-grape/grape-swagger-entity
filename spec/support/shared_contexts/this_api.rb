@@ -18,7 +18,7 @@ shared_context 'this api' do
         end
 
         class Nested < Grape::Entity
-          expose :attr, documentation: { type: 'string', desc: 'Attribute' }
+          expose :attr, documentation: { required: true, type: 'string', desc: 'Attribute' }
           expose :nested_attrs, merge: true, using: ThisApi::Entities::Error
         end
 

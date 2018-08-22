@@ -22,7 +22,8 @@ module GrapeSwagger
           if value.for_merge && (value.respond_to?(:entity_class) || value.respond_to?(:using_class_name))
             entity_class = value.respond_to?(:entity_class) ? value.entity_class : value.using_class_name
 
-            memo.merge!(extract_params(entity_class))
+            extracted_params = extract_params(entity_class)
+            memo.merge!(extracted_params)
           else
             memo[value.attribute] = value.send(:options)
           end
@@ -32,7 +33,7 @@ module GrapeSwagger
       def parse_grape_entity_params(params, parent_model = nil)
         return unless params
 
-        params.each_with_object({}) do |(entity_name, entity_options), memo|
+        parsed = params.each_with_object({}) do |(entity_name, entity_options), memo|
           next if entity_options.fetch(:documentation, {}).fetch(:in, nil).to_s == 'header'
 
           final_entity_name = entity_options.fetch(:as, entity_name)
@@ -48,6 +49,8 @@ module GrapeSwagger
           memo[final_entity_name][:readOnly] = documentation[:read_only].to_s == 'true' if documentation[:read_only]
           memo[final_entity_name][:description] = documentation[:desc] if documentation[:desc]
         end
+
+        [parsed, required_params(params)]
       end
 
       def parse_nested(entity_name, entity_options, parent_model = nil)
@@ -61,9 +64,7 @@ module GrapeSwagger
           memo[value.attribute] = value.send(:options)
         end
 
-        required = required_params(params)
-
-        properties = parse_grape_entity_params(params, nested_entity)
+        properties, required = parse_grape_entity_params(params, nested_entity)
         is_a_collection = entity_options[:documentation].is_a?(Hash) &&
                           entity_options[:documentation][:type].to_s.casecmp('array').zero?
 

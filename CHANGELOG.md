@@ -2,6 +2,7 @@
 
 #### Features
 
+* [#35](https://github.com/ruby-grape/grape-swagger-entity/pull/35): Support for required attributes - [@Bugagazavr](https://github.com/Bugagazavr).
 * Your contribution here.
 
 #### Fixes
