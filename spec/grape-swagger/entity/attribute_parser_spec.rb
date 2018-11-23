@@ -15,6 +15,24 @@ describe GrapeSwagger::Entity::AttributeParser do
 
         it { is_expected.to include('type' => 'array') }
         it { is_expected.to include('items' => { '$ref' => '#/definitions/Tag' }) }
+
+        context 'when it contains min_items' do
+          let(:entity_options) { { using: ThisApi::Entities::Tag, documentation: { is_array: true, min_items: 1 } } }
+
+          it { is_expected.to include(minItems: 1) }
+        end
+
+        context 'when it contains max_items' do
+          let(:entity_options) { { using: ThisApi::Entities::Tag, documentation: { is_array: true, max_items: 1 } } }
+
+          it { is_expected.to include(maxItems: 1) }
+        end
+
+        context 'when it contains unique_items' do
+          let(:entity_options) { { using: ThisApi::Entities::Tag, documentation: { is_array: true, unique_items: true } } }
+
+          it { is_expected.to include(uniqueItems: true) }
+        end
       end
 
       context 'when it is not exposed as an array' do

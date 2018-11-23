@@ -13,7 +13,17 @@ module GrapeSwagger
 
         if entity_model
           name = endpoint.nil? ? entity_model.to_s.demodulize : endpoint.send(:expose_params_from_model, entity_model)
-          return entity_model_type(name, entity_options)
+
+          entity_model_type = entity_model_type(name, entity_options)
+          return entity_model_type unless documentation
+
+          if documentation[:is_array]
+            entity_model_type[:minItems] = documentation[:min_items] if documentation.key?(:min_items)
+            entity_model_type[:maxItems] = documentation[:max_items] if documentation.key?(:max_items)
+            entity_model_type[:uniqueItems] = documentation[:unique_items] if documentation.key?(:unique_items)
+          end
+
+          entity_model_type
         else
           param = data_type_from(entity_options)
           return param unless documentation
