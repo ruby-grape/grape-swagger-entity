@@ -18,8 +18,8 @@ Metrics/MethodLength:
   Exclude:
     - spec/**/*
 
-Style/FileName:
+Naming/FileName:
   Enabled: false
 
-Style/IndentHash:
+Layout/IndentHash:
   EnforcedStyle: consistent
