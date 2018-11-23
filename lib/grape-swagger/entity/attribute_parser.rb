@@ -35,7 +35,13 @@ module GrapeSwagger
             param[:enum] = values if values.is_a?(Array)
           end
 
-          param = { type: :array, items: param } if documentation[:is_array]
+          if documentation[:is_array]
+            param = { type: :array, items: param }
+            param[:minItems] = documentation[:min_items] if documentation.key?(:min_items)
+            param[:maxItems] = documentation[:max_items] if documentation.key?(:max_items)
+            param[:uniqueItems] = documentation[:unique_items] if documentation.key?(:unique_items)
+          end
+
           param
         end
       end
