@@ -42,6 +42,7 @@ module GrapeSwagger
 
       def could_it_be_a_model?(value)
         return false if value.nil?
+
         direct_model_type?(value[:type]) || ambiguous_model_type?(value[:type])
       end
 
@@ -94,6 +95,7 @@ module GrapeSwagger
 
       def add_attribute_example(attribute, example)
         return unless example
+
         attribute[:example] = example.is_a?(Proc) ? example.call : example
       end
     end
