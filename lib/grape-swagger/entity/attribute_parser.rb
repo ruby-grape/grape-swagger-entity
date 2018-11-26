@@ -17,11 +17,7 @@ module GrapeSwagger
           entity_model_type = entity_model_type(name, entity_options)
           return entity_model_type unless documentation
 
-          if documentation[:is_array]
-            entity_model_type[:minItems] = documentation[:min_items] if documentation.key?(:min_items)
-            entity_model_type[:maxItems] = documentation[:max_items] if documentation.key?(:max_items)
-            entity_model_type[:uniqueItems] = documentation[:unique_items] if documentation.key?(:unique_items)
-          end
+          add_array_documentation(entity_model_type, documentation) if documentation[:is_array]
 
           entity_model_type
         else
@@ -37,9 +33,7 @@ module GrapeSwagger
 
           if documentation[:is_array]
             param = { type: :array, items: param }
-            param[:minItems] = documentation[:min_items] if documentation.key?(:min_items)
-            param[:maxItems] = documentation[:max_items] if documentation.key?(:max_items)
-            param[:uniqueItems] = documentation[:unique_items] if documentation.key?(:unique_items)
+            add_array_documentation(param, documentation)
           end
 
           param
@@ -113,6 +107,12 @@ module GrapeSwagger
         return unless example
 
         attribute[:example] = example.is_a?(Proc) ? example.call : example
+      end
+
+      def add_array_documentation(param, documentation)
+        param[:minItems] = documentation[:min_items] if documentation.key?(:min_items)
+        param[:maxItems] = documentation[:max_items] if documentation.key?(:max_items)
+        param[:uniqueItems] = documentation[:unique_items] if documentation.key?(:unique_items)
       end
     end
   end
