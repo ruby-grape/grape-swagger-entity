@@ -2,6 +2,7 @@
 
 #### Features
 
+* [#37](https://github.com/ruby-grape/grape-swagger-entity/pull/37): Add support for minItems, maxItems and uniqueItems - [@fotos](https://github.com/fotos).
 * Your contribution here.
 
 #### Fixes
