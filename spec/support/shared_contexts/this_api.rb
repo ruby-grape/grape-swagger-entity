@@ -25,6 +25,7 @@ shared_context 'this api' do
         class Something < Grape::Entity
           expose :text, documentation: { type: 'string', desc: 'Content of something.' }
           expose :colors, documentation: { type: 'string', desc: 'Colors', is_array: true }
+          expose :hidden_attr, documentation: { type: 'string', desc: 'Hidden', hidden: true }
           expose :kind, using: Kind, documentation: { type: 'ThisApi::Kind', desc: 'The kind of this something.' }
           expose :kind2, using: Kind, documentation: { desc: 'Secondary kind.' }
           expose :kind3, using: ThisApi::Entities::Kind, documentation: { desc: 'Tertiary kind.' }

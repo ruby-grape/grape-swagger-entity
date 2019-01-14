@@ -2,7 +2,7 @@
 
 #### Features
 
-* Your contribution here.
+* [#38](https://github.com/ruby-grape/grape-swagger-entity/pull/38): Added support for hidden option for documentation - [@vitoravelino](https://github.com/vitoravelino).
 
 #### Fixes
 
