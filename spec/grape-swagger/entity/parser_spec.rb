@@ -24,6 +24,10 @@ describe GrapeSwagger::Entity::Parser do
         expect(properties[:message][:type]).to eq('string')
         expect(properties[:attr][:type]).to eq('string')
       end
+
+      it 'hides hidden attributes' do
+        expect(properties).to_not include(:hidden_attr)
+      end
     end
   end
 end

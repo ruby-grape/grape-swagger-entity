@@ -34,7 +34,10 @@ module GrapeSwagger
         return unless params
 
         parsed = params.each_with_object({}) do |(entity_name, entity_options), memo|
-          next if entity_options.fetch(:documentation, {}).fetch(:in, nil).to_s == 'header'
+          documentation_options = entity_options.fetch(:documentation, {})
+          in_option = documentation_options.fetch(:in, nil).to_s
+          hidden_option = documentation_options.fetch(:hidden, nil)
+          next if in_option == 'header' || hidden_option == true
 
           final_entity_name = entity_options.fetch(:as, entity_name)
           documentation = entity_options[:documentation]
