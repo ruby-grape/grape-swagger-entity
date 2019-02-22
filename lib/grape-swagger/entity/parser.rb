@@ -17,6 +17,14 @@ module GrapeSwagger
 
       private
 
+      class Alias
+        attr_reader :original, :renamed
+        def initialize(original, renamed)
+          @original = original
+          @renamed = renamed
+        end
+      end
+
       def extract_params(exposure)
         exposure.root_exposures.each_with_object({}) do |value, memo|
           if value.for_merge && (value.respond_to?(:entity_class) || value.respond_to?(:using_class_name))
@@ -25,7 +33,8 @@ module GrapeSwagger
             extracted_params = extract_params(entity_class)
             memo.merge!(extracted_params)
           else
-            memo[value.attribute] = value.send(:options)
+            opts = value.send(:options)
+            opts[:as] ? memo[Alias.new(value.attribute, opts[:as])] = opts : memo[value.attribute] = opts
           end
         end
       end
@@ -39,6 +48,7 @@ module GrapeSwagger
           hidden_option = documentation_options.fetch(:hidden, nil)
           next if in_option == 'header' || hidden_option == true
 
+          entity_name = entity_name.original if entity_name.is_a?(Alias)
           final_entity_name = entity_options.fetch(:as, entity_name)
           documentation = entity_options[:documentation]
 
