@@ -129,6 +129,13 @@ describe 'building definitions from given entities' do
           end
         end
 
+        class Polymorphic < Grape::Entity
+          expose :obj, as: :kind, if: ->(instance, _) { instance.type == 'kind' }, using: Kind, documentation: { desc: 'Polymorphic Kind' }
+          expose :obj, as: :values, if: ->(instance, _) { instance.type == 'values' }, using: Values, documentation: { desc: 'Polymorphic Values' }
+          expose :not_using_obj, as: :str, if: ->(instance, _) { instance.instance_of?(String) }, documentation: { desc: 'Polymorphic String' }
+          expose :not_using_obj, as: :num, if: ->(instance, _) { instance.instance_of?(Number) }, documentation: { desc: 'Polymorphic Number', type: 'Integer' }
+        end
+
         class SomeEntity < Grape::Entity
           expose :text, documentation: { type: 'string', desc: 'Content of something.' }
           expose :kind, using: Kind, documentation: { type: 'TheseApi::Kind', desc: 'The kind of this something.' }
@@ -138,6 +145,7 @@ describe 'building definitions from given entities' do
           expose :relation, using: TheseApi::Entities::Relation, documentation: { type: 'TheseApi::Relation', desc: 'A related model.' }
           expose :values, using: TheseApi::Entities::Values, documentation: { desc: 'Tertiary kind.' }
           expose :nested, using: TheseApi::Entities::Nested, documentation: { desc: 'Nested object.' }
+          expose :polymorphic, using: TheseApi::Entities::Polymorphic, documentation: { desc: 'Polymorphic Model' }
           expose :merged_attribute, using: ThisApi::Entities::Nested, merge: true
         end
       end
@@ -240,6 +248,15 @@ describe 'building definitions from given entities' do
       },
       'type' => 'object'
     )
+    expect(subject['Polymorphic']).to eql(
+      'type' => 'object',
+      'properties' => {
+        'kind' => { '$ref' => '#/definitions/Kind', 'description' => 'Polymorphic Kind' },
+        'values' => { '$ref' => '#/definitions/Values', 'description' => 'Polymorphic Values' },
+        'str' => { 'type' => 'string', 'description' => 'Polymorphic String' },
+        'num' => { 'type' => 'integer', 'format' => 'int32', 'description' => 'Polymorphic Number' }
+      }
+    )
 
     expect(subject['SomeEntity']).to eql(
       'type' => 'object',
@@ -254,6 +271,7 @@ describe 'building definitions from given entities' do
         'nested' => { '$ref' => '#/definitions/Nested', 'description' => 'Nested object.' },
         'code' => { 'type' => 'string', 'description' => 'Error code' },
         'message' => { 'type' => 'string', 'description' => 'Error message' },
+        'polymorphic' => { '$ref' => '#/definitions/Polymorphic', 'description' => 'Polymorphic Model' },
         'attr' => { 'type' => 'string', 'description' => 'Attribute' }
       },
       'required' => %w[attr],
