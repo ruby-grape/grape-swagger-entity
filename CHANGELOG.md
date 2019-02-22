@@ -8,6 +8,12 @@
 
 * Your contribution here.
 
+### 0.3.3 (Fabruary 22, 2019)
+
+#### Features
+
+* [#39](https://github.com/ruby-grape/grape-swagger-entity/pull/39): Fix to avoid conflict with polymorphic model - [@kinoppyd](https://github.com/kinoppyd).
+
 ### 0.3.2 (January 15, 2019)
 
 #### Features
