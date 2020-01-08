@@ -36,6 +36,8 @@ module GrapeSwagger
             add_array_documentation(param, documentation)
           end
 
+          add_attribute_documentation(param, documentation)
+
           param
         end
       end
@@ -107,6 +109,11 @@ module GrapeSwagger
         return unless example
 
         attribute[:example] = example.is_a?(Proc) ? example.call : example
+      end
+
+      def add_attribute_documentation(param, documentation)
+        param[:minLength] = documentation[:min_length] if documentation.key?(:min_length)
+        param[:maxLength] = documentation[:max_length] if documentation.key?(:max_length)
       end
 
       def add_array_documentation(param, documentation)
