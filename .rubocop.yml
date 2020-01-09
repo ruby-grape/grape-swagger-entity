@@ -21,5 +21,5 @@ Metrics/MethodLength:
 Naming/FileName:
   Enabled: false
 
-Layout/IndentHash:
+Layout/IndentFirstHashElement:
   EnforcedStyle: consistent
