@@ -44,6 +44,24 @@ describe GrapeSwagger::Entity::AttributeParser do
     end
 
     context 'when the entity is not a model' do
+      context 'when it is exposed as a string' do
+        let(:entity_options) { { documentation: { type: 'string', desc: 'Colors' } } }
+
+        it { is_expected.to include(type: 'string') }
+
+        context 'when it contains min_length' do
+          let(:entity_options) { { documentation: { type: 'string', desc: 'Colors', min_length: 1 } } }
+
+          it { is_expected.to include(minLength: 1) }
+        end
+
+        context 'when it contains max_length' do
+          let(:entity_options) { { documentation: { type: 'string', desc: 'Colors', max_length: 1 } } }
+
+          it { is_expected.to include(maxLength: 1) }
+        end
+      end
+
       context 'when it is exposed as an array' do
         let(:entity_options) { { documentation: { type: 'string', desc: 'Colors', is_array: true } } }
 
