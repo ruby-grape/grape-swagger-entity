@@ -17,7 +17,7 @@ Gem::Specification.new do |s|
   s.executables   = s.files.grep(%r{^exe/}) { |f| File.basename(f) }
   s.require_paths = ['lib']
 
-  s.required_ruby_version = '>= 2.2.6'
+  s.required_ruby_version = '>= 2.4'
   s.add_runtime_dependency 'grape-entity', '>= 0.5.0'
   s.add_runtime_dependency 'grape-swagger', '>= 0.31.0'
 end
