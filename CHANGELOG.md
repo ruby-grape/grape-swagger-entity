@@ -2,11 +2,17 @@
 
 #### Features
 
-* [#40](https://github.com/ruby-grape/grape-swagger-entity/pull/40): Add support for minLength and maxLength - [@fotos](https://github.com/fotos).
+* Your contribution here.
 
 #### Fixes
 
 * Your contribution here.
+
+### 0.3.4 (January 9, 2020)
+
+#### Features
+
+* [#40](https://github.com/ruby-grape/grape-swagger-entity/pull/40): Add support for minLength and maxLength - [@fotos](https://github.com/fotos).
 
 ### 0.3.3 (Fabruary 22, 2019)
 
