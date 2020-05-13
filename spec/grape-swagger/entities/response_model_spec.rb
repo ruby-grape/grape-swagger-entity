@@ -18,7 +18,7 @@ describe 'responseModel' do
         'description' => 'OK',
         'schema' => {
           'type' => 'array',
-          'items' => { '$ref' => '#/definitions/Something' }
+          'items' => { '$ref' => '#/definitions/ThisApi::Entities::Something' }
         }
       }
     )
@@ -28,15 +28,15 @@ describe 'responseModel' do
     expect(subject['paths']['/something/{id}']['get']['responses']).to eq(
       '200' => {
         'description' => 'OK',
-        'schema' => { '$ref' => '#/definitions/Something' }
+        'schema' => { '$ref' => '#/definitions/ThisApi::Entities::Something' }
       },
       '403' => {
         'description' => 'Refused to return something',
-        'schema' => { '$ref' => '#/definitions/Error' }
+        'schema' => { '$ref' => '#/definitions/ThisApi::Entities::Error' }
       }
     )
-    expect(subject['definitions'].keys).to include 'Error'
-    expect(subject['definitions']['Error']).to eq(
+    expect(subject['definitions'].keys).to include 'ThisApi::Entities::Error'
+    expect(subject['definitions']['ThisApi::Entities::Error']).to eq(
       'type' => 'object',
       'description' => 'This returns something or an error',
       'properties' => {
@@ -45,36 +45,36 @@ describe 'responseModel' do
       }
     )
 
-    expect(subject['definitions'].keys).to include 'Something'
-    expect(subject['definitions']['Something']).to eq(
+    expect(subject['definitions'].keys).to include 'ThisApi::Entities::Something'
+    expect(subject['definitions']['ThisApi::Entities::Something']).to eq(
       'type' => 'object',
       'description' => 'This returns something',
       'properties' =>
           { 'text' => { 'type' => 'string', 'description' => 'Content of something.' },
             'colors' => { 'type' => 'array', 'items' => { 'type' => 'string' }, 'description' => 'Colors' },
-            'kind' => { '$ref' => '#/definitions/Kind', 'description' => 'The kind of this something.' },
-            'kind2' => { '$ref' => '#/definitions/Kind', 'description' => 'Secondary kind.' },
-            'kind3' => { '$ref' => '#/definitions/Kind', 'description' => 'Tertiary kind.' },
-            'tags' => { 'type' => 'array', 'items' => { '$ref' => '#/definitions/Tag' }, 'description' => 'Tags.' },
-            'relation' => { '$ref' => '#/definitions/Relation', 'description' => 'A related model.' },
+            'kind' => { '$ref' => '#/definitions/ThisApi::Entities::Kind', 'description' => 'The kind of this something.' },
+            'kind2' => { '$ref' => '#/definitions/ThisApi::Entities::Kind', 'description' => 'Secondary kind.' },
+            'kind3' => { '$ref' => '#/definitions/ThisApi::Entities::Kind', 'description' => 'Tertiary kind.' },
+            'tags' => { 'type' => 'array', 'items' => { '$ref' => '#/definitions/ThisApi::Entities::Tag' }, 'description' => 'Tags.' },
+            'relation' => { '$ref' => '#/definitions/ThisApi::Entities::Relation', 'description' => 'A related model.' },
             'code' => { 'type' => 'string', 'description' => 'Error code' },
             'message' => { 'type' => 'string', 'description' => 'Error message' },
             'attr' => { 'type' => 'string', 'description' => 'Attribute' } },
       'required' => ['attr']
     )
 
-    expect(subject['definitions'].keys).to include 'Kind'
-    expect(subject['definitions']['Kind']).to eq(
+    expect(subject['definitions'].keys).to include 'ThisApi::Entities::Kind'
+    expect(subject['definitions']['ThisApi::Entities::Kind']).to eq(
       'type' => 'object', 'properties' => { 'title' => { 'type' => 'string', 'description' => 'Title of the kind.' } }
     )
 
-    expect(subject['definitions'].keys).to include 'Relation'
-    expect(subject['definitions']['Relation']).to eq(
+    expect(subject['definitions'].keys).to include 'ThisApi::Entities::Relation'
+    expect(subject['definitions']['ThisApi::Entities::Relation']).to eq(
       'type' => 'object', 'properties' => { 'name' => { 'type' => 'string', 'description' => 'Name' } }
     )
 
-    expect(subject['definitions'].keys).to include 'Tag'
-    expect(subject['definitions']['Tag']).to eq(
+    expect(subject['definitions'].keys).to include 'ThisApi::Entities::Tag'
+    expect(subject['definitions']['ThisApi::Entities::Tag']).to eq(
       'type' => 'object', 'properties' => { 'name' => { 'type' => 'string', 'description' => 'Name' } }
     )
   end
@@ -175,14 +175,14 @@ describe 'building definitions from given entities' do
   end
 
   it 'prefers entity over other `using` values' do
-    expect(subject['Values']).to eql(
+    expect(subject['TheseApi::Entities::Values']).to eql(
       'type' => 'object',
       'properties' => {
         'guid' => { 'type' => 'string', 'enum' => %w[a b c], 'default' => 'c', 'description' => 'Some values' },
         'uuid' => { 'type' => 'string', 'format' => 'own', 'description' => 'customer uuid', 'example' => 'e3008fba-d53d-4bcc-a6ae-adc56dff8020' }
       }
     )
-    expect(subject['Kind']).to eql(
+    expect(subject['TheseApi::Entities::Kind']).to eql(
       'type' => 'object',
       'properties' => {
         'id' => { 'type' => 'integer', 'format' => 'int32', 'description' => 'id of the kind.', 'enum' => [1, 2], 'readOnly' => true },
@@ -190,13 +190,13 @@ describe 'building definitions from given entities' do
         'type' => { 'type' => 'string', 'description' => 'Type of the kind.', 'readOnly' => true }
       }
     )
-    expect(subject['Tag']).to eql(
+    expect(subject['TheseApi::Entities::Tag']).to eql(
       'type' => 'object', 'properties' => { 'name' => { 'type' => 'string', 'description' => 'Name', 'example' => 'random_tag' } }
     )
-    expect(subject['Relation']).to eql(
+    expect(subject['TheseApi::Entities::Relation']).to eql(
       'type' => 'object', 'properties' => { 'name' => { 'type' => 'string', 'description' => 'Name' } }
     )
-    expect(subject['Nested']).to eq(
+    expect(subject['TheseApi::Entities::Nested']).to eq(
       'properties' => {
         'nested' => {
           'type' => 'object',
@@ -248,30 +248,30 @@ describe 'building definitions from given entities' do
       },
       'type' => 'object'
     )
-    expect(subject['Polymorphic']).to eql(
+    expect(subject['TheseApi::Entities::Polymorphic']).to eql(
       'type' => 'object',
       'properties' => {
-        'kind' => { '$ref' => '#/definitions/Kind', 'description' => 'Polymorphic Kind' },
-        'values' => { '$ref' => '#/definitions/Values', 'description' => 'Polymorphic Values' },
+        'kind' => { '$ref' => '#/definitions/TheseApi::Entities::Kind', 'description' => 'Polymorphic Kind' },
+        'values' => { '$ref' => '#/definitions/TheseApi::Entities::Values', 'description' => 'Polymorphic Values' },
         'str' => { 'type' => 'string', 'description' => 'Polymorphic String' },
         'num' => { 'type' => 'integer', 'format' => 'int32', 'description' => 'Polymorphic Number' }
       }
     )
 
-    expect(subject['SomeEntity']).to eql(
+    expect(subject['TheseApi::Entities::SomeEntity']).to eql(
       'type' => 'object',
       'properties' => {
         'text' => { 'type' => 'string', 'description' => 'Content of something.' },
-        'kind' => { '$ref' => '#/definitions/Kind', 'description' => 'The kind of this something.' },
-        'kind2' => { '$ref' => '#/definitions/Kind', 'description' => 'Secondary kind.' },
-        'kind3' => { '$ref' => '#/definitions/Kind', 'description' => 'Tertiary kind.' },
-        'tags' => { 'type' => 'array', 'items' => { '$ref' => '#/definitions/Tag' }, 'description' => 'Tags.' },
-        'relation' => { '$ref' => '#/definitions/Relation', 'description' => 'A related model.' },
-        'values' => { '$ref' => '#/definitions/Values', 'description' => 'Tertiary kind.' },
-        'nested' => { '$ref' => '#/definitions/Nested', 'description' => 'Nested object.' },
+        'kind' => { '$ref' => '#/definitions/TheseApi::Entities::Kind', 'description' => 'The kind of this something.' },
+        'kind2' => { '$ref' => '#/definitions/TheseApi::Entities::Kind', 'description' => 'Secondary kind.' },
+        'kind3' => { '$ref' => '#/definitions/TheseApi::Entities::Kind', 'description' => 'Tertiary kind.' },
+        'tags' => { 'type' => 'array', 'items' => { '$ref' => '#/definitions/TheseApi::Entities::Tag' }, 'description' => 'Tags.' },
+        'relation' => { '$ref' => '#/definitions/TheseApi::Entities::Relation', 'description' => 'A related model.' },
+        'values' => { '$ref' => '#/definitions/TheseApi::Entities::Values', 'description' => 'Tertiary kind.' },
+        'nested' => { '$ref' => '#/definitions/TheseApi::Entities::Nested', 'description' => 'Nested object.' },
         'code' => { 'type' => 'string', 'description' => 'Error code' },
         'message' => { 'type' => 'string', 'description' => 'Error message' },
-        'polymorphic' => { '$ref' => '#/definitions/Polymorphic', 'description' => 'Polymorphic Model' },
+        'polymorphic' => { '$ref' => '#/definitions/TheseApi::Entities::Polymorphic', 'description' => 'Polymorphic Model' },
         'attr' => { 'type' => 'string', 'description' => 'Attribute' }
       },
       'required' => %w[attr],
