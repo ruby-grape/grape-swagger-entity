@@ -38,6 +38,8 @@ module GrapeSwagger
 
           add_attribute_documentation(param, documentation)
 
+          add_extension_documentation(param, documentation)
+
           param
         end
       end
@@ -120,6 +122,10 @@ module GrapeSwagger
         param[:minItems] = documentation[:min_items] if documentation.key?(:min_items)
         param[:maxItems] = documentation[:max_items] if documentation.key?(:max_items)
         param[:uniqueItems] = documentation[:unique_items] if documentation.key?(:unique_items)
+      end
+
+      def add_extension_documentation(param, documentation)
+        GrapeSwagger::DocMethods::Extensions.add_extensions_to_root(documentation, param)
       end
     end
   end
