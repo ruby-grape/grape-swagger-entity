@@ -62,7 +62,7 @@ describe GrapeSwagger::Entity::AttributeParser do
         end
 
         context 'when it contains extensions' do
-          let(:entity_options) { { documentation: { type: 'string', desc: 'Colors', x: {some: 'stuff'} } } }
+          let(:entity_options) { { documentation: { type: 'string', desc: 'Colors', x: { some: 'stuff' } } } }
 
           it { is_expected.to include('x-some' => 'stuff') }
         end

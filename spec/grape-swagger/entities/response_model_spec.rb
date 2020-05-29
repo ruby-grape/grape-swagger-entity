@@ -59,13 +59,13 @@ describe 'responseModel' do
             'relation' => { '$ref' => '#/definitions/ThisApi::Entities::Relation', 'description' => 'A related model.' },
             'code' => { 'type' => 'string', 'description' => 'Error code' },
             'message' => { 'type' => 'string', 'description' => 'Error message' },
-            'attr' => { 'type' => 'string', 'description' => 'Attribute' }},
+            'attr' => { 'type' => 'string', 'description' => 'Attribute' } },
       'required' => ['attr']
     )
 
     expect(subject['definitions'].keys).to include 'ThisApi::Entities::Kind'
     expect(subject['definitions']['ThisApi::Entities::Kind']).to eq(
-      'type' => 'object', 'properties' => { 'title' => { 'type' => 'string', 'description' => 'Title of the kind.'}, "content"=>{"description"=>"Content", "type"=>"string", "x-some"=>"stuff"} }
+      'type' => 'object', 'properties' => { 'title' => { 'type' => 'string', 'description' => 'Title of the kind.' }, 'content' => { 'description' => 'Content', 'type' => 'string', 'x-some' => 'stuff' } }
     )
 
     expect(subject['definitions'].keys).to include 'ThisApi::Entities::Relation'
