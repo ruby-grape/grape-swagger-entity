@@ -3,6 +3,7 @@
 #### Features
 
 * Your contribution here.
+* [#48](https://github.com/ruby-grape/grape-swagger-entity/pull/48): Add support for extensions - [@MaximeRDY]
 
 #### Fixes
 
