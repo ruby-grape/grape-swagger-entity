@@ -6,7 +6,7 @@
 
 #### Fixes
 
-* Your contribution here.
+[#46](https://github.com/ruby-grape/grape-swagger-entity/pull/46): Fixed issue where a boolean example value of false would not display in swagger file - [@drewnichols](https://github.com/drewnichols).
 
 ### 0.3.4 (January 9, 2020)
 

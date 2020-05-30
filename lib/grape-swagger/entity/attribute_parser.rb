@@ -24,8 +24,8 @@ module GrapeSwagger
           param = data_type_from(entity_options)
           return param unless documentation
 
-          param[:default] = documentation[:default] if documentation[:default]
-          add_attribute_example(param, documentation[:example])
+          add_attribute_sample(param, documentation, :default)
+          add_attribute_sample(param, documentation, :example)
 
           if (values = documentation[:values])
             param[:enum] = values if values.is_a?(Array)
@@ -105,10 +105,11 @@ module GrapeSwagger
         end
       end
 
-      def add_attribute_example(attribute, example)
-        return unless example
+      def add_attribute_sample(attribute, hash, key)
+        value = hash[key]
+        return if value.nil?
 
-        attribute[:example] = example.is_a?(Proc) ? example.call : example
+        attribute[key] = value.is_a?(Proc) ? value.call : value
       end
 
       def add_attribute_documentation(param, documentation)
