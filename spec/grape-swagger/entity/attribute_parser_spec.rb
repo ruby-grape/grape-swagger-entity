@@ -60,6 +60,12 @@ describe GrapeSwagger::Entity::AttributeParser do
 
           it { is_expected.to include(maxLength: 1) }
         end
+
+        context 'when it contains extensions' do
+          let(:entity_options) { { documentation: { type: 'string', desc: 'Colors', x: { some: 'stuff' } } } }
+
+          it { is_expected.to include('x-some' => 'stuff') }
+        end
       end
 
       context 'when it is exposed as an array' do

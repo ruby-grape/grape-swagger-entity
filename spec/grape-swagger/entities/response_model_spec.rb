@@ -65,7 +65,7 @@ describe 'responseModel' do
 
     expect(subject['definitions'].keys).to include 'ThisApi::Entities::Kind'
     expect(subject['definitions']['ThisApi::Entities::Kind']).to eq(
-      'type' => 'object', 'properties' => { 'title' => { 'type' => 'string', 'description' => 'Title of the kind.' } }
+      'type' => 'object', 'properties' => { 'title' => { 'type' => 'string', 'description' => 'Title of the kind.' }, 'content' => { 'description' => 'Content', 'type' => 'string', 'x-some' => 'stuff' } }
     )
 
     expect(subject['definitions'].keys).to include 'ThisApi::Entities::Relation'
