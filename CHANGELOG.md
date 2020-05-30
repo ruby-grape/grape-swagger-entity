@@ -3,11 +3,21 @@
 #### Features
 
 * Your contribution here.
+
+#### Features
+
+* Your contribution here.
+
+### 0.4.0 (May 30, 2020)
+
+#### Features
+
+* [#49](https://github.com/ruby-grape/grape-swagger-entity/pull/49): Bumped minimal required version of grape-swagger to 1.0.0 - [@Bugagazavr](https://github.com/Bugagazavr).
 * [#48](https://github.com/ruby-grape/grape-swagger-entity/pull/48): Add support for extensions - [@MaximeRDY](https://github.com/MaximeRDY).
 
 #### Fixes
 
-[#46](https://github.com/ruby-grape/grape-swagger-entity/pull/46): Fixed issue where a boolean example value of false would not display in swagger file - [@drewnichols](https://github.com/drewnichols).
+* [#46](https://github.com/ruby-grape/grape-swagger-entity/pull/46): Fixed issue where a boolean example value of false would not display in swagger file - [@drewnichols](https://github.com/drewnichols).
 
 ### 0.3.4 (January 9, 2020)
 
