@@ -39,7 +39,7 @@ module GrapeSwagger
           add_attribute_documentation(param, documentation)
 
           add_extension_documentation(param, documentation)
-
+          add_discriminator_extension(param, documentation)
           param
         end
       end
@@ -127,6 +127,10 @@ module GrapeSwagger
 
       def add_extension_documentation(param, documentation)
         GrapeSwagger::DocMethods::Extensions.add_extensions_to_root(documentation, param)
+      end
+
+      def add_discriminator_extension(param, documentation)
+        param[:documentation] = { is_discriminator: true } if documentation.key?(:is_discriminator)
       end
     end
   end

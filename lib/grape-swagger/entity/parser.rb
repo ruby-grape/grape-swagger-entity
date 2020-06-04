@@ -26,7 +26,13 @@ module GrapeSwagger
       end
 
       def extract_params(exposure)
-        exposure.root_exposures.each_with_object({}) do |value, memo|
+        root_exposures =
+          if superclass_contains_discriminator?(exposure)
+            root_exposures_without_parent(exposure)
+          else
+            exposure.root_exposures
+          end
+        root_exposures.each_with_object({}) do |value, memo|
           if value.for_merge && (value.respond_to?(:entity_class) || value.respond_to?(:using_class_name))
             entity_class = value.respond_to?(:entity_class) ? value.entity_class : value.using_class_name
 
@@ -36,6 +42,18 @@ module GrapeSwagger
             opts = value.send(:options)
             opts[:as] ? memo[Alias.new(value.attribute, opts[:as])] = opts : memo[value.attribute] = opts
           end
+        end
+      end
+
+      def superclass_contains_discriminator?(exposure)
+        exposure.superclass.root_exposures.detect do |value|
+          value.documentation[:is_discriminator]
+        end
+      end
+
+      def root_exposures_without_parent(exposure)
+        exposure.root_exposures.select do |value|
+          exposure.superclass.root_exposures.find_by(value.attribute).nil?
         end
       end
 
@@ -63,8 +81,28 @@ module GrapeSwagger
           memo[final_entity_name][:readOnly] = documentation[:read_only].to_s == 'true' if documentation[:read_only]
           memo[final_entity_name][:description] = documentation[:desc] if documentation[:desc]
         end
+        if superclass_contains_discriminator?(model)
+          respond_with_all_of(parsed, params)
+        else
+          [parsed, required_params(params)]
+        end
+      end
 
-        [parsed, required_params(params)]
+      def respond_with_all_of(parsed, params)
+        parent_name =
+          if endpoint.nil?
+            model.superclass.to_s.demodulize
+          else
+            endpoint.send(:expose_params_from_model, model.superclass)
+          end
+        {
+          allOf: [
+            {
+              '$ref' => "#/definitions/#{parent_name}"
+            },
+            [parsed, required_params(params)]
+          ]
+        }
       end
 
       def parse_nested(entity_name, entity_options, parent_model = nil)
