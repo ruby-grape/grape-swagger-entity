@@ -47,7 +47,7 @@ module GrapeSwagger
 
       def superclass_contains_discriminator?(exposure)
         exposure.superclass.root_exposures.detect do |value|
-          value.documentation[:is_discriminator]
+          value.documentation.try(:[], :is_discriminator)
         end
       end
 
