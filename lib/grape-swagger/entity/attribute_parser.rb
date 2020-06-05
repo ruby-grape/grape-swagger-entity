@@ -12,7 +12,7 @@ module GrapeSwagger
         entity_model = model_from(entity_options)
 
         if entity_model
-          name = endpoint.nil? ? entity_model.to_s.demodulize : endpoint.send(:expose_params_from_model, entity_model)
+          name = GrapeSwagger::Entity::Helper.model_name(entity_model, endpoint)
 
           entity_model_type = entity_model_type(name, entity_options)
           return entity_model_type unless documentation

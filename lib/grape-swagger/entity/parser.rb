@@ -27,7 +27,7 @@ module GrapeSwagger
 
       def extract_params(exposure)
         root_exposures =
-          if superclass_contains_discriminator?(exposure)
+          if discriminator(exposure)
             root_exposures_without_parent(exposure)
           else
             exposure.root_exposures
@@ -45,7 +45,7 @@ module GrapeSwagger
         end
       end
 
-      def superclass_contains_discriminator?(exposure)
+      def discriminator(exposure)
         exposure.superclass.root_exposures.detect do |value|
           value.documentation.try(:[], :is_discriminator)
         end
@@ -81,15 +81,19 @@ module GrapeSwagger
           memo[final_entity_name][:readOnly] = documentation[:read_only].to_s == 'true' if documentation[:read_only]
           memo[final_entity_name][:description] = documentation[:desc] if documentation[:desc]
         end
-        if superclass_contains_discriminator?(model)
-          respond_with_all_of(parsed, params)
+
+        discriminator = discriminator(model)
+        if discriminator
+          respond_with_all_of(parsed, params, discriminator)
         else
           [parsed, required_params(params)]
         end
       end
 
-      def respond_with_all_of(parsed, params)
+      def respond_with_all_of(parsed, params, discriminator)
         parent_name =
+          GrapeSwagger::Entity::Helper.model_name(model.superclass, endpoint)
+
           if endpoint.nil?
             model.superclass.to_s.demodulize
           else
@@ -100,9 +104,25 @@ module GrapeSwagger
             {
               '$ref' => "#/definitions/#{parent_name}"
             },
-            [parsed, required_params(params)]
+            [
+              add_discriminator(parsed, discriminator),
+              required_params(params).push(discriminator.attribute)
+            ]
           ]
         }
+      end
+
+      def add_discriminator(parsed, discriminator)
+        model_name = GrapeSwagger::Entity::Helper.model_name(model, endpoint)
+
+        parsed.merge(
+          {
+            discriminator.attribute => {
+              type: 'string',
+              enum: [model_name]
+            }
+          }
+        )
       end
 
       def parse_nested(entity_name, entity_options, parent_model = nil)

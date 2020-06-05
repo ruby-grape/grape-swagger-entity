@@ -62,8 +62,13 @@ describe GrapeSwagger::Entity::Parser do
         it 'parses the model with allOf' do
           expect(properties).to include(:allOf)
           all_of = properties[:allOf]
+          child_property = all_of.last.first
+          child_required = all_of.last.last
           expect(all_of.first['$ref']).to eq('#/definitions/Parent')
-          expect(all_of.last.first[:name][:type]).to eq('string')
+          expect(child_property[:name][:type]).to eq('string')
+          expect(child_property[:type][:type]).to eq('string')
+          expect(child_property[:type][:enum]).to eq(['Child'])
+          expect(child_required).to include(:type)
         end
       end
     end
