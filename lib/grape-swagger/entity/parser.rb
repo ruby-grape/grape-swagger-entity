@@ -26,13 +26,7 @@ module GrapeSwagger
       end
 
       def extract_params(exposure)
-        root_exposures =
-          if discriminator(exposure)
-            root_exposures_without_parent(exposure)
-          else
-            exposure.root_exposures
-          end
-        root_exposures.each_with_object({}) do |value, memo|
+        GrapeSwagger::Entity::Helper.root_exposure_with_discriminator(exposure).each_with_object({}) do |value, memo|
           if value.for_merge && (value.respond_to?(:entity_class) || value.respond_to?(:using_class_name))
             entity_class = value.respond_to?(:entity_class) ? value.entity_class : value.using_class_name
 
@@ -42,18 +36,6 @@ module GrapeSwagger
             opts = value.send(:options)
             opts[:as] ? memo[Alias.new(value.attribute, opts[:as])] = opts : memo[value.attribute] = opts
           end
-        end
-      end
-
-      def discriminator(exposure)
-        exposure.superclass.root_exposures.detect do |value|
-          value.documentation.try(:[], :is_discriminator)
-        end
-      end
-
-      def root_exposures_without_parent(exposure)
-        exposure.root_exposures.select do |value|
-          exposure.superclass.root_exposures.find_by(value.attribute).nil?
         end
       end
 
@@ -82,7 +64,7 @@ module GrapeSwagger
           memo[final_entity_name][:description] = documentation[:desc] if documentation[:desc]
         end
 
-        discriminator = discriminator(model)
+        discriminator = GrapeSwagger::Entity::Helper.discriminator(model)
         if discriminator
           respond_with_all_of(parsed, params, discriminator)
         else
@@ -91,14 +73,8 @@ module GrapeSwagger
       end
 
       def respond_with_all_of(parsed, params, discriminator)
-        parent_name =
-          GrapeSwagger::Entity::Helper.model_name(model.superclass, endpoint)
+        parent_name = GrapeSwagger::Entity::Helper.model_name(model.superclass, endpoint)
 
-          if endpoint.nil?
-            model.superclass.to_s.demodulize
-          else
-            endpoint.send(:expose_params_from_model, model.superclass)
-          end
         {
           allOf: [
             {
@@ -116,11 +92,9 @@ module GrapeSwagger
         model_name = GrapeSwagger::Entity::Helper.model_name(model, endpoint)
 
         parsed.merge(
-          {
-            discriminator.attribute => {
-              type: 'string',
-              enum: [model_name]
-            }
+          discriminator.attribute => {
+            type: 'string',
+            enum: [model_name]
           }
         )
       end
