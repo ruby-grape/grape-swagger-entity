@@ -13,7 +13,7 @@ module GrapeSwagger
 
         def discriminator(entity_model)
           entity_model.superclass.root_exposures.detect do |value|
-            value.documentation.try(:[], :is_discriminator)
+            value.documentation.dig(:is_discriminator)
           end
         end
 
