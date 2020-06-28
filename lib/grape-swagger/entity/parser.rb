@@ -26,7 +26,7 @@ module GrapeSwagger
       end
 
       def extract_params(exposure)
-        exposure.root_exposures.each_with_object({}) do |value, memo|
+        GrapeSwagger::Entity::Helper.root_exposure_with_discriminator(exposure).each_with_object({}) do |value, memo|
           if value.for_merge && (value.respond_to?(:entity_class) || value.respond_to?(:using_class_name))
             entity_class = value.respond_to?(:entity_class) ? value.entity_class : value.using_class_name
 
@@ -64,7 +64,39 @@ module GrapeSwagger
           memo[final_entity_name][:description] = documentation[:desc] if documentation[:desc]
         end
 
-        [parsed, required_params(params)]
+        discriminator = GrapeSwagger::Entity::Helper.discriminator(model)
+        if discriminator
+          respond_with_all_of(parsed, params, discriminator)
+        else
+          [parsed, required_params(params)]
+        end
+      end
+
+      def respond_with_all_of(parsed, params, discriminator)
+        parent_name = GrapeSwagger::Entity::Helper.model_name(model.superclass, endpoint)
+
+        {
+          allOf: [
+            {
+              '$ref' => "#/definitions/#{parent_name}"
+            },
+            [
+              add_discriminator(parsed, discriminator),
+              required_params(params).push(discriminator.attribute)
+            ]
+          ]
+        }
+      end
+
+      def add_discriminator(parsed, discriminator)
+        model_name = GrapeSwagger::Entity::Helper.model_name(model, endpoint)
+
+        parsed.merge(
+          discriminator.attribute => {
+            type: 'string',
+            enum: [model_name]
+          }
+        )
       end
 
       def parse_nested(entity_name, entity_options, parent_model = nil)
