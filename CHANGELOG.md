@@ -3,7 +3,20 @@
 #### Features
 
 * Your contribution here.
+
+#### Fixes
+
+* Your contribution here.
+
+### 0.5.1 (June 30, 2020)
+
+#### Features
+
 * [#50](https://github.com/ruby-grape/grape-swagger-entity/pull/50): Features/inheritance and discriminator - [@MaximeRDY](https://github.com/MaximeRDY).
+
+### 0.5.0 (June 29, 2020)
+
+Yanked due to invalid dependency
 
 ### 0.4.0 (May 30, 2020)
 
