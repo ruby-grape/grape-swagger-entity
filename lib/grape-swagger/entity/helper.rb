@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module GrapeSwagger
   module Entity
     # Helper methods for DRY
@@ -13,7 +15,7 @@ module GrapeSwagger
 
         def discriminator(entity_model)
           entity_model.superclass.root_exposures.detect do |value|
-            value.documentation.dig(:is_discriminator)
+            value.documentation&.dig(:is_discriminator)
           end
         end
 

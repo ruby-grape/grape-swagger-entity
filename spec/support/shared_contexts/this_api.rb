@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 shared_context 'this api' do
   before :all do
     module ThisApi

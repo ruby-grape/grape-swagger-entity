@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module GrapeSwagger
   module Entity
     class Parser
@@ -19,6 +21,7 @@ module GrapeSwagger
 
       class Alias
         attr_reader :original, :renamed
+
         def initialize(original, renamed)
           @original = original
           @renamed = renamed
