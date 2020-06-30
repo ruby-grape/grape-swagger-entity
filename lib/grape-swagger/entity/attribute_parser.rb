@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module GrapeSwagger
   module Entity
     class AttributeParser
@@ -65,8 +67,7 @@ module GrapeSwagger
       end
 
       def ambiguous_model_type?(type)
-        type &&
-          type.is_a?(Class) &&
+        type&.is_a?(Class) &&
           !GrapeSwagger::DocMethods::DataType.primitive?(type.name.downcase) &&
           !type == Array
       end
@@ -87,7 +88,7 @@ module GrapeSwagger
                else
                  { type: data_type }
                end
-        type[:format] = documentation[:format] if documentation && documentation.key?(:format)
+        type[:format] = documentation[:format] if documentation&.key?(:format)
 
         type
       end

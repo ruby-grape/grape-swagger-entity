@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 # Specify your gem's dependencies in grape-swagger-entity.gemspec
@@ -12,8 +14,8 @@ group :development, :test do
   gem 'rack-test'
   gem 'rake'
   gem 'rdoc'
-  gem 'rspec', '~> 3.0'
-  gem 'rubocop', '~> 0.68.1'
+  gem 'rspec', '~> 3.9'
+  gem 'rubocop', '~> 0.85'
 end
 
 gem 'grape-swagger', git: 'https://github.com/ruby-grape/grape-swagger.git'
