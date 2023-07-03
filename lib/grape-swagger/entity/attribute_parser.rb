@@ -26,9 +26,6 @@ module GrapeSwagger
           param = data_type_from(entity_options)
           return param unless documentation
 
-          add_attribute_sample(param, documentation, :default)
-          add_attribute_sample(param, documentation, :example)
-
           if (values = documentation[:values]) && values.is_a?(Array)
             param[:enum] = values
           end
@@ -37,6 +34,9 @@ module GrapeSwagger
             param = { type: :array, items: param }
             add_array_documentation(param, documentation)
           end
+
+          add_attribute_sample(param, documentation, :default)
+          add_attribute_sample(param, documentation, :example)
 
           add_attribute_documentation(param, documentation)
 
