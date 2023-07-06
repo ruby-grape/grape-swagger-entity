@@ -6,6 +6,7 @@
 
 #### Fixes
 
+* [#61](https://github.com/ruby-grape/grape-swagger-entity/pull/61): Migrate from Travis to GHA for CI - [@mscrivo](https://github.com/mscrivo).
 * Your contribution here.
 
 ### 0.5.1 (June 30, 2020)
