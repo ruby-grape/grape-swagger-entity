@@ -31,14 +31,19 @@ describe GrapeSwagger::Entity::AttributeParser do
         end
 
         context 'when it contains unique_items' do
-          let(:entity_options) { { using: ThisApi::Entities::Tag, documentation: { is_array: true, unique_items: true } } }
+          let(:entity_options) do
+            { using: ThisApi::Entities::Tag, documentation: { is_array: true, unique_items: true } }
+          end
 
           it { is_expected.to include(uniqueItems: true) }
         end
       end
 
       context 'when it is not exposed as an array' do
-        let(:entity_options) { { using: ThisApi::Entities::Kind, documentation: { type: 'ThisApi::Kind', desc: 'The kind of this something.' } } }
+        let(:entity_options) do
+          { using: ThisApi::Entities::Kind,
+            documentation: { type: 'ThisApi::Kind', desc: 'The kind of this something.' } }
+        end
 
         it { is_expected.to_not include('type') }
         it { is_expected.to include('$ref' => '#/definitions/Kind') }
@@ -89,7 +94,9 @@ describe GrapeSwagger::Entity::AttributeParser do
         end
 
         context 'when it contains unique_items' do
-          let(:entity_options) { { documentation: { type: 'string', desc: 'Colors', is_array: true, unique_items: true } } }
+          let(:entity_options) do
+            { documentation: { type: 'string', desc: 'Colors', is_array: true, unique_items: true } }
+          end
 
           it { is_expected.to include(uniqueItems: true) }
         end
