@@ -40,7 +40,7 @@ describe 'responseModel' do
     expect(subject['definitions'].keys).to include 'ThisApi_Entities_Error'
     expect(subject['definitions']['ThisApi_Entities_Error']).to eq(
       'type' => 'object',
-      'description' => 'This returns something or an error',
+      'description' => 'ThisApi_Entities_Error model',
       'properties' => {
         'code' => { 'type' => 'string', 'description' => 'Error code' },
         'message' => { 'type' => 'string', 'description' => 'Error message' }
@@ -50,7 +50,7 @@ describe 'responseModel' do
     expect(subject['definitions'].keys).to include 'ThisApi_Entities_Something'
     expect(subject['definitions']['ThisApi_Entities_Something']).to eq(
       'type' => 'object',
-      'description' => 'This returns something',
+      'description' => 'ThisApi_Entities_Something model',
       'properties' =>
           { 'text' => { 'type' => 'string', 'description' => 'Content of something.' },
             'colors' => { 'type' => 'array', 'items' => { 'type' => 'string' }, 'description' => 'Colors' },
@@ -278,7 +278,7 @@ describe 'building definitions from given entities' do
         'attr' => { 'type' => 'string', 'description' => 'Attribute' }
       },
       'required' => %w[attr],
-      'description' => 'This returns something'
+      'description' => 'TheseApi_Entities_SomeEntity model'
     )
   end
 end

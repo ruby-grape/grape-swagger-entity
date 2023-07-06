@@ -14,7 +14,7 @@ group :development, :test do
   gem 'rack-test'
   gem 'rake'
   gem 'rdoc'
-  gem 'rspec', '~> 3.9'
+  gem 'rspec'
   gem 'rubocop'
 end
 
