@@ -3,6 +3,17 @@
 [![Gem Version](https://badge.fury.io/rb/grape-swagger-entity.svg)](https://badge.fury.io/rb/grape-swagger-entity)
 [![Build Status](https://github.com/ruby-grape/grape-swagger-entity/workflows/test/badge.svg?branch=master)](https://github.com/ruby-grape/grape-swagger-entity/actions)
 
+## Table of Contents
+
+- [What is grape-swagger-entity?](#what-is-grape-swagger-entity)
+- [Installation](#installation)
+- [Development](#development)
+- [Contributing](#contributing)
+- [License](#license)
+
+
+## What is grape-swagger-entity?
+
 A simple grape-swagger adapter to allow parse representers as response model
 
 ## Installation
