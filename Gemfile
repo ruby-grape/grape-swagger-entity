@@ -22,6 +22,6 @@ gem 'grape-swagger', git: 'https://github.com/ruby-grape/grape-swagger.git'
 
 group :test do
   gem 'grape-entity', ENV.fetch('GRAPE_ENTITY', '0.6.1')
-  gem 'ruby-grape-danger', '~> 0.1.1', require: false
+  gem 'ruby-grape-danger', '~> 0.2.0', require: false
   gem 'simplecov', require: false
 end
