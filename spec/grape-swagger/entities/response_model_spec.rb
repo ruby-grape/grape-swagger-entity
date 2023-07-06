@@ -40,7 +40,7 @@ describe 'responseModel' do
     expect(subject['definitions'].keys).to include 'ThisApi_Entities_Error'
     expect(subject['definitions']['ThisApi_Entities_Error']).to eq(
       'type' => 'object',
-      'description' => 'This returns something or an error',
+      'description' => 'ThisApi_Entities_Error model',
       'properties' => {
         'code' => { 'type' => 'string', 'description' => 'Error code' },
         'message' => { 'type' => 'string', 'description' => 'Error message' }
@@ -50,14 +50,16 @@ describe 'responseModel' do
     expect(subject['definitions'].keys).to include 'ThisApi_Entities_Something'
     expect(subject['definitions']['ThisApi_Entities_Something']).to eq(
       'type' => 'object',
-      'description' => 'This returns something',
+      'description' => 'ThisApi_Entities_Something model',
       'properties' =>
           { 'text' => { 'type' => 'string', 'description' => 'Content of something.' },
             'colors' => { 'type' => 'array', 'items' => { 'type' => 'string' }, 'description' => 'Colors' },
-            'kind' => { '$ref' => '#/definitions/ThisApi_Entities_Kind', 'description' => 'The kind of this something.' },
+            'kind' => { '$ref' => '#/definitions/ThisApi_Entities_Kind',
+                        'description' => 'The kind of this something.' },
             'kind2' => { '$ref' => '#/definitions/ThisApi_Entities_Kind', 'description' => 'Secondary kind.' },
             'kind3' => { '$ref' => '#/definitions/ThisApi_Entities_Kind', 'description' => 'Tertiary kind.' },
-            'tags' => { 'type' => 'array', 'items' => { '$ref' => '#/definitions/ThisApi_Entities_Tag' }, 'description' => 'Tags.' },
+            'tags' => { 'type' => 'array', 'items' => { '$ref' => '#/definitions/ThisApi_Entities_Tag' },
+                        'description' => 'Tags.' },
             'relation' => { '$ref' => '#/definitions/ThisApi_Entities_Relation', 'description' => 'A related model.' },
             'code' => { 'type' => 'string', 'description' => 'Error code' },
             'message' => { 'type' => 'string', 'description' => 'Error message' },
@@ -67,7 +69,9 @@ describe 'responseModel' do
 
     expect(subject['definitions'].keys).to include 'ThisApi_Entities_Kind'
     expect(subject['definitions']['ThisApi_Entities_Kind']).to eq(
-      'type' => 'object', 'properties' => { 'title' => { 'type' => 'string', 'description' => 'Title of the kind.' }, 'content' => { 'description' => 'Content', 'type' => 'string', 'x-some' => 'stuff' } }
+      'type' => 'object', 'properties' => { 'title' => { 'type' => 'string', 'description' => 'Title of the kind.' },
+                                            'content' => { 'description' => 'Content', 'type' => 'string',
+                                                           'x-some' => 'stuff' } }
     )
 
     expect(subject['definitions'].keys).to include 'ThisApi_Entities_Relation'
@@ -101,6 +105,7 @@ describe 'building definitions from given entities' do
         class Relation < Grape::Entity
           expose :name, documentation: { type: String, desc: 'Name' }
         end
+
         class Tag < Grape::Entity
           expose :name, documentation: { type: 'string', desc: 'Name',
                                          example: -> { 'random_tag' } }
@@ -132,10 +137,18 @@ describe 'building definitions from given entities' do
         end
 
         class Polymorphic < Grape::Entity
-          expose :obj, as: :kind, if: ->(instance, _) { instance.type == 'kind' }, using: Kind, documentation: { desc: 'Polymorphic Kind' }
-          expose :obj, as: :values, if: ->(instance, _) { instance.type == 'values' }, using: Values, documentation: { desc: 'Polymorphic Values' }
-          expose :not_using_obj, as: :str, if: ->(instance, _) { instance.instance_of?(String) }, documentation: { desc: 'Polymorphic String' }
-          expose :not_using_obj, as: :num, if: ->(instance, _) { instance.instance_of?(Number) }, documentation: { desc: 'Polymorphic Number', type: 'Integer' }
+          expose :obj, as: :kind, if: lambda { |instance, _|
+                                        instance.type == 'kind'
+                                      }, using: Kind, documentation: { desc: 'Polymorphic Kind' }
+          expose :obj, as: :values, if: lambda { |instance, _|
+                                          instance.type == 'values'
+                                        }, using: Values, documentation: { desc: 'Polymorphic Values' }
+          expose :not_using_obj, as: :str, if: lambda { |instance, _|
+                                                 instance.instance_of?(String)
+                                               }, documentation: { desc: 'Polymorphic String' }
+          expose :not_using_obj, as: :num, if: lambda { |instance, _|
+                                                 instance.instance_of?(Number)
+                                               }, documentation: { desc: 'Polymorphic Number', type: 'Integer' }
         end
 
         class SomeEntity < Grape::Entity
@@ -144,7 +157,8 @@ describe 'building definitions from given entities' do
           expose :kind2, using: Kind, documentation: { desc: 'Secondary kind.' }
           expose :kind3, using: TheseApi::Entities::Kind, documentation: { desc: 'Tertiary kind.' }
           expose :tags, using: TheseApi::Entities::Tag, documentation: { desc: 'Tags.', is_array: true }
-          expose :relation, using: TheseApi::Entities::Relation, documentation: { type: 'TheseApi_Relation', desc: 'A related model.' }
+          expose :relation, using: TheseApi::Entities::Relation,
+                            documentation: { type: 'TheseApi_Relation', desc: 'A related model.' }
           expose :values, using: TheseApi::Entities::Values, documentation: { desc: 'Tertiary kind.' }
           expose :nested, using: TheseApi::Entities::Nested, documentation: { desc: 'Nested object.' }
           expose :polymorphic, using: TheseApi::Entities::Polymorphic, documentation: { desc: 'Polymorphic Model' }
@@ -181,19 +195,22 @@ describe 'building definitions from given entities' do
       'type' => 'object',
       'properties' => {
         'guid' => { 'type' => 'string', 'enum' => %w[a b c], 'default' => 'c', 'description' => 'Some values' },
-        'uuid' => { 'type' => 'string', 'format' => 'own', 'description' => 'customer uuid', 'example' => 'e3008fba-d53d-4bcc-a6ae-adc56dff8020' }
+        'uuid' => { 'type' => 'string', 'format' => 'own', 'description' => 'customer uuid',
+                    'example' => 'e3008fba-d53d-4bcc-a6ae-adc56dff8020' }
       }
     )
     expect(subject['TheseApi_Entities_Kind']).to eql(
       'type' => 'object',
       'properties' => {
-        'id' => { 'type' => 'integer', 'format' => 'int32', 'description' => 'id of the kind.', 'enum' => [1, 2], 'readOnly' => true },
+        'id' => { 'type' => 'integer', 'format' => 'int32', 'description' => 'id of the kind.', 'enum' => [1, 2],
+                  'readOnly' => true },
         'title' => { 'type' => 'string', 'description' => 'Title of the kind.', 'readOnly' => false },
         'type' => { 'type' => 'string', 'description' => 'Type of the kind.', 'readOnly' => true }
       }
     )
     expect(subject['TheseApi_Entities_Tag']).to eql(
-      'type' => 'object', 'properties' => { 'name' => { 'type' => 'string', 'description' => 'Name', 'example' => 'random_tag' } }
+      'type' => 'object', 'properties' => { 'name' => { 'type' => 'string', 'description' => 'Name',
+                                                        'example' => 'random_tag' } }
     )
     expect(subject['TheseApi_Entities_Relation']).to eql(
       'type' => 'object', 'properties' => { 'name' => { 'type' => 'string', 'description' => 'Name' } }
@@ -267,17 +284,19 @@ describe 'building definitions from given entities' do
         'kind' => { '$ref' => '#/definitions/TheseApi_Entities_Kind', 'description' => 'The kind of this something.' },
         'kind2' => { '$ref' => '#/definitions/TheseApi_Entities_Kind', 'description' => 'Secondary kind.' },
         'kind3' => { '$ref' => '#/definitions/TheseApi_Entities_Kind', 'description' => 'Tertiary kind.' },
-        'tags' => { 'type' => 'array', 'items' => { '$ref' => '#/definitions/TheseApi_Entities_Tag' }, 'description' => 'Tags.' },
+        'tags' => { 'type' => 'array', 'items' => { '$ref' => '#/definitions/TheseApi_Entities_Tag' },
+                    'description' => 'Tags.' },
         'relation' => { '$ref' => '#/definitions/TheseApi_Entities_Relation', 'description' => 'A related model.' },
         'values' => { '$ref' => '#/definitions/TheseApi_Entities_Values', 'description' => 'Tertiary kind.' },
         'nested' => { '$ref' => '#/definitions/TheseApi_Entities_Nested', 'description' => 'Nested object.' },
         'code' => { 'type' => 'string', 'description' => 'Error code' },
         'message' => { 'type' => 'string', 'description' => 'Error message' },
-        'polymorphic' => { '$ref' => '#/definitions/TheseApi_Entities_Polymorphic', 'description' => 'Polymorphic Model' },
+        'polymorphic' => { '$ref' => '#/definitions/TheseApi_Entities_Polymorphic',
+                           'description' => 'Polymorphic Model' },
         'attr' => { 'type' => 'string', 'description' => 'Attribute' }
       },
       'required' => %w[attr],
-      'description' => 'This returns something'
+      'description' => 'TheseApi_Entities_SomeEntity model'
     )
   end
 end

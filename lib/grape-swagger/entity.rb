@@ -13,4 +13,4 @@ module GrapeSwagger
   end
 end
 
-GrapeSwagger.model_parsers.register(::GrapeSwagger::Entity::Parser, ::Grape::Entity)
+GrapeSwagger.model_parsers.register(GrapeSwagger::Entity::Parser, Grape::Entity)

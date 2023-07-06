@@ -3,9 +3,7 @@
 module GrapeSwagger
   module Entity
     class Parser
-      attr_reader :model
-      attr_reader :endpoint
-      attr_reader :attribute_parser
+      attr_reader :model, :endpoint, :attribute_parser
 
       def initialize(model, endpoint)
         @model = model

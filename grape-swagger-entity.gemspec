@@ -22,4 +22,5 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.4'
   s.add_runtime_dependency 'grape-entity', '>= 0.6.0'
   s.add_runtime_dependency 'grape-swagger', '>= 1.2.0'
+  s.metadata['rubygems_mfa_required'] = 'true'
 end
