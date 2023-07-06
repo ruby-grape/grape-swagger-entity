@@ -12,9 +12,11 @@ shared_context 'this api' do
         class Relation < Grape::Entity
           expose :name, documentation: { type: 'string', desc: 'Name' }
         end
+
         class Tag < Grape::Entity
           expose :name, documentation: { type: 'string', desc: 'Name' }
         end
+
         class Error < Grape::Entity
           expose :code, documentation: { type: 'string', desc: 'Error code' }
           expose :message, documentation: { type: 'string', desc: 'Error message' }

@@ -15,7 +15,7 @@ group :development, :test do
   gem 'rake'
   gem 'rdoc'
   gem 'rspec', '~> 3.9'
-  gem 'rubocop', '~> 0.85'
+  gem 'rubocop'
 end
 
 gem 'grape-swagger', git: 'https://github.com/ruby-grape/grape-swagger.git'

@@ -101,6 +101,7 @@ describe 'building definitions from given entities' do
         class Relation < Grape::Entity
           expose :name, documentation: { type: String, desc: 'Name' }
         end
+
         class Tag < Grape::Entity
           expose :name, documentation: { type: 'string', desc: 'Name',
                                          example: -> { 'random_tag' } }

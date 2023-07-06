@@ -29,8 +29,8 @@ module GrapeSwagger
           add_attribute_sample(param, documentation, :default)
           add_attribute_sample(param, documentation, :example)
 
-          if (values = documentation[:values])
-            param[:enum] = values if values.is_a?(Array)
+          if (values = documentation[:values]) && values.is_a?(Array)
+            param[:enum] = values
           end
 
           if documentation[:is_array]
