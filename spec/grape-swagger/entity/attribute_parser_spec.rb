@@ -81,6 +81,12 @@ describe GrapeSwagger::Entity::AttributeParser do
         it { is_expected.to include(type: :array) }
         it { is_expected.to include(items: { type: 'string' }) }
 
+        context 'when it contains example' do
+          let(:entity_options) { { documentation: { type: 'string', desc: 'Colors', is_array: true, example: %w[green blue] } } }
+
+          it { is_expected.to include(example: %w[green blue]) }
+        end
+
         context 'when it contains min_items' do
           let(:entity_options) { { documentation: { type: 'string', desc: 'Colors', is_array: true, min_items: 1 } } }
 
