@@ -6,6 +6,12 @@
 
 #### Fixes
 
+* Your contribution here.
+
+### 0.5.2 (2023/07/07)
+
+#### Fixes
+
 * [#60](https://github.com/ruby-grape/grape-swagger-entity/pull/60): Examples on arrays should be directly on the property, not on the item - [@collinsauve](https://github.com/collinsauve).
 * [#61](https://github.com/ruby-grape/grape-swagger-entity/pull/61): Migrate from Travis to GHA for CI - [@mscrivo](https://github.com/mscrivo).
 * Your contribution here.
