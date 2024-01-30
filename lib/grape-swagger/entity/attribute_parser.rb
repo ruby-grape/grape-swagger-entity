@@ -19,6 +19,7 @@ module GrapeSwagger
           entity_model_type = entity_model_type(name, entity_options)
           return entity_model_type unless documentation
 
+          add_extension_documentation(entity_model_type, documentation)
           add_array_documentation(entity_model_type, documentation) if documentation[:is_array]
 
           entity_model_type
