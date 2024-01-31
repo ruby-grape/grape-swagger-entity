@@ -75,7 +75,7 @@ module GrapeSwagger
 
       def data_type_from(documentation)
         documented_type = documentation[:type]
-        documented_type ||= (documentation[:documentation] && documentation[:documentation][:type])
+        documented_type ||= documentation[:documentation] && documentation[:documentation][:type]
 
         data_type = GrapeSwagger::DocMethods::DataType.call(documented_type)
 

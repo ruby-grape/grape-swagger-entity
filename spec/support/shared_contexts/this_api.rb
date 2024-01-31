@@ -36,7 +36,11 @@ shared_context 'this api' do
           expose :kind3, using: ThisApi::Entities::Kind, documentation: { desc: 'Tertiary kind.' }
           expose :tags, using: ThisApi::Entities::Tag, documentation: { desc: 'Tags.', is_array: true }
           expose :relation, using: ThisApi::Entities::Relation,
-                            documentation: { type: 'ThisApi::Relation', desc: 'A related model.', x: { other: 'stuff' } }
+                            documentation: {
+                              type: 'ThisApi::Relation',
+                              desc: 'A related model.',
+                              x: { other: 'stuff' }
+                            }
           expose :merged_attribute, using: ThisApi::Entities::Nested, merge: true
         end
       end
