@@ -7,6 +7,7 @@
 #### Fixes
 
 * Your contribution here.
+* [#65](https://github.com/ruby-grape/grape-swagger-entity/pull/65): Bump ruby version required for danger workflow - [@numbata](https://github.com/numbata).
 
 ### 0.5.2 (2023/07/07)
 
