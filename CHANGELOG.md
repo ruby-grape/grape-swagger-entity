@@ -3,6 +3,7 @@
 #### Features
 
 * Your contribution here.
+* [#64](https://github.com/ruby-grape/grape-swagger-entity/pull/64): Pass extension documentation into schema - [@numbata](https://github.com/numbata).
 
 #### Fixes
 
@@ -14,7 +15,6 @@
 
 * [#60](https://github.com/ruby-grape/grape-swagger-entity/pull/60): Examples on arrays should be directly on the property, not on the item - [@collinsauve](https://github.com/collinsauve).
 * [#61](https://github.com/ruby-grape/grape-swagger-entity/pull/61): Migrate from Travis to GHA for CI - [@mscrivo](https://github.com/mscrivo).
-* Your contribution here.
 
 ### 0.5.1 (2020/06/30)
 
