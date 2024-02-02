@@ -6,6 +6,7 @@
 
 #### Fixes
 
+* [#67](https://github.com/ruby-grape/grape-swagger-entity/pull/67): Various build updates - [@mscrivo](https://github.com/mscrivo).
 * Your contribution here.
 
 ### 0.5.3 (2024/02/02)
