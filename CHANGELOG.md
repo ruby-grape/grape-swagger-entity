@@ -3,11 +3,20 @@
 #### Features
 
 * Your contribution here.
-* [#64](https://github.com/ruby-grape/grape-swagger-entity/pull/64): Pass extension documentation into schema - [@numbata](https://github.com/numbata).
 
 #### Fixes
 
 * Your contribution here.
+
+### 0.5.3 (2024/02/02)
+
+#### Features
+
+* [#64](https://github.com/ruby-grape/grape-swagger-entity/pull/64): Pass extension documentation into schema - [@numbata](https://github.com/numbata).
+
+#### Fixes
+
+* [#66](https://github.com/ruby-grape/grape-swagger-entity/pull/66): Fix danger GHA - [@mscrivo](https://github.com/mscrivo).
 
 ### 0.5.2 (2023/07/07)
 
