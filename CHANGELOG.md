@@ -7,6 +7,7 @@
 #### Fixes
 
 * [#67](https://github.com/ruby-grape/grape-swagger-entity/pull/67): Various build updates - [@mscrivo](https://github.com/mscrivo).
+* [#68](https://github.com/ruby-grape/grape-swagger-entity/pull/68): Properly render `example` for array exposure done using another entity - [@magni-](https://github.com/magni-).
 * Your contribution here.
 
 ### 0.5.3 (2024/02/02)

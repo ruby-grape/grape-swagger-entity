@@ -10,13 +10,12 @@ module GrapeSwagger
       end
 
       def call(entity_options)
-        param =
-          if (entity_model = model_from(entity_options))
-            name = GrapeSwagger::Entity::Helper.model_name(entity_model, endpoint)
-            entity_model_type(name, entity_options)
-          else
-            data_type_from(entity_options)
-          end
+        param = if (entity_model = model_from(entity_options))
+                  name = GrapeSwagger::Entity::Helper.model_name(entity_model, endpoint)
+                  entity_model_type(name, entity_options)
+                else
+                  data_type_from(entity_options)
+                end
 
         documentation = entity_options[:documentation]
         return param if documentation.nil?
