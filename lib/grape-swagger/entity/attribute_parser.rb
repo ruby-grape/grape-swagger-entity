@@ -33,10 +33,7 @@ module GrapeSwagger
             param[:enum] = values
           end
 
-          if documentation[:is_array]
-            param = { type: :array, items: param }
-            add_array_documentation(param, documentation)
-          end
+          add_array_documentation(param, documentation) if documentation[:is_array]
 
           add_attribute_sample(param, documentation, :default)
           add_attribute_sample(param, documentation, :example)
@@ -81,7 +78,16 @@ module GrapeSwagger
 
         data_type = GrapeSwagger::DocMethods::DataType.call(documented_type)
 
-        document_data_type(documentation[:documentation], data_type)
+        documented_data_type = document_data_type(documentation[:documentation], data_type)
+
+        if documentation[:documentation] && documentation[:documentation][:is_array]
+          {
+            type: :array,
+            items: documented_data_type
+          }
+        else
+          documented_data_type
+        end
       end
 
       def document_data_type(documentation, data_type)
