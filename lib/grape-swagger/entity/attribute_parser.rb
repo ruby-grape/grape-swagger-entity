@@ -10,40 +10,31 @@ module GrapeSwagger
       end
 
       def call(entity_options)
-        documentation = entity_options[:documentation]
-        entity_model = model_from(entity_options)
-
-        if entity_model
-          name = GrapeSwagger::Entity::Helper.model_name(entity_model, endpoint)
-
-          entity_model_type = entity_model_type(name, entity_options)
-          return entity_model_type unless documentation
-
-          add_extension_documentation(entity_model_type, documentation)
-          add_array_documentation(entity_model_type, documentation) if documentation[:is_array]
-
-          add_attribute_sample(entity_model_type, documentation, :example)
-
-          entity_model_type
-        else
-          param = data_type_from(entity_options)
-          return param unless documentation
-
-          if (values = documentation[:values]) && values.is_a?(Array)
-            param[:enum] = values
+        param =
+          if (entity_model = model_from(entity_options))
+            name = GrapeSwagger::Entity::Helper.model_name(entity_model, endpoint)
+            entity_model_type(name, entity_options)
+          else
+            data_type_from(entity_options)
           end
 
-          add_array_documentation(param, documentation) if documentation[:is_array]
+        documentation = entity_options[:documentation]
+        return param if documentation.nil?
 
-          add_attribute_sample(param, documentation, :default)
-          add_attribute_sample(param, documentation, :example)
-
-          add_attribute_documentation(param, documentation)
-
-          add_extension_documentation(param, documentation)
-          add_discriminator_extension(param, documentation)
-          param
+        if (values = documentation[:values]) && values.is_a?(Array)
+          param[:enum] = values
         end
+
+        add_array_documentation(param, documentation) if documentation[:is_array]
+
+        add_attribute_sample(param, documentation, :default)
+        add_attribute_sample(param, documentation, :example)
+
+        add_attribute_documentation(param, documentation)
+
+        add_extension_documentation(param, documentation)
+        add_discriminator_extension(param, documentation)
+        param
       end
 
       private
