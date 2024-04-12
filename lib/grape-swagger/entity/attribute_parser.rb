@@ -22,6 +22,8 @@ module GrapeSwagger
           add_extension_documentation(entity_model_type, documentation)
           add_array_documentation(entity_model_type, documentation) if documentation[:is_array]
 
+          add_attribute_sample(entity_model_type, documentation, :example)
+
           entity_model_type
         else
           param = data_type_from(entity_options)

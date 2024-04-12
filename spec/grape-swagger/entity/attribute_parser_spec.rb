@@ -18,6 +18,23 @@ describe GrapeSwagger::Entity::AttributeParser do
         it { is_expected.to include('type' => 'array') }
         it { is_expected.to include('items' => { '$ref' => '#/definitions/Tag' }) }
 
+        context 'when it contains example' do
+          let(:entity_options) do
+            {
+              using: ThisApi::Entities::Tag,
+              documentation: {
+                is_array: true,
+                example: [
+                  { name: 'green' },
+                  { name: 'blue' }
+                ]
+              }
+            }
+          end
+
+          it { is_expected.to include(example: %w[green blue].map { { name: _1 } }) }
+        end
+
         context 'when it contains min_items' do
           let(:entity_options) { { using: ThisApi::Entities::Tag, documentation: { is_array: true, min_items: 1 } } }
 
