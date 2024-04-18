@@ -86,7 +86,7 @@ describe GrapeSwagger::Entity::AttributeParser do
         end
 
         context 'when it contains values array' do
-          let(:entity_options) { { documentation: { type: 'string', desc: 'Colors', values: ['red', 'blue'] } } }
+          let(:entity_options) { { documentation: { type: 'string', desc: 'Colors', values: %w[red blue] } } }
 
           it { is_expected.to_not include('minimum') }
           it { is_expected.to_not include('maximum') }
