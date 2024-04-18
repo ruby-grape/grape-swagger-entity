@@ -58,6 +58,7 @@ Metrics/BlockLength:
 # Configuration parameters: CountComments, Max, CountAsOne.
 Metrics/ClassLength:
   Exclude:
+    - 'lib/grape-swagger/entity/attribute_parser.rb'
     - 'lib/grape-swagger/entity/parser.rb'
 
 # Offense count: 2

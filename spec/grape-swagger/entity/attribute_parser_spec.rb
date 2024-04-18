@@ -85,8 +85,110 @@ describe GrapeSwagger::Entity::AttributeParser do
           it { is_expected.to include(maxLength: 1) }
         end
 
+        context 'when it contains values array' do
+          let(:entity_options) { { documentation: { type: 'string', desc: 'Colors', values: ['red', 'blue'] } } }
+
+          it { is_expected.to_not include('minimum') }
+          it { is_expected.to_not include('maximum') }
+        end
+
+        context 'when it contains values range' do
+          let(:entity_options) { { documentation: { type: 'string', desc: 'Colors', values: 'a'...'c' } } }
+
+          it { is_expected.to_not include('minimum') }
+          it { is_expected.to_not include('maximum') }
+        end
+
         context 'when it contains extensions' do
           let(:entity_options) { { documentation: { type: 'string', desc: 'Colors', x: { some: 'stuff' } } } }
+
+          it { is_expected.to include('x-some' => 'stuff') }
+        end
+      end
+
+      context 'when it is exposed as a number' do
+        let(:entity_options) { { documentation: { type: 'number', desc: 'Solution pH' } } }
+
+        it { is_expected.to include(type: 'number') }
+
+        context 'when it contains minimum' do
+          let(:entity_options) { { documentation: { type: 'number', desc: 'Solution pH', minimum: 2.5 } } }
+
+          it { is_expected.to include(minimum: 2.5) }
+        end
+
+        context 'when it contains maximum' do
+          let(:entity_options) { { documentation: { type: 'number', desc: 'Solution pH', maximum: 9.1 } } }
+
+          it { is_expected.to include(maximum: 9.1) }
+        end
+
+        context 'when it contains values array' do
+          let(:entity_options) { { documentation: { type: 'number', desc: 'Solution pH', values: [6.0, 7.0, 8.0] } } }
+
+          it { is_expected.to_not include('minimum') }
+          it { is_expected.to_not include('maximum') }
+        end
+
+        context 'when it contains values range' do
+          let(:entity_options) { { documentation: { type: 'number', desc: 'Solution pH', values: 0.0..14.0 } } }
+
+          it { is_expected.to include(minimum: 0.0, maximum: 14.0) }
+        end
+
+        context 'when it contains values range with no minimum' do
+          let(:entity_options) { { documentation: { type: 'number', desc: 'Solution pH', values: ..14.0 } } }
+
+          it { is_expected.to_not include('minimum') }
+          it { is_expected.to include(maximum: 14.0) }
+        end
+
+        context 'when it contains values range with no maximum' do
+          let(:entity_options) { { documentation: { type: 'number', desc: 'Solution pH', values: 0.0.. } } }
+
+          it { is_expected.to_not include('maximum') }
+          it { is_expected.to include(minimum: 0.0) }
+        end
+
+        context 'when it contains extensions' do
+          let(:entity_options) { { documentation: { type: 'number', desc: 'Solution pH', x: { some: 'stuff' } } } }
+
+          it { is_expected.to include('x-some' => 'stuff') }
+        end
+      end
+
+      context 'when it is exposed as an integer' do
+        let(:entity_options) { { documentation: { type: 'integer', desc: 'Count' } } }
+
+        it { is_expected.to include(type: 'integer') }
+
+        context 'when it contains minimum' do
+          let(:entity_options) { { documentation: { type: 'integer', desc: 'Count', minimum: 2 } } }
+
+          it { is_expected.to include(minimum: 2) }
+        end
+
+        context 'when it contains maximum' do
+          let(:entity_options) { { documentation: { type: 'integer', desc: 'Count', maximum: 100 } } }
+
+          it { is_expected.to include(maximum: 100) }
+        end
+
+        context 'when it contains values array' do
+          let(:entity_options) { { documentation: { type: 'integer', desc: 'Count', values: 1..10 } } }
+
+          it { is_expected.to_not include('minimum') }
+          it { is_expected.to_not include('maximum') }
+        end
+
+        context 'when it contains values range' do
+          let(:entity_options) { { documentation: { type: 'integer', desc: 'Count', values: 1..10 } } }
+
+          it { is_expected.to include(minimum: 1, maximum: 10) }
+        end
+
+        context 'when it contains extensions' do
+          let(:entity_options) { { documentation: { type: 'integer', desc: 'Count', x: { some: 'stuff' } } } }
 
           it { is_expected.to include('x-some' => 'stuff') }
         end
