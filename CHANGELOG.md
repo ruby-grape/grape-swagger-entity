@@ -2,6 +2,7 @@
 
 #### Features
 
+* [#69](https://github.com/ruby-grape/grape-swagger-entity/pull/67): Add support for minimum and maximum - [@storey](https://github.com/storey).
 * Your contribution here.
 
 #### Fixes

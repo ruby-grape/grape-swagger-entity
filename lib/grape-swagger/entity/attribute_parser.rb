@@ -115,6 +115,15 @@ module GrapeSwagger
       end
 
       def add_attribute_documentation(param, documentation)
+        param[:minimum] = documentation[:minimum] if documentation.key?(:minimum)
+        param[:maximum] = documentation[:maximum] if documentation.key?(:maximum)
+
+        values = documentation[:values]
+        if values&.is_a?(Range)
+          param[:minimum] = values.begin if values.begin.is_a?(Numeric)
+          param[:maximum] = values.end if values.end.is_a?(Numeric)
+        end
+
         param[:minLength] = documentation[:min_length] if documentation.key?(:min_length)
         param[:maxLength] = documentation[:max_length] if documentation.key?(:max_length)
       end
