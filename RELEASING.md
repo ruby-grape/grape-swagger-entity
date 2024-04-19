@@ -29,7 +29,7 @@ Remove the line with "Your contribution here.", since there will be no more cont
 Commit your changes.
 
 ```
-git add CHANGELOG.md lib/grape-swagger-entity/version.rb
+git add CHANGELOG.md lib/grape-swagger/entity/version.rb CHANGELOG.md
 git commit -m "Preparing for release, 0.1.1."
 git push origin master
 ```

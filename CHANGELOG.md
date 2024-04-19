@@ -1,15 +1,13 @@
-### Next
+### 0.5.4 (2024/04/19)
 
 #### Features
 
 * [#69](https://github.com/ruby-grape/grape-swagger-entity/pull/67): Add support for minimum and maximum - [@storey](https://github.com/storey).
-* Your contribution here.
 
 #### Fixes
 
 * [#67](https://github.com/ruby-grape/grape-swagger-entity/pull/67): Various build updates - [@mscrivo](https://github.com/mscrivo).
 * [#68](https://github.com/ruby-grape/grape-swagger-entity/pull/68): Properly render `example` for array exposure done using another entity - [@magni-](https://github.com/magni-).
-* Your contribution here.
 
 ### 0.5.3 (2024/02/02)
 
