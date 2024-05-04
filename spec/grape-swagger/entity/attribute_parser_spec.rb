@@ -227,6 +227,14 @@ describe GrapeSwagger::Entity::AttributeParser do
 
           it { is_expected.to include(uniqueItems: true) }
         end
+
+        context 'when it contains values array' do
+          let(:entity_options) do
+            { documentation: { type: 'string', desc: 'Colors', is_array: true, values: %w[red blue] } }
+          end
+
+          it { is_expected.to eq(type: :array, items: { type: 'string', enum: %w[red blue] }) }
+        end
       end
 
       context 'when it is not exposed as an array' do

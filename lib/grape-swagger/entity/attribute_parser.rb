@@ -20,10 +20,6 @@ module GrapeSwagger
         documentation = entity_options[:documentation]
         return param if documentation.nil?
 
-        if (values = documentation[:values]) && values.is_a?(Array)
-          param[:enum] = values
-        end
-
         add_array_documentation(param, documentation) if documentation[:is_array]
 
         add_attribute_sample(param, documentation, :default)
@@ -62,15 +58,15 @@ module GrapeSwagger
           !type == Array
       end
 
-      def data_type_from(documentation)
-        documented_type = documentation[:type]
-        documented_type ||= documentation[:documentation] && documentation[:documentation][:type]
+      def data_type_from(entity_options)
+        documentation = entity_options[:documentation] || {}
+        documented_type = entity_options[:type] || documentation[:type]
 
         data_type = GrapeSwagger::DocMethods::DataType.call(documented_type)
 
-        documented_data_type = document_data_type(documentation[:documentation], data_type)
+        documented_data_type = document_data_type(documentation, data_type)
 
-        if documentation[:documentation] && documentation[:documentation][:is_array]
+        if documentation[:is_array]
           {
             type: :array,
             items: documented_data_type
@@ -87,7 +83,12 @@ module GrapeSwagger
                else
                  { type: data_type }
                end
-        type[:format] = documentation[:format] if documentation&.key?(:format)
+
+        type[:format] = documentation[:format] if documentation.key?(:format)
+
+        if (values = documentation[:values]) && values.is_a?(Array)
+          type[:enum] = values
+        end
 
         type
       end
