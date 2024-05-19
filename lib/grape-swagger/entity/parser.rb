@@ -101,19 +101,22 @@ module GrapeSwagger
       end
 
       def parse_nested(entity_name, entity_options, parent_model = nil)
-        nested_entity = if parent_model.nil?
-                          model.root_exposures.find_by(entity_name)
-                        else
-                          parent_model.nested_exposures.find_by(entity_name)
-                        end
+        nested_entities = if parent_model.nil?
+                            model.root_exposures.select_by(entity_name)
+                          else
+                            parent_model.nested_exposures.select_by(entity_name)
+                          end
 
-        params = nested_entity.nested_exposures.each_with_object({}) do |value, memo|
+        params = nested_entities
+                 .map(&:nested_exposures)
+                 .flatten
+                 .each_with_object({}) do |value, memo|
           memo[value.attribute] = value.send(:options)
         end
 
-        properties, required = parse_grape_entity_params(params, nested_entity)
-        is_a_collection = entity_options[:documentation].is_a?(Hash) &&
-                          entity_options[:documentation][:type].to_s.casecmp('array').zero?
+        properties, required = parse_grape_entity_params(params, nested_entities.last)
+        documentation = entity_options[:documentation]
+        is_a_collection = documentation.is_a?(Hash) && documentation[:type].to_s.casecmp('array').zero?
 
         if is_a_collection
           {
