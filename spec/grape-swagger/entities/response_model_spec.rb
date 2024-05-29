@@ -137,6 +137,28 @@ describe 'building definitions from given entities' do
           end
         end
 
+        class NestedChild < Nested
+          expose :nested, documentation: { type: Hash, desc: 'Nested entity' } do
+            expose :some3, documentation: { type: 'String', desc: 'Nested some 3' }
+          end
+
+          expose :nested_with_alias, as: :aliased do
+            expose :some2, documentation: { type: 'String', desc: 'Alias some 2' }
+          end
+
+          expose :deep_nested, documentation: { type: 'Object', desc: 'Deep nested entity' } do
+            expose :level_1, documentation: { type: 'Object', desc: 'More deepest nested entity' } do
+              expose :level_2, documentation: { type: 'String', desc: 'Level 2' } do
+                expose :level_3, documentation: { type: 'String', desc: 'Level 3' }
+              end
+            end
+          end
+
+          expose :nested_array, documentation: { type: 'Array', desc: 'Nested array' } do
+            expose :category, documentation: { type: 'String', desc: 'Collection element category' }
+          end
+        end
+
         class Polymorphic < Grape::Entity
           expose :obj, as: :kind, if: lambda { |instance, _|
                                         instance.type == 'kind'
@@ -162,6 +184,7 @@ describe 'building definitions from given entities' do
                             documentation: { type: 'TheseApi_Relation', desc: 'A related model.' }
           expose :values, using: TheseApi::Entities::Values, documentation: { desc: 'Tertiary kind.' }
           expose :nested, using: TheseApi::Entities::Nested, documentation: { desc: 'Nested object.' }
+          expose :nested_child, using: TheseApi::Entities::NestedChild, documentation: { desc: 'Nested child object.' }
           expose :polymorphic, using: TheseApi::Entities::Polymorphic, documentation: { desc: 'Polymorphic Model' }
           expose :merged_attribute, using: ThisApi::Entities::Nested, merge: true
         end
@@ -268,6 +291,70 @@ describe 'building definitions from given entities' do
       },
       'type' => 'object'
     )
+    expect(subject['TheseApi_Entities_NestedChild']).to eq(
+      'properties' => {
+        'nested' => {
+          'type' => 'object',
+          'properties' => {
+            'some1' => { 'type' => 'string', 'description' => 'Nested some 1' },
+            'some2' => { 'type' => 'string', 'description' => 'Nested some 2' },
+            'some3' => { 'type' => 'string', 'description' => 'Nested some 3' }
+          },
+          'description' => 'Nested entity'
+        },
+        'aliased' => {
+          'type' => 'object',
+          'properties' => {
+            'some1' => { 'type' => 'string', 'description' => 'Alias some 1' },
+            'some2' => { 'type' => 'string', 'description' => 'Alias some 2' }
+          }
+        },
+        'deep_nested' => {
+          'type' => 'object',
+          'properties' => {
+            'level_1' => {
+              'type' => 'object',
+              'properties' => {
+                'level_2' => {
+                  'type' => 'object',
+                  'properties' => {
+                    'level_3' => {
+                      'type' => 'string',
+                      'description' => 'Level 3'
+                    }
+                  },
+                  'description' => 'Level 2'
+                }
+              },
+              'description' => 'More deepest nested entity'
+            }
+          },
+          'description' => 'Deep nested entity'
+        },
+        'nested_required' => {
+          'type' => 'object',
+          'properties' => {
+            'some1' => { 'type' => 'string', 'description' => 'Required some 1' },
+            'some2' => { 'type' => 'string', 'description' => 'Required some 2' },
+            'some3' => { 'type' => 'string', 'description' => 'Optional some 3' }
+          },
+          'required' => %w[some1 some2]
+        },
+        'nested_array' => {
+          'type' => 'array',
+          'items' => {
+            'type' => 'object',
+            'properties' => {
+              'id' => { 'type' => 'integer', 'format' => 'int32', 'description' => 'Collection element id' },
+              'name' => { 'type' => 'string', 'description' => 'Collection element name' },
+              'category' => { 'type' => 'string', 'description' => 'Collection element category' }
+            }
+          },
+          'description' => 'Nested array'
+        }
+      },
+      'type' => 'object'
+    )
     expect(subject['TheseApi_Entities_Polymorphic']).to eql(
       'type' => 'object',
       'properties' => {
@@ -290,6 +377,8 @@ describe 'building definitions from given entities' do
         'relation' => { '$ref' => '#/definitions/TheseApi_Entities_Relation', 'description' => 'A related model.' },
         'values' => { '$ref' => '#/definitions/TheseApi_Entities_Values', 'description' => 'Tertiary kind.' },
         'nested' => { '$ref' => '#/definitions/TheseApi_Entities_Nested', 'description' => 'Nested object.' },
+        'nested_child' => { '$ref' => '#/definitions/TheseApi_Entities_NestedChild',
+                            'description' => 'Nested child object.' },
         'code' => { 'type' => 'string', 'description' => 'Error code' },
         'message' => { 'type' => 'string', 'description' => 'Error message' },
         'polymorphic' => { '$ref' => '#/definitions/TheseApi_Entities_Polymorphic',
