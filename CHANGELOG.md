@@ -7,6 +7,7 @@
 #### Fixes
 
 * Your contribution here.
+* [#72](https://github.com/ruby-grape/grape-swagger-entity/pull/72): Ensure inherited nested exposures are merged - [@pirhoo](https://github.com/pirhoo)
 * [#71](https://github.com/ruby-grape/grape-swagger-entity/pull/71): Fix regression for enum values in array attributes - [@Jell](https://github.com/Jell).
 
 ### 0.5.4 (2024/04/19)
