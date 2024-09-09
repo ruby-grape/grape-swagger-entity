@@ -4,7 +4,7 @@ require 'spec_helper'
 
 describe GrapeSwagger::Entity do
   it 'has a version number' do
-    expect(GrapeSwagger::Entity::VERSION).not_to be nil
+    expect(GrapeSwagger::Entity::VERSION).not_to be_nil
   end
 
   it 'parser should be registred' do

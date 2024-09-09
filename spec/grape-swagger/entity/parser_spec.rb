@@ -29,11 +29,12 @@ describe GrapeSwagger::Entity::Parser do
         end
 
         it 'hides hidden attributes' do
-          expect(properties).to_not include(:hidden_attr)
+          expect(properties).not_to include(:hidden_attr)
         end
       end
     end
   end
+
   context 'inheritance api' do
     include_context 'inheritance api'
 

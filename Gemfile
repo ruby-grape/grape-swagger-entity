@@ -16,6 +16,8 @@ group :development, :test do
   gem 'rdoc'
   gem 'rspec'
   gem 'rubocop'
+  gem 'rubocop-rake'
+  gem 'rubocop-rspec'
 end
 
 gem 'grape-swagger', git: 'https://github.com/ruby-grape/grape-swagger.git'

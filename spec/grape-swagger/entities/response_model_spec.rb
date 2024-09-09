@@ -3,15 +3,15 @@
 require 'spec_helper'
 
 describe 'responseModel' do
+  subject do
+    get '/swagger_doc/something'
+    JSON.parse(last_response.body)
+  end
+
   include_context 'this api'
 
   def app
     ThisApi::ResponseModelApi
-  end
-
-  subject do
-    get '/swagger_doc/something'
-    JSON.parse(last_response.body)
   end
 
   it 'documents index action' do
@@ -26,7 +26,7 @@ describe 'responseModel' do
     )
   end
 
-  it 'should document specified models as show action' do
+  it 'documents specified models as show action' do
     expect(subject['paths']['/something/{id}']['get']['responses']).to eq(
       '200' => {
         'description' => 'OK',
@@ -88,6 +88,11 @@ describe 'responseModel' do
 end
 
 describe 'building definitions from given entities' do
+  subject do
+    get '/swagger_doc'
+    JSON.parse(last_response.body)['definitions']
+  end
+
   before :all do
     module TheseApi
       module Entities
@@ -207,11 +212,6 @@ describe 'building definitions from given entities' do
 
   def app
     TheseApi::ResponseEntityApi
-  end
-
-  subject do
-    get '/swagger_doc'
-    JSON.parse(last_response.body)['definitions']
   end
 
   it 'prefers entity over other `using` values' do

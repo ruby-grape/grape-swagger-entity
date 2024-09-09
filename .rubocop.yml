@@ -7,6 +7,10 @@ AllCops:
 
 inherit_from: .rubocop_todo.yml
 
+require:
+  - rubocop-rake
+  - rubocop-rspec
+
 Naming/FileName:
   Enabled: false
 

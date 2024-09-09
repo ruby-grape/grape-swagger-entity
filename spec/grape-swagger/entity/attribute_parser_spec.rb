@@ -7,9 +7,9 @@ describe GrapeSwagger::Entity::AttributeParser do
   include_context 'this api'
 
   describe '#call' do
-    let(:endpoint) {}
-
     subject { described_class.new(endpoint).call(entity_options) }
+
+    let(:endpoint) {}
 
     context 'when the entity is a model' do
       context 'when it is exposed as an array' do
@@ -62,7 +62,7 @@ describe GrapeSwagger::Entity::AttributeParser do
             documentation: { type: 'ThisApi::Kind', desc: 'The kind of this something.' } }
         end
 
-        it { is_expected.to_not include('type') }
+        it { is_expected.not_to include('type') }
         it { is_expected.to include('$ref' => '#/definitions/Kind') }
       end
     end
@@ -88,15 +88,15 @@ describe GrapeSwagger::Entity::AttributeParser do
         context 'when it contains values array' do
           let(:entity_options) { { documentation: { type: 'string', desc: 'Colors', values: %w[red blue] } } }
 
-          it { is_expected.to_not include('minimum') }
-          it { is_expected.to_not include('maximum') }
+          it { is_expected.not_to include('minimum') }
+          it { is_expected.not_to include('maximum') }
         end
 
         context 'when it contains values range' do
           let(:entity_options) { { documentation: { type: 'string', desc: 'Colors', values: 'a'...'c' } } }
 
-          it { is_expected.to_not include('minimum') }
-          it { is_expected.to_not include('maximum') }
+          it { is_expected.not_to include('minimum') }
+          it { is_expected.not_to include('maximum') }
         end
 
         context 'when it contains extensions' do
@@ -126,8 +126,8 @@ describe GrapeSwagger::Entity::AttributeParser do
         context 'when it contains values array' do
           let(:entity_options) { { documentation: { type: 'number', desc: 'Solution pH', values: [6.0, 7.0, 8.0] } } }
 
-          it { is_expected.to_not include('minimum') }
-          it { is_expected.to_not include('maximum') }
+          it { is_expected.not_to include('minimum') }
+          it { is_expected.not_to include('maximum') }
         end
 
         context 'when it contains values range' do
@@ -139,14 +139,14 @@ describe GrapeSwagger::Entity::AttributeParser do
         context 'when it contains values range with no minimum' do
           let(:entity_options) { { documentation: { type: 'number', desc: 'Solution pH', values: ..14.0 } } }
 
-          it { is_expected.to_not include('minimum') }
+          it { is_expected.not_to include('minimum') }
           it { is_expected.to include(maximum: 14.0) }
         end
 
         context 'when it contains values range with no maximum' do
           let(:entity_options) { { documentation: { type: 'number', desc: 'Solution pH', values: 0.0.. } } }
 
-          it { is_expected.to_not include('maximum') }
+          it { is_expected.not_to include('maximum') }
           it { is_expected.to include(minimum: 0.0) }
         end
 
@@ -177,8 +177,8 @@ describe GrapeSwagger::Entity::AttributeParser do
         context 'when it contains values array' do
           let(:entity_options) { { documentation: { type: 'integer', desc: 'Count', values: 1..10 } } }
 
-          it { is_expected.to_not include('minimum') }
-          it { is_expected.to_not include('maximum') }
+          it { is_expected.not_to include('minimum') }
+          it { is_expected.not_to include('maximum') }
         end
 
         context 'when it contains values range' do
@@ -241,7 +241,7 @@ describe GrapeSwagger::Entity::AttributeParser do
         let(:entity_options) { { documentation: { type: 'string', desc: 'Content of something.' } } }
 
         it { is_expected.to include(type: 'string') }
-        it { is_expected.to_not include('$ref') }
+        it { is_expected.not_to include('$ref') }
       end
 
       context 'when it is exposed as a boolean' do
