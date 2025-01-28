@@ -60,7 +60,7 @@ module GrapeSwagger
       end
 
       def primitive_type?(type)
-        type_name = type&.name&.downcase
+        type_name = type.name&.downcase
         return false if type_name.nil?
 
         GrapeSwagger::DocMethods::DataType.primitive?(type_name) ||
