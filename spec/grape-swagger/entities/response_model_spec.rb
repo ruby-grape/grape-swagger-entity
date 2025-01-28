@@ -179,6 +179,16 @@ describe 'building definitions from given entities' do
                                                }, documentation: { desc: 'Polymorphic Number', type: 'Integer' }
         end
 
+        class TagType < CustomType
+          def tags
+            %w[Cyan Magenta Yellow Key]
+          end
+        end
+
+        class MixedType < Grape::Entity
+          expose :tags, documentation: { type: TagType, desc: 'Tags', is_array: true }
+        end
+
         class SomeEntity < Grape::Entity
           expose :text, documentation: { type: 'string', desc: 'Content of something.' }
           expose :kind, using: Kind, documentation: { type: 'TheseApi_Kind', desc: 'The kind of this something.' }
@@ -191,6 +201,7 @@ describe 'building definitions from given entities' do
           expose :nested, using: TheseApi::Entities::Nested, documentation: { desc: 'Nested object.' }
           expose :nested_child, using: TheseApi::Entities::NestedChild, documentation: { desc: 'Nested child object.' }
           expose :polymorphic, using: TheseApi::Entities::Polymorphic, documentation: { desc: 'Polymorphic Model' }
+          expose :mixed, using: TheseApi::Entities::MixedType, documentation: { desc: 'A model with mix of types' }
           expose :merged_attribute, using: ThisApi::Entities::Nested, merge: true
         end
       end
@@ -365,6 +376,17 @@ describe 'building definitions from given entities' do
       }
     )
 
+    expect(subject['TheseApi_Entities_MixedType']).to eql(
+      'properties' => {
+        'tags' => {
+          'description' => 'Tags',
+          'items' => { '$ref' => '#/definitions/TheseApi_Entities_TagType' },
+          'type' => 'array'
+        }
+      },
+      'type' => 'object'
+    )
+
     expect(subject['TheseApi_Entities_SomeEntity']).to eql(
       'type' => 'object',
       'properties' => {
@@ -383,6 +405,10 @@ describe 'building definitions from given entities' do
         'message' => { 'type' => 'string', 'description' => 'Error message' },
         'polymorphic' => { '$ref' => '#/definitions/TheseApi_Entities_Polymorphic',
                            'description' => 'Polymorphic Model' },
+        'mixed' => {
+          '$ref' => '#/definitions/TheseApi_Entities_MixedType',
+          'description' => 'A model with mix of types'
+        },
         'attr' => { 'type' => 'string', 'description' => 'Attribute' }
       },
       'required' => %w[attr],
