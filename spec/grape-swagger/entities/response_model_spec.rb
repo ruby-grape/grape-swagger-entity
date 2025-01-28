@@ -200,8 +200,8 @@ describe 'building definitions from given entities' do
           expose :values, using: TheseApi::Entities::Values, documentation: { desc: 'Tertiary kind.' }
           expose :nested, using: TheseApi::Entities::Nested, documentation: { desc: 'Nested object.' }
           expose :nested_child, using: TheseApi::Entities::NestedChild, documentation: { desc: 'Nested child object.' }
-          expose :polymorphic, using: TheseApi::Entities::Polymorphic, documentation: { desc: 'Polymorphic Model' }
-          expose :mixed, using: TheseApi::Entities::MixedType, documentation: { desc: 'A model with mix of types' }
+          expose :polymorphic, using: TheseApi::Entities::Polymorphic, documentation: { desc: 'A polymorphic model.' }
+          expose :mixed, using: TheseApi::Entities::MixedType, documentation: { desc: 'A model with mix of types.' }
           expose :merged_attribute, using: ThisApi::Entities::Nested, merge: true
         end
       end
@@ -404,10 +404,10 @@ describe 'building definitions from given entities' do
         'code' => { 'type' => 'string', 'description' => 'Error code' },
         'message' => { 'type' => 'string', 'description' => 'Error message' },
         'polymorphic' => { '$ref' => '#/definitions/TheseApi_Entities_Polymorphic',
-                           'description' => 'Polymorphic Model' },
+                           'description' => 'A polymorphic model.' },
         'mixed' => {
           '$ref' => '#/definitions/TheseApi_Entities_MixedType',
-          'description' => 'A model with mix of types'
+          'description' => 'A model with mix of types.'
         },
         'attr' => { 'type' => 'string', 'description' => 'Attribute' }
       },
