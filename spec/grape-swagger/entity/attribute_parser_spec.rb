@@ -35,6 +35,24 @@ describe GrapeSwagger::Entity::AttributeParser do
           it { is_expected.to include(example: %w[green blue].map { { name: _1 } }) }
         end
 
+        context 'when the entity is implicit Entity' do
+          let(:entity_type) do
+            Class.new(ThisApi::Entities::Tag) do
+              def self.name
+                'ThisApi::Tag'
+              end
+
+              def self.to_s
+                name
+              end
+            end
+          end
+          let(:entity_options) { { documentation: { type: entity_type, is_array: true, min_items: 1 } } }
+
+          it { is_expected.to include('type' => 'array') }
+          it { is_expected.to include('items' => { '$ref' => '#/definitions/Tag' }) }
+        end
+
         context 'when it contains min_items' do
           let(:entity_options) { { using: ThisApi::Entities::Tag, documentation: { is_array: true, min_items: 1 } } }
 

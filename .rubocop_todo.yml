@@ -100,7 +100,7 @@ RSpec/DescribeClass:
 # Offense count: 4
 # Configuration parameters: CountAsOne.
 RSpec/ExampleLength:
-  Max: 172
+  Max: 186
 
 # Offense count: 24
 RSpec/LeakyConstantDeclaration:
