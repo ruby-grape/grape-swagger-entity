@@ -36,8 +36,12 @@ jobs:
           - { ruby: '3.0', grape: '~> 2.1.3' }
           - { ruby: '3.0', grape: '~> 2.2.0' }
           - { ruby: '3.0', grape: 'HEAD' }
+          # For ruby 3.0 only test grape-swagger 2.0.3
           - { ruby: '3.0', grape_swagger: 'HEAD' }
           - { ruby: '3.0', grape_swagger: '~> 2.1.2' }
+          # For grape 1.8.0 only test grape-swagger 2.0.3
+          - { grape: '~> 1.8.0', grape_swagger: '~> 2.1.2' }
+          - { grape: '~> 1.8.0', grape_swagger: 'HEAD' }
     runs-on: ubuntu-latest
     env:
       GRAPE_VERSION: ${{ matrix.grape }}
