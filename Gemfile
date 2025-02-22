@@ -5,6 +5,13 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in grape-swagger-entity.gemspec
 gemspec
 
+gem 'grape', case version = ENV.fetch('GRAPE_VERSION', '< 3.0')
+             when 'HEAD'
+               { git: 'https://github.com/ruby-grape/grape' }
+             else
+               version
+             end
+
 group :development, :test do
   gem 'bundler'
   gem 'pry', platforms: [:mri]
