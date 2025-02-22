@@ -35,11 +35,11 @@ end
 
 group :test do
   gem 'grape-entity', case version = ENV.fetch('GRAPE_ENTITY', '1.0.1')
-                     when 'HEAD'
-                       { git: 'https://github.com/ruby-grape/grape-entity.git' }
-                     else
-                       version
-                     end
+                      when 'HEAD'
+                        { git: 'https://github.com/ruby-grape/grape-entity.git' }
+                      else
+                        version
+                      end
   gem 'ruby-grape-danger', '~> 0.2.1', require: false
   gem 'simplecov', require: false
 end
