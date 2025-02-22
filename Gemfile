@@ -11,6 +11,12 @@ gem 'grape', case version = ENV.fetch('GRAPE_VERSION', '< 3.0')
              else
                version
              end
+gem 'grape-swagger', case version = ENV.fetch('GRAPE_SWAGGER', 'HEAD')
+                     when 'HEAD'
+                       { git: 'https://github.com/ruby-grape/grape-swagger.git' }
+                     else
+                       version
+                     end
 
 group :development, :test do
   gem 'bundler'
@@ -26,8 +32,6 @@ group :development, :test do
   gem 'rubocop-rake'
   gem 'rubocop-rspec'
 end
-
-gem 'grape-swagger', git: 'https://github.com/ruby-grape/grape-swagger.git'
 
 group :test do
   gem 'grape-entity', ENV.fetch('GRAPE_ENTITY', '1.0.0')
