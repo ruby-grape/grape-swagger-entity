@@ -52,7 +52,6 @@ jobs:
           - { ruby: 'head', grape: 'HEAD' }
     name: test (ruby=${{ matrix.entry.ruby }}, grape=${{ matrix.entry.grape }})
     runs-on: ubuntu-latest
-    needs: ['lint']
     env:
       GRAPE_VERSION: ${{ matrix.entry.grape }}
 
