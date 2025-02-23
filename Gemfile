@@ -9,15 +9,15 @@ grape_version = ENV.fetch('GRAPE_VERSION', '< 3.0')
 grape_swagger_version = ENV.fetch('GRAPE_SWAGGER', 'HEAD')
 grape_entity_version = ENV.fetch('GRAPE_ENTITY', '1.0.1')
 
-gem 'grape', if grape_vesion.casecmp('HEAD').zero?
+gem 'grape', if grape_version.casecmp('HEAD').zero?
                { git: 'https://github.com/ruby-grape/grape' }
              else
                grape_version
              end
-gem 'grape-swagger', if grape_swagger_vesion.casecmp('HEAD').zero?
+gem 'grape-swagger', if grape_swagger_version.casecmp('HEAD').zero?
                        { git: 'https://github.com/ruby-grape/grape-swagger.git' }
                      else
-                       version
+                       grape_swagger_version
                      end
 
 group :development, :test do
@@ -36,10 +36,10 @@ group :development, :test do
 end
 
 group :test do
-  gem 'grape-entity', if grape_entity_vesion.casecmp('HEAD').zero?
+  gem 'grape-entity', if grape_entity_version.casecmp('HEAD').zero?
                         { git: 'https://github.com/ruby-grape/grape-entity.git' }
                       else
-                        version
+                        grape_entity_version
                       end
   gem 'ruby-grape-danger', '~> 0.2.1', require: false
   gem 'simplecov', require: false
