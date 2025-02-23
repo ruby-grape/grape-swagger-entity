@@ -30,6 +30,10 @@ jobs:
         grape_swagger: [ '~> 2.0.3', '2.1.1', '~> 2.1.2', 'HEAD' ]
         grape_entity: [ '~> 1.0.1', 'HEAD' ]
         ruby: [ '3.1', '3.2', '3.3', '3.4', 'head' ]
+        exclude:
+          - { grape_swagger: '~> 2.0.3', grape: 'HEAD' }
+          - { grape_swagger: '~> 2.0.3', grape: '~> 2.2.0' }
+          - { grape_swagger: '~> 2.0.3', grape: '~> 2.1.3' }
     runs-on: ubuntu-latest
     env:
       GRAPE_VERSION: ${{ matrix.grape }}
