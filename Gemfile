@@ -5,14 +5,16 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in grape-swagger-entity.gemspec
 gemspec
 
-gem 'grape', case version = ENV.fetch('GRAPE_VERSION', '< 3.0')
-             when 'HEAD'
+grape_version = ENV.fetch('GRAPE_VERSION', '< 3.0')
+grape_swagger_version = ENV.fetch('GRAPE_SWAGGER', 'HEAD')
+grape_entity_version = ENV.fetch('GRAPE_ENTITY', '1.0.1')
+
+gem 'grape', if grape_vesion.casecmp('HEAD').zero?
                { git: 'https://github.com/ruby-grape/grape' }
              else
-               version
+               grape_version
              end
-gem 'grape-swagger', case version = ENV.fetch('GRAPE_SWAGGER', 'HEAD')
-                     when 'HEAD'
+gem 'grape-swagger', if grape_swagger_vesion.casecmp('HEAD').zero?
                        { git: 'https://github.com/ruby-grape/grape-swagger.git' }
                      else
                        version
@@ -34,8 +36,7 @@ group :development, :test do
 end
 
 group :test do
-  gem 'grape-entity', case version = ENV.fetch('GRAPE_ENTITY', '1.0.1')
-                      when 'HEAD'
+  gem 'grape-entity', if grape_entity_vesion.casecmp('HEAD').zero?
                         { git: 'https://github.com/ruby-grape/grape-entity.git' }
                       else
                         version
