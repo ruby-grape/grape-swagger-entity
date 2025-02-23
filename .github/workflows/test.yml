@@ -30,13 +30,14 @@ jobs:
         grape_swagger: [ '~> 2.0.3', 'head' ]
         grape_entity: [ '~> 1.0.1', 'head' ]
         ruby: [ '3.1', '3.4', 'head' ]
+        # Exclude combinations that are not supported.
         exclude:
           - { grape_swagger: '~> 2.0.3', grape: 'head' }
     runs-on: ubuntu-latest
     env:
       GRAPE_VERSION: ${{ matrix.grape }}
-      GRAPE_SWAGGER: ${{ matrix.grape_swagger }}
-      GRAPE_ENTITY: ${{ matrix.grape_entity }}
+      GRAPE_SWAGGER_VERSION: ${{ matrix.grape_swagger }}
+      GRAPE_ENTITY_VERSION: ${{ matrix.grape_entity }}
 
     steps:
     - uses: actions/checkout@v4
