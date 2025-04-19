@@ -44,7 +44,7 @@ Metrics/AbcSize:
 # Offense count: 2
 # Configuration parameters: CountComments, CountAsOne.
 Metrics/ClassLength:
-  Max: 112
+  Max: 115
 
 # Offense count: 2
 # Configuration parameters: AllowedMethods, AllowedPatterns.
@@ -100,7 +100,7 @@ RSpec/DescribeClass:
 # Offense count: 4
 # Configuration parameters: CountAsOne.
 RSpec/ExampleLength:
-  Max: 186
+  Max: 187
 
 # Offense count: 24
 RSpec/LeakyConstantDeclaration:

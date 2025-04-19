@@ -4,6 +4,7 @@
 
 * Your contribution here.
 * [#76](https://github.com/ruby-grape/grape-swagger-entity/pull/76): Update ci matrix and gemfile for multi-version grape testing - [@numbata](https://github.com/numbata).
+* [#77](https://github.com/ruby-grape/grape-swagger-entity/pull/77): Allow proc for enum values in documentation - [@krororo](https://github.com/krororo).
 
 #### Fixes
 
