@@ -95,9 +95,9 @@ module GrapeSwagger
 
         type[:format] = documentation[:format] if documentation.key?(:format)
 
-        if (values = documentation[:values]) && values.is_a?(Array)
-          type[:enum] = values
-        end
+        values = documentation[:values]
+        values = values.call if values.is_a?(Proc)
+        type[:enum] = values if values.is_a?(Array)
 
         type
       end

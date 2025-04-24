@@ -100,6 +100,7 @@ describe 'building definitions from given entities' do
           expose :guid, documentation: { desc: 'Some values', values: %w[a b c], default: 'c' }
           expose :uuid, documentation: { desc: 'customer uuid', type: String, format: 'own',
                                          example: 'e3008fba-d53d-4bcc-a6ae-adc56dff8020' }
+          expose :color, documentation: { desc: 'Color', type: String, values: -> { %w[red blue] } }
         end
 
         class Kind < Grape::Entity
@@ -231,7 +232,8 @@ describe 'building definitions from given entities' do
       'properties' => {
         'guid' => { 'type' => 'string', 'enum' => %w[a b c], 'default' => 'c', 'description' => 'Some values' },
         'uuid' => { 'type' => 'string', 'format' => 'own', 'description' => 'customer uuid',
-                    'example' => 'e3008fba-d53d-4bcc-a6ae-adc56dff8020' }
+                    'example' => 'e3008fba-d53d-4bcc-a6ae-adc56dff8020' },
+        'color' => { 'type' => 'string', 'enum' => %w[red blue], 'description' => 'Color' }
       }
     )
     expect(subject['TheseApi_Entities_Kind']).to eql(
