@@ -1,7 +1,7 @@
 # GrapeSwagger::Entity
 
 [![Gem Version](https://badge.fury.io/rb/grape-swagger-entity.svg)](https://badge.fury.io/rb/grape-swagger-entity)
-[![Build Status](https://github.com/ruby-grape/grape-swagger-entity/workflows/test/badge.svg?branch=master)](https://github.com/ruby-grape/grape-swagger-entity/actions)
+[![Build Status](https://github.com/ruby-grape/grape-swagger-entity/actions/workflows/test.yml/badge.svg)](https://github.com/ruby-grape/grape-swagger-entity/actions/workflows/test.yml)
 
 ## Table of Contents
 
