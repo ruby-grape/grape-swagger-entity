@@ -60,11 +60,9 @@ module GrapeSwagger
       end
 
       def primitive_type?(type)
-        type_name = type.name&.downcase
-        return false if type_name.nil?
-
-        GrapeSwagger::DocMethods::DataType.primitive?(type_name) ||
-          ADDITIONAL_PRIMITIVE_TYPES.include?(type_name)
+        data_type = GrapeSwagger::DocMethods::DataType.call(type)
+        GrapeSwagger::DocMethods::DataType.primitive?(data_type) ||
+          ADDITIONAL_PRIMITIVE_TYPES.include?(data_type)
       end
 
       def data_type_from(entity_options)

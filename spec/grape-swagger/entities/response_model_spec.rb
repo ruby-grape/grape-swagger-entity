@@ -54,6 +54,7 @@ describe 'responseModel' do
       'properties' =>
           { 'text' => { 'type' => 'string', 'description' => 'Content of something.' },
             'colors' => { 'type' => 'array', 'items' => { 'type' => 'string' }, 'description' => 'Colors' },
+            'created_at' => { 'type' => 'string', 'format' => 'date-time', 'description' => 'Created at the time.' },
             'kind' => { '$ref' => '#/definitions/ThisApi_Entities_Kind',
                         'description' => 'The kind of this something.' },
             'kind2' => { '$ref' => '#/definitions/ThisApi_Entities_Kind', 'description' => 'Secondary kind.' },

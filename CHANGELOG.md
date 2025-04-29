@@ -7,6 +7,7 @@
 #### Fixes
 
 * Your contribution here.
+* [#79](https://github.com/ruby-grape/grape-swagger-entity/pull/79): Fix correctly handle class types like time in documentation - [@krororo](https://github.com/krororo).
 
 ### 0.6.0 (2025/04/26)
 
