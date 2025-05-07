@@ -6,7 +6,7 @@ module GrapeSwagger
       attr_reader :endpoint
 
       # The list of that doesn't handled by `GrapeSwagger::DocMethods::DataType.primitive?` method
-      ADDITIONAL_PRIMITIVE_TYPES = %w[string array].freeze
+      ADDITIONAL_PRIMITIVE_TYPES = %w[boolean string array].freeze
 
       def initialize(endpoint)
         @endpoint = endpoint
