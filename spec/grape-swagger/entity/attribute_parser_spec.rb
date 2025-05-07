@@ -263,7 +263,9 @@ describe GrapeSwagger::Entity::AttributeParser do
       end
 
       context 'when it is exposed as a Boolean class' do
-        let(:entity_options) { { documentation: { type: Grape::API::Boolean, example: example_value, default: example_value } } }
+        let(:entity_options) do
+          { documentation: { type: Grape::API::Boolean, example: example_value, default: example_value } }
+        end
 
         context 'when the example value is true' do
           let(:example_value) { true }
