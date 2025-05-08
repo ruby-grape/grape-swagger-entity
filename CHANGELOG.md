@@ -7,7 +7,7 @@
 #### Fixes
 
 * Your contribution here.
-* [#82](https://github.com/ruby-grape/grape-swagger-entity/pull/82): Fix: recognize grape::api::boolean as a primitive type - [@numbata](https://github.com/numbata).
+* [#82](https://github.com/ruby-grape/grape-swagger-entity/pull/82): Fix: simplify primitive types recognition - [@numbata](https://github.com/numbata).
 
 ### 0.6.1 (2025/05/06)
 
