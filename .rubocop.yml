@@ -3,11 +3,11 @@ AllCops:
   Exclude:
     - vendor/**/*
   TargetRubyVersion:
-    2.7
+    3.0
 
 inherit_from: .rubocop_todo.yml
 
-require:
+plugins:
   - rubocop-rake
   - rubocop-rspec
 
