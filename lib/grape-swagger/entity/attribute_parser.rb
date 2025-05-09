@@ -5,9 +5,6 @@ module GrapeSwagger
     class AttributeParser
       attr_reader :endpoint
 
-      # The list of that doesn't handled by `GrapeSwagger::DocMethods::DataType.primitive?` method
-      ADDITIONAL_PRIMITIVE_TYPES = %w[string array].freeze
-
       def initialize(endpoint)
         @endpoint = endpoint
       end
@@ -61,8 +58,7 @@ module GrapeSwagger
 
       def primitive_type?(type)
         data_type = GrapeSwagger::DocMethods::DataType.call(type)
-        GrapeSwagger::DocMethods::DataType.primitive?(data_type) ||
-          ADDITIONAL_PRIMITIVE_TYPES.include?(data_type)
+        GrapeSwagger::DocMethods::DataType.request_primitive?(data_type)
       end
 
       def data_type_from(entity_options)

@@ -262,6 +262,24 @@ describe GrapeSwagger::Entity::AttributeParser do
         it { is_expected.not_to include('$ref') }
       end
 
+      context 'when it is exposed as a Boolean class' do
+        let(:entity_options) do
+          { documentation: { type: Grape::API::Boolean, example: example_value, default: example_value } }
+        end
+
+        context 'when the example value is true' do
+          let(:example_value) { true }
+
+          it { is_expected.to include(type: 'boolean', example: example_value, default: example_value) }
+        end
+
+        context 'when the example value is false' do
+          let(:example_value) { false }
+
+          it { is_expected.to include(type: 'boolean', example: example_value, default: example_value) }
+        end
+      end
+
       context 'when it is exposed as a boolean' do
         let(:entity_options) { { documentation: { type: 'boolean', example: example_value, default: example_value } } }
 
@@ -275,6 +293,22 @@ describe GrapeSwagger::Entity::AttributeParser do
           let(:example_value) { false }
 
           it { is_expected.to include(type: 'boolean', example: example_value, default: example_value) }
+        end
+      end
+
+      context 'when it is exposed as a hash' do
+        let(:entity_options) { { documentation: { type: Hash, example: example_value, default: example_value } } }
+
+        context 'when the example value is true' do
+          let(:example_value) { true }
+
+          it { is_expected.to include(type: 'object', example: example_value, default: example_value) }
+        end
+
+        context 'when the example value is false' do
+          let(:example_value) { false }
+
+          it { is_expected.to include(type: 'object', example: example_value, default: example_value) }
         end
       end
     end
