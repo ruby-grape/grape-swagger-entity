@@ -135,9 +135,15 @@ module GrapeSwagger
       end
 
       def required_params(params)
-        params.select { |_, options| options.fetch(:documentation, {}).fetch(:required, false) }
-              .map { |(key, options)| [options.fetch(:as, key), options] }
-              .map(&:first)
+        params.each_with_object(Set.new) do |(key, options), accum|
+          required = if options.fetch(:documentation, {}).key?(:required)
+                       options.dig(:documentation, :required)
+                     else
+                       !options.key?(:if) && !options.key?(:unless) && options[:expose_nil] != false
+                     end
+
+          accum.add(options.fetch(:as, key)) if required
+        end.to_a
       end
 
       def with_required(hash, required)

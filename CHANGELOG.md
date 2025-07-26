@@ -2,6 +2,7 @@
 
 #### Features
 
+* [#81](https://github.com/ruby-grape/grape-swagger-entity/pull/81): Make entity fields required by default - [@olivier-thatch](https://github.com/olivier-thatch).
 * Your contribution here.
 
 #### Fixes

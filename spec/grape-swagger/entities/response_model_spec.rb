@@ -44,7 +44,8 @@ describe 'responseModel' do
       'properties' => {
         'code' => { 'type' => 'string', 'description' => 'Error code' },
         'message' => { 'type' => 'string', 'description' => 'Error message' }
-      }
+      },
+      'required' => %w[code message]
     )
 
     expect(subject['definitions'].keys).to include 'ThisApi_Entities_Something'
@@ -66,24 +67,32 @@ describe 'responseModel' do
             'code' => { 'type' => 'string', 'description' => 'Error code' },
             'message' => { 'type' => 'string', 'description' => 'Error message' },
             'attr' => { 'type' => 'string', 'description' => 'Attribute' } },
-      'required' => ['attr']
+      'required' => %w[text colors hidden_attr created_at kind kind2 kind3 tags relation
+                       attr code message]
     )
 
     expect(subject['definitions'].keys).to include 'ThisApi_Entities_Kind'
     expect(subject['definitions']['ThisApi_Entities_Kind']).to eq(
-      'type' => 'object', 'properties' => { 'title' => { 'type' => 'string', 'description' => 'Title of the kind.' },
-                                            'content' => { 'description' => 'Content', 'type' => 'string',
-                                                           'x-some' => 'stuff' } }
+      'type' => 'object',
+      'properties' => {
+        'title' => { 'type' => 'string', 'description' => 'Title of the kind.' },
+        'content' => { 'type' => 'string', 'description' => 'Content', 'x-some' => 'stuff' }
+      },
+      'required' => %w[title content]
     )
 
     expect(subject['definitions'].keys).to include 'ThisApi_Entities_Relation'
     expect(subject['definitions']['ThisApi_Entities_Relation']).to eq(
-      'type' => 'object', 'properties' => { 'name' => { 'type' => 'string', 'description' => 'Name' } }
+      'type' => 'object',
+      'properties' => { 'name' => { 'type' => 'string', 'description' => 'Name' } },
+      'required' => %w[name]
     )
 
     expect(subject['definitions'].keys).to include 'ThisApi_Entities_Tag'
     expect(subject['definitions']['ThisApi_Entities_Tag']).to eq(
-      'type' => 'object', 'properties' => { 'name' => { 'type' => 'string', 'description' => 'Name' } }
+      'type' => 'object',
+      'properties' => { 'name' => { 'type' => 'string', 'description' => 'Name' } },
+      'required' => %w[name]
     )
   end
 end
@@ -134,8 +143,11 @@ describe 'building definitions from given entities' do
           end
           expose :nested_required do
             expose :some1, documentation: { required: true, desc: 'Required some 1' }
-            expose :attr, as: :some2, documentation: { required: true, desc: 'Required some 2' }
-            expose :some3, documentation: { desc: 'Optional some 3' }
+            expose :attr, as: :some2, documentation: { desc: 'Required some 2' }
+            expose :some3, documentation: { required: false, desc: 'Optional some 3' }
+            expose :some4, if: -> { true }, documentation: { desc: 'Optional some 4' }
+            expose :some5, unless: -> { true }, documentation: { desc: 'Optional some 5' }
+            expose :some6, expose_nil: false, documentation: { desc: 'Optional some 6' }
           end
 
           expose :nested_array, documentation: { type: 'Array', desc: 'Nested array' } do
@@ -235,7 +247,8 @@ describe 'building definitions from given entities' do
         'uuid' => { 'type' => 'string', 'format' => 'own', 'description' => 'customer uuid',
                     'example' => 'e3008fba-d53d-4bcc-a6ae-adc56dff8020' },
         'color' => { 'type' => 'string', 'enum' => %w[red blue], 'description' => 'Color' }
-      }
+      },
+      'required' => %w[guid uuid color]
     )
     expect(subject['TheseApi_Entities_Kind']).to eql(
       'type' => 'object',
@@ -244,16 +257,21 @@ describe 'building definitions from given entities' do
                   'readOnly' => true },
         'title' => { 'type' => 'string', 'description' => 'Title of the kind.', 'readOnly' => false },
         'type' => { 'type' => 'string', 'description' => 'Type of the kind.', 'readOnly' => true }
-      }
+      },
+      'required' => %w[id title type]
     )
     expect(subject['TheseApi_Entities_Tag']).to eql(
-      'type' => 'object', 'properties' => { 'name' => { 'type' => 'string', 'description' => 'Name',
-                                                        'example' => 'random_tag' } }
+      'type' => 'object',
+      'properties' => { 'name' => { 'type' => 'string', 'description' => 'Name', 'example' => 'random_tag' } },
+      'required' => %w[name]
     )
     expect(subject['TheseApi_Entities_Relation']).to eql(
-      'type' => 'object', 'properties' => { 'name' => { 'type' => 'string', 'description' => 'Name' } }
+      'type' => 'object',
+      'properties' => { 'name' => { 'type' => 'string', 'description' => 'Name' } },
+      'required' => %w[name]
     )
     expect(subject['TheseApi_Entities_Nested']).to eq(
+      'type' => 'object',
       'properties' => {
         'nested' => {
           'type' => 'object',
@@ -261,13 +279,15 @@ describe 'building definitions from given entities' do
             'some1' => { 'type' => 'string', 'description' => 'Nested some 1' },
             'some2' => { 'type' => 'string', 'description' => 'Nested some 2' }
           },
-          'description' => 'Nested entity'
+          'description' => 'Nested entity',
+          'required' => %w[some1 some2]
         },
         'aliased' => {
           'type' => 'object',
           'properties' => {
             'some1' => { 'type' => 'string', 'description' => 'Alias some 1' }
-          }
+          },
+          'required' => %w[some1]
         },
         'deep_nested' => {
           'type' => 'object',
@@ -277,17 +297,22 @@ describe 'building definitions from given entities' do
               'properties' => {
                 'level_2' => { 'type' => 'string', 'description' => 'Level 2' }
               },
-              'description' => 'More deepest nested entity'
+              'description' => 'More deepest nested entity',
+              'required' => %w[level_2]
             }
           },
-          'description' => 'Deep nested entity'
+          'description' => 'Deep nested entity',
+          'required' => %w[level_1]
         },
         'nested_required' => {
           'type' => 'object',
           'properties' => {
             'some1' => { 'type' => 'string', 'description' => 'Required some 1' },
             'some2' => { 'type' => 'string', 'description' => 'Required some 2' },
-            'some3' => { 'type' => 'string', 'description' => 'Optional some 3' }
+            'some3' => { 'type' => 'string', 'description' => 'Optional some 3' },
+            'some4' => { 'type' => 'string', 'description' => 'Optional some 4' },
+            'some5' => { 'type' => 'string', 'description' => 'Optional some 5' },
+            'some6' => { 'type' => 'string', 'description' => 'Optional some 6' }
           },
           'required' => %w[some1 some2]
         },
@@ -298,14 +323,16 @@ describe 'building definitions from given entities' do
             'properties' => {
               'id' => { 'type' => 'integer', 'format' => 'int32', 'description' => 'Collection element id' },
               'name' => { 'type' => 'string', 'description' => 'Collection element name' }
-            }
+            },
+            'required' => %w[id name]
           },
           'description' => 'Nested array'
         }
       },
-      'type' => 'object'
+      'required' => %w[nested aliased deep_nested nested_required nested_array]
     )
     expect(subject['TheseApi_Entities_NestedChild']).to eq(
+      'type' => 'object',
       'properties' => {
         'nested' => {
           'type' => 'object',
@@ -314,14 +341,16 @@ describe 'building definitions from given entities' do
             'some2' => { 'type' => 'string', 'description' => 'Nested some 2' },
             'some3' => { 'type' => 'string', 'description' => 'Nested some 3' }
           },
-          'description' => 'Nested entity'
+          'description' => 'Nested entity',
+          'required' => %w[some1 some2 some3]
         },
         'aliased' => {
           'type' => 'object',
           'properties' => {
             'some1' => { 'type' => 'string', 'description' => 'Alias some 1' },
             'some2' => { 'type' => 'string', 'description' => 'Alias some 2' }
-          }
+          },
+          'required' => %w[some1 some2]
         },
         'deep_nested' => {
           'type' => 'object',
@@ -337,20 +366,26 @@ describe 'building definitions from given entities' do
                       'description' => 'Level 3'
                     }
                   },
-                  'description' => 'Level 2'
+                  'description' => 'Level 2',
+                  'required' => %w[level_3]
                 }
               },
-              'description' => 'More deepest nested entity'
+              'description' => 'More deepest nested entity',
+              'required' => %w[level_2]
             }
           },
-          'description' => 'Deep nested entity'
+          'description' => 'Deep nested entity',
+          'required' => %w[level_1]
         },
         'nested_required' => {
           'type' => 'object',
           'properties' => {
             'some1' => { 'type' => 'string', 'description' => 'Required some 1' },
             'some2' => { 'type' => 'string', 'description' => 'Required some 2' },
-            'some3' => { 'type' => 'string', 'description' => 'Optional some 3' }
+            'some3' => { 'type' => 'string', 'description' => 'Optional some 3' },
+            'some4' => { 'type' => 'string', 'description' => 'Optional some 4' },
+            'some5' => { 'type' => 'string', 'description' => 'Optional some 5' },
+            'some6' => { 'type' => 'string', 'description' => 'Optional some 6' }
           },
           'required' => %w[some1 some2]
         },
@@ -362,12 +397,13 @@ describe 'building definitions from given entities' do
               'id' => { 'type' => 'integer', 'format' => 'int32', 'description' => 'Collection element id' },
               'name' => { 'type' => 'string', 'description' => 'Collection element name' },
               'category' => { 'type' => 'string', 'description' => 'Collection element category' }
-            }
+            },
+            'required' => %w[id name category]
           },
           'description' => 'Nested array'
         }
       },
-      'type' => 'object'
+      'required' => %w[nested aliased deep_nested nested_required nested_array]
     )
     expect(subject['TheseApi_Entities_Polymorphic']).to eql(
       'type' => 'object',
@@ -380,6 +416,7 @@ describe 'building definitions from given entities' do
     )
 
     expect(subject['TheseApi_Entities_MixedType']).to eql(
+      'type' => 'object',
       'properties' => {
         'tags' => {
           'description' => 'Tags',
@@ -387,7 +424,7 @@ describe 'building definitions from given entities' do
           'type' => 'array'
         }
       },
-      'type' => 'object'
+      'required' => %w[tags]
     )
 
     expect(subject['TheseApi_Entities_SomeEntity']).to eql(
@@ -414,7 +451,8 @@ describe 'building definitions from given entities' do
         },
         'attr' => { 'type' => 'string', 'description' => 'Attribute' }
       },
-      'required' => %w[attr],
+      'required' => %w[text kind kind2 kind3 tags relation values nested nested_child
+                       polymorphic mixed attr code message],
       'description' => 'TheseApi_Entities_SomeEntity model'
     )
   end
