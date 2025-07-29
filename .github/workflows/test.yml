@@ -30,9 +30,69 @@ jobs:
         grape_swagger: [ '~> 2.0.3', 'head' ]
         grape_entity: [ '~> 1.0.1', 'head' ]
         ruby: [ '3.0', '3.4', 'head' ]
-        # Exclude combinations that are not supported.
-        exclude:
-          - { grape_swagger: '~> 2.0.3', grape: 'head' }
+        include:
+          # Ruby 3.1 combinations
+          - ruby: '3.0'
+            grape: '~> 2.0.0'
+            grape_swagger: '~> 2.0.3'
+            grape_entity: '~> 1.0.1'
+          - ruby: '3.0'
+            grape: '~> 2.0.0'
+            grape_swagger: '~> 2.1.1'
+            grape_entity: 'head'
+
+          # Ruby 3.4 combinations
+          - ruby: '3.4'
+            grape: '~> 2.0.0'
+            grape_swagger: '~> 2.0.3'
+            grape_entity: '~> 1.0.1'
+          - ruby: '3.4'
+            grape: '~> 2.0.0'
+            grape_swagger: '~> 2.0.3'
+            grape_entity: 'head'
+          - ruby: '3.4'
+            grape: '~> 2.0.0'
+            grape_swagger: 'head'
+            grape_entity: '~> 1.0.1'
+          - ruby: '3.4'
+            grape: '~> 2.0.0'
+            grape_swagger: 'head'
+            grape_entity: 'head'
+          - ruby: '3.4'
+            grape: 'head'
+            grape_swagger: 'head'
+            grape_entity: '~> 1.0.1'
+          - ruby: '3.4'
+            grape: 'head'
+            grape_swagger: 'head'
+            grape_entity: 'head'
+
+          # Ruby head combinations
+          - ruby: 'head'
+            grape: '~> 2.0.0'
+            grape_swagger: '~> 2.0.3'
+            grape_entity: '~> 1.0.1'
+          - ruby: 'head'
+            grape: '~> 2.0.0'
+            grape_swagger: '~> 2.0.3'
+            grape_entity: 'head'
+          - ruby: 'head'
+            grape: '~> 2.0.0'
+            grape_swagger: 'head'
+            grape_entity: '~> 1.0.1'
+          - ruby: 'head'
+            grape: '~> 2.0.0'
+            grape_swagger: 'head'
+            grape_entity: 'head'
+          - ruby: 'head'
+            grape: 'head'
+            grape_swagger: 'head'
+            grape_entity: '~> 1.0.1'
+          - ruby: 'head'
+            grape: 'head'
+            grape_swagger: 'head'
+            grape_entity: 'head'
+
     runs-on: ubuntu-latest
     env:
       GRAPE_VERSION: ${{ matrix.grape }}
