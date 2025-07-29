@@ -1,14 +1,9 @@
-### 0.6.3 (Next)
+### 0.7.0 (2025/07/30)
 
 #### Features
 
 * [#81](https://github.com/ruby-grape/grape-swagger-entity/pull/81): Make entity fields required by default - [@olivier-thatch](https://github.com/olivier-thatch).
 * [#85](https://github.com/ruby-grape/grape-swagger-entity/pull/85): Use rubocop plugins, use ruby 3.0 as minimum version everywhere - [@olivier-thatch](https://github.com/olivier-thatch).
-* Your contribution here.
-
-#### Fixes
-
-* Your contribution here.
 
 ### 0.6.2 (2025/05/10)
 
