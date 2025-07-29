@@ -26,10 +26,6 @@ jobs:
     name: test (ruby=${{ matrix.ruby }}, grape=${{ matrix.grape }}, grape-swagger=${{ matrix.grape_swagger}}, grape_entity=${{ matrix.grape_entity }})
     strategy:
       matrix:
-        grape: [ '~> 2.0.0', 'head' ]
-        grape_swagger: [ '~> 2.0.3', 'head' ]
-        grape_entity: [ '~> 1.0.1', 'head' ]
-        ruby: [ '3.0', '3.4', 'head' ]
         include:
           # Ruby 3.1 combinations
           - ruby: '3.0'
