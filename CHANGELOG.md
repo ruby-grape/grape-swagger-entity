@@ -1,3 +1,13 @@
+### 0.7.1 (Next)
+
+#### Features
+
+* Your contribution here.
+
+#### Fixes
+
+* Your contribution here.
+
 ### 0.7.0 (2025/08/02)
 
 #### Features
