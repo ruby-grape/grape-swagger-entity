@@ -103,6 +103,8 @@ describe 'building definitions from given entities' do
     JSON.parse(last_response.body)['definitions']
   end
 
+  include_context 'this api'
+
   before :all do
     module TheseApi
       module Entities

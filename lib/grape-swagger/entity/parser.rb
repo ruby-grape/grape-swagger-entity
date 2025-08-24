@@ -43,37 +43,57 @@ module GrapeSwagger
       def parse_grape_entity_params(params, parent_model = nil)
         return unless params
 
-        parsed = params.each_with_object({}) do |(entity_name, entity_options), memo|
-          documentation_options = entity_options.fetch(:documentation, {})
-          in_option = documentation_options.fetch(:in, nil).to_s
-          hidden_option = documentation_options.fetch(:hidden, nil)
-          next if in_option == 'header' || hidden_option == true
+        required = required_params(params)
+        parsed_params = parse_params(params, parent_model)
 
-          entity_name = entity_name.original if entity_name.is_a?(Alias)
-          final_entity_name = entity_options.fetch(:as, entity_name)
-          documentation = entity_options[:documentation]
+        handle_discriminator(parsed_params, required)
+      end
 
-          memo[final_entity_name] = if entity_options[:nesting]
-                                      parse_nested(entity_name, entity_options, parent_model)
-                                    else
-                                      attribute_parser.call(entity_options)
-                                    end
+      def parse_params(params, parent_model)
+        params.each_with_object({}) do |(entity_name, entity_options), memo|
+          next if skip_param?(entity_options)
 
-          next unless documentation
+          original_entity_name = entity_name.is_a?(Alias) ? entity_name.original : entity_name
+          final_entity_name = entity_options.fetch(:as, original_entity_name)
 
-          memo[final_entity_name][:readOnly] = documentation[:read_only].to_s == 'true' if documentation[:read_only]
-          memo[final_entity_name][:description] = documentation[:desc] if documentation[:desc]
-        end
-
-        discriminator = GrapeSwagger::Entity::Helper.discriminator(model)
-        if discriminator
-          respond_with_all_of(parsed, params, discriminator)
-        else
-          [parsed, required_params(params)]
+          memo[final_entity_name] = parse_entity_options(entity_options, original_entity_name, parent_model)
+          add_documentation_to_memo(memo[final_entity_name], entity_options[:documentation])
         end
       end
 
-      def respond_with_all_of(parsed, params, discriminator)
+      def skip_param?(entity_options)
+        documentation_options = entity_options.fetch(:documentation, {})
+        in_option = documentation_options.fetch(:in, nil).to_s
+        hidden_option = documentation_options.fetch(:hidden, nil)
+
+        in_option == 'header' || hidden_option == true
+      end
+
+      def parse_entity_options(entity_options, entity_name, parent_model)
+        if entity_options[:nesting]
+          parse_nested(entity_name, entity_options, parent_model)
+        else
+          attribute_parser.call(entity_options)
+        end
+      end
+
+      def add_documentation_to_memo(memo_entry, documentation)
+        return unless documentation
+
+        memo_entry[:readOnly] = documentation[:read_only].to_s == 'true' if documentation[:read_only]
+        memo_entry[:description] = documentation[:desc] if documentation[:desc]
+      end
+
+      def handle_discriminator(parsed, required)
+        discriminator = GrapeSwagger::Entity::Helper.discriminator(model)
+        if discriminator
+          respond_with_all_of(parsed, required, discriminator)
+        else
+          [parsed, required]
+        end
+      end
+
+      def respond_with_all_of(parsed, required, discriminator)
         parent_name = GrapeSwagger::Entity::Helper.model_name(model.superclass, endpoint)
 
         {
@@ -83,7 +103,7 @@ module GrapeSwagger
             },
             [
               add_discriminator(parsed, discriminator),
-              required_params(params).push(discriminator.attribute)
+              required.push(discriminator.attribute)
             ]
           ]
         }
