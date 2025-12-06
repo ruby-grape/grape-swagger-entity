@@ -7,6 +7,7 @@
 #### Fixes
 
 * Your contribution here.
+* [#87](https://github.com/ruby-grape/grape-swagger-entity/pull/87): remove hidden attributes from required [@bogdan](https://github.com/bogdan)
 
 ### 0.7.0 (2025/08/02)
 

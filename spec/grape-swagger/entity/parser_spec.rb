@@ -21,6 +21,10 @@ describe GrapeSwagger::Entity::Parser do
           expect(properties[:kind3]['$ref']).to eq('#/definitions/Kind')
         end
 
+        it 'does not mark hidden attributes as required' do
+          expect(required).not_to include(:hidden_attr)
+        end
+
         it 'merges attributes that have merge: true defined' do
           expect(properties[:merged_attribute]).to be_nil
           expect(properties[:code][:type]).to eq('string')

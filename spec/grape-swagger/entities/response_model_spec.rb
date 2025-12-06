@@ -67,8 +67,7 @@ describe 'responseModel' do
             'code' => { 'type' => 'string', 'description' => 'Error code' },
             'message' => { 'type' => 'string', 'description' => 'Error message' },
             'attr' => { 'type' => 'string', 'description' => 'Attribute' } },
-      'required' => %w[text colors hidden_attr created_at kind kind2 kind3 tags relation
-                       attr code message]
+      'required' => %w[text colors created_at kind kind2 kind3 tags relation attr code message]
     )
 
     expect(subject['definitions'].keys).to include 'ThisApi_Entities_Kind'
