@@ -8,6 +8,7 @@
 
 * Your contribution here.
 * [#87](https://github.com/ruby-grape/grape-swagger-entity/pull/87): remove hidden attributes from required [@bogdan](https://github.com/bogdan)
+* [#88](https://github.com/ruby-grape/grape-swagger-entity/pull/88): Update danger workflows - [@numbata](https://github.com/numbata).
 
 ### 0.7.0 (2025/08/02)
 

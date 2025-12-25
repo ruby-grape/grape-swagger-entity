@@ -44,6 +44,6 @@ end
 
 group :test do
   gem 'grape-entity', grape_entity_spec
-  gem 'ruby-grape-danger', '~> 0.2.1', require: false
+  gem 'ruby-grape-danger', '~> 0.3.0', require: false
   gem 'simplecov', require: false
 end
