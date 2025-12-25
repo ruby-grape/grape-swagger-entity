@@ -7,6 +7,7 @@
 #### Fixes
 
 * Your contribution here.
+* [#88](https://github.com/ruby-grape/grape-swagger-entity/pull/88): Update danger workflows - [@numbata](https://github.com/numbata).
 
 ### 0.7.0 (2025/08/02)
 
