@@ -111,7 +111,7 @@ module GrapeSwagger
                  .map(&:nested_exposures)
                  .flatten
                  .each_with_object({}) do |value, memo|
-          memo[value.attribute] = value.send(:options)
+                   memo[value.attribute] = value.send(:options)
         end
 
         properties, required = parse_grape_entity_params(params, nested_entities.last)
