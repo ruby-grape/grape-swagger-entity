@@ -43,7 +43,10 @@ group :development do
 end
 
 group :test do
+  gem 'danger', require: false
+  gem 'danger-changelog', require: false
+  gem 'danger-pr-comment', require: false
+  gem 'danger-toc', require: false
   gem 'grape-entity', grape_entity_spec
-  gem 'ruby-grape-danger', '~> 0.3.0', require: false
   gem 'simplecov', require: false
 end
