@@ -3,6 +3,7 @@
 #### Features
 
 * Your contribution here.
+* [#91](https://github.com/ruby-grape/grape-swagger-entity/pull/91): Improve README and add documentation structure - [@numbata](https://github.com/numbata).
 
 #### Fixes
 
