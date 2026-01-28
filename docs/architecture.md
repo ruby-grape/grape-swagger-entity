@@ -62,7 +62,7 @@ Grape::Entity class
 
 ## Integration Point
 
-Registered with grape-swagger in `lib/grape-swagger-entity.rb`:
+Registered with grape-swagger in `lib/grape-swagger/entity.rb`:
 
 ```ruby
 GrapeSwagger.model_parsers.register(GrapeSwagger::Entity::Parser, Grape::Entity)

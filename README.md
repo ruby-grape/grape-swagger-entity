@@ -62,7 +62,7 @@ This gem is tested with the following versions:
 
 | grape-swagger-entity | grape-swagger | grape-entity | grape   |
 |---------------------|---------------|--------------|---------|
-| 0.7.x               | >= 1.2.0      | >= 0.6.0     | >= 1.3  |
+| 0.7.x               | >= 2.0.0      | >= 1.0.0     | >= 1.3  |
 | 0.6.x               | >= 1.2.0      | >= 0.6.0     | >= 1.3  |
 
 ## Installation
@@ -97,7 +97,7 @@ end
 
 ### Custom Model Description
 
-Override the default "{ModelName} model" description by defining a `self.documentation` method (requires grape-swagger >= 2.2.0):
+Override the default "{ModelName} model" description by defining a `self.documentation` method. This feature is handled by [grape-swagger](https://github.com/ruby-grape/grape-swagger) (requires grape-swagger >= 2.2.0):
 
 ```ruby
 class UserEntity < Grape::Entity

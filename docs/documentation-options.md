@@ -27,6 +27,9 @@ The `documentation` hash in entity exposures supports the following options:
 | `maximum` | Maximum value for numeric types | `100` |
 | `min_length` | Minimum length for strings | `1` |
 | `max_length` | Maximum length for strings | `255` |
+| `min_items` | Minimum items for arrays | `1` |
+| `max_items` | Maximum items for arrays | `10` |
+| `unique_items` | Array items must be unique | `true` |
 
 ## Display Options
 
