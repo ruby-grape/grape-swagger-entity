@@ -218,6 +218,29 @@ describe GrapeSwagger::Entity::AttributeParser do
         it { is_expected.to include(type: :array) }
         it { is_expected.to include(items: { type: 'string' }) }
 
+        context 'when using Array[Type] syntax' do
+          # Array[Type] syntax for primitives preserves the type string as-is.
+          # For entity models, use the `using:` option with Array[Object] syntax.
+          let(:entity_options) { { documentation: { type: 'Array[String]', desc: 'Colors' } } }
+
+          it { is_expected.to include(type: :array) }
+          it { is_expected.to include(items: { type: 'Array[String]' }) }
+        end
+
+        context 'when using lowercase array[type] syntax' do
+          let(:entity_options) { { documentation: { type: 'array[integer]', desc: 'Numbers' } } }
+
+          it { is_expected.to include(type: :array) }
+          it { is_expected.to include(items: { type: 'array[integer]' }) }
+        end
+
+        context 'when is_array is explicitly false' do
+          let(:entity_options) { { documentation: { type: 'string', desc: 'Single value', is_array: false } } }
+
+          it { is_expected.to include(type: 'string') }
+          it { is_expected.not_to include(:items) }
+        end
+
         context 'when it contains example' do
           let(:entity_options) do
             { documentation: { type: 'string', desc: 'Colors', is_array: true, example: %w[green blue] } }
@@ -260,6 +283,13 @@ describe GrapeSwagger::Entity::AttributeParser do
 
         it { is_expected.to include(type: 'string') }
         it { is_expected.not_to include('$ref') }
+      end
+
+      context 'when using bare Array type' do
+        let(:entity_options) { { documentation: { type: 'Array', desc: 'Generic array' } } }
+
+        it { is_expected.to include(type: 'array') }
+        it { is_expected.not_to include(:items) }
       end
 
       context 'when it is exposed as a Boolean class' do
