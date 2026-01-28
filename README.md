@@ -10,10 +10,6 @@
 - [Compatibility](#compatibility)
 - [Installation](#installation)
 - [Usage](#usage)
-  - [Basic Entity](#basic-entity)
-  - [Custom Model Description](#custom-model-description)
-  - [Entity References](#entity-references)
-  - [Documentation Options](#documentation-options)
 - [Development](#development)
 - [Contributing](#contributing)
 - [License](#license)
@@ -124,35 +120,17 @@ end
 
 ### Documentation Options
 
-The following options are available in the `documentation` hash:
+Common options: `type`, `desc`, `required`, `is_array`, `values`, `example`.
 
-| Option | Description |
-|--------|-------------|
-| `type` | OpenAPI data type (`String`, `Integer`, `Boolean`, etc.) |
-| `desc` | Property description |
-| `required` | Whether field is required (default: based on expose options) |
-| `is_array` | Marks field as array type |
-| `read_only` | Marks field as read-only |
-| `values` | Enum values for the field |
-| `example` | Example value |
-| `default` | Default value |
-| `minimum` | Minimum value for numeric types |
-| `maximum` | Maximum value for numeric types |
-| `min_length` | Minimum length for string types |
-| `max_length` | Maximum length for string types |
-| `hidden` | Hide field from documentation |
+See [full documentation options](docs/documentation-options.md) for all available options including validation constraints.
 
 ## Development
 
-After checking out the repo, run `bin/setup` to install dependencies. Then, run `rspec` to run the tests. You can also run `bin/pry` for an interactive prompt that will allow you to experiment.
-
-To install this gem onto your local machine, run `bundle exec rake install`.
+See [testing documentation](docs/testing.md) for development setup and running tests.
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/ruby-grape/grape-swagger-entity.
-
-See [CONTRIBUTING](CONTRIBUTING.md) for more information.
+See [contributing guidelines](docs/contributing.md).
 
 ## License
 
