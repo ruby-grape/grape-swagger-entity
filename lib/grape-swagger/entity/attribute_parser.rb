@@ -43,11 +43,18 @@ module GrapeSwagger
         model
       end
 
+      # Checks if documentation indicates an array type that needs items wrapping.
+      # Returns true for:
+      #   - is_array: true (explicit flag)
+      #   - type: 'Array[Something]' (array with element type)
+      # Returns false for:
+      #   - type: 'Array' (bare array - already an array type, no wrapping needed)
       def array_type?(documentation)
+        return false if documentation.nil?
         return documentation[:is_array] if documentation.key?(:is_array)
-        return true if documentation[:type].to_s.downcase == 'array'
 
-        documentation[:type].to_s.match?(/\Aarray\[(?<type>.+)\]\z/i)
+        # Only match Array[ElementType] syntax, not bare 'Array'
+        documentation[:type].to_s.match?(/\Aarray\[.+\]\z/i)
       end
 
       def could_it_be_a_model?(value)
