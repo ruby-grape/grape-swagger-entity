@@ -114,7 +114,9 @@ module GrapeSwagger
       end
 
       def entity_model_type(name, entity_options)
-        if array_type?(entity_options[:documentation])
+        documentation = entity_options[:documentation]
+
+        if array_type?(documentation)
           {
             'type' => 'array',
             'items' => {
