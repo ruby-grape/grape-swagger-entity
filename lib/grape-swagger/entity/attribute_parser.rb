@@ -20,7 +20,7 @@ module GrapeSwagger
         documentation = entity_options[:documentation]
         return param if documentation.nil?
 
-        add_array_documentation(param, documentation) if documentation[:is_array]
+        add_array_documentation(param, documentation) if array_type?(documentation)
 
         add_attribute_sample(param, documentation, :default)
         add_attribute_sample(param, documentation, :example)
@@ -37,9 +37,24 @@ module GrapeSwagger
       def model_from(entity_options)
         model = entity_options[:using] if entity_options[:using].present?
 
-        model ||= entity_options[:documentation][:type] if could_it_be_a_model?(entity_options[:documentation])
+        documentation = entity_options[:documentation]
+        model ||= documentation[:type] if could_it_be_a_model?(documentation)
 
         model
+      end
+
+      # Checks if documentation indicates an array type that needs items wrapping.
+      # Returns true for:
+      #   - is_array: true (explicit flag)
+      #   - type: 'Array[Something]' (array with element type)
+      # Returns false for:
+      #   - type: 'Array' (bare array - already an array type, no wrapping needed)
+      def array_type?(documentation)
+        return false if documentation.nil?
+        return documentation[:is_array] if documentation.key?(:is_array)
+
+        # Only match Array[ElementType] syntax, not bare 'Array'
+        documentation[:type].to_s.match?(/\Aarray\[.+\]\z/i)
       end
 
       def could_it_be_a_model?(value)
@@ -57,6 +72,8 @@ module GrapeSwagger
       end
 
       def primitive_type?(type)
+        return false if type.nil?
+
         data_type = GrapeSwagger::DocMethods::DataType.call(type)
         GrapeSwagger::DocMethods::DataType.request_primitive?(data_type)
       end
@@ -69,7 +86,7 @@ module GrapeSwagger
 
         documented_data_type = document_data_type(documentation, data_type)
 
-        if documentation[:is_array]
+        if array_type?(documentation)
           {
             type: :array,
             items: documented_data_type
@@ -97,7 +114,9 @@ module GrapeSwagger
       end
 
       def entity_model_type(name, entity_options)
-        if entity_options[:documentation] && entity_options[:documentation][:is_array]
+        documentation = entity_options[:documentation]
+
+        if array_type?(documentation)
           {
             'type' => 'array',
             'items' => {
