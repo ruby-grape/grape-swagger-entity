@@ -111,11 +111,10 @@ describe '#962 empty entity with custom documentation type' do
       })
     end
 
-    it 'hides optional properties only' do
+    it 'hides all hidden properties' do
       expect(swagger_doc['definitions']['Foo']).to eql({
         'type' => 'object',
-        'properties' => {},
-        'required' => ['required_prop']
+        'properties' => {}
       })
     end
   end
