@@ -7,6 +7,7 @@
 #### Fixes
 
 * Your contribution here.
+* [#86](https://github.com/ruby-grape/grape-swagger-entity/pull/86): Fix properly parse custom array documentation - [@numbata](https://github.com/numbata).
 * [#87](https://github.com/ruby-grape/grape-swagger-entity/pull/87): Remove hidden attributes from required - [@bogdan](https://github.com/bogdan).
 * [#88](https://github.com/ruby-grape/grape-swagger-entity/pull/88): Update danger workflows - [@numbata](https://github.com/numbata).
 * [#89](https://github.com/ruby-grape/grape-swagger-entity/pull/89): Remove ruby-grape-danger - [@dblock](https://github.com/dblock).
