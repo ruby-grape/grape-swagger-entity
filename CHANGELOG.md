@@ -16,7 +16,7 @@
 
 #### Fixes
 
-* [#90](https://github.com/ruby-grape/grape-swagger-entity/pull/90): Fix description not rendered for non-array entity references - [@numbata](https://github.com/numbata).
+* [#90](https://github.com/ruby-grape/grape-swagger-entity/pull/90): Fix description not rendered for non-array entity references (see [UPGRADING](UPGRADING.md)) - [@numbata](https://github.com/numbata).
 * [#86](https://github.com/ruby-grape/grape-swagger-entity/pull/86): Fix Array[Object] documentation type parsing - [@numbata](https://github.com/numbata).
 * [#87](https://github.com/ruby-grape/grape-swagger-entity/pull/87): Remove hidden attributes from required - [@bogdan](https://github.com/bogdan).
 * [#88](https://github.com/ruby-grape/grape-swagger-entity/pull/88): Update danger workflows - [@numbata](https://github.com/numbata).

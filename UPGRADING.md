@@ -1,5 +1,44 @@
 ## Upgrading grape-swagger-entity
 
+### Upgrading to >= 0.7.1
+
+#### Non-Array Entity References Now Use `allOf` Wrapper
+
+This release fixes an issue where `description` and `readOnly` properties were silently
+ignored for non-array entity references. The fix wraps `$ref` in an `allOf` array,
+which is the correct way to combine `$ref` with sibling properties per OpenAPI/JSON Schema spec.
+
+**Previous Output (invalid OpenAPI - description was ignored):**
+```json
+{
+  "user": {
+    "$ref": "#/definitions/User",
+    "description": "The author"
+  }
+}
+```
+
+**New Output (valid OpenAPI):**
+```json
+{
+  "user": {
+    "allOf": [{ "$ref": "#/definitions/User" }],
+    "description": "The author"
+  }
+}
+```
+
+**Note:** Array entity references are not affected - they already supported sibling
+properties via the `items` wrapper.
+
+**Action Required:**
+If you have code or tests that parse the raw Swagger/OpenAPI output and expect
+`$ref` at the top level for entity references with `description` or `readOnly`,
+update them to handle the `allOf` wrapper.
+
+For more details, refer to GitHub Pull Request
+[#90](https://github.com/ruby-grape/grape-swagger-entity/pull/90).
+
 ### Upgrading to >= 0.7.0
 
 #### Entity Fields Required by Default
