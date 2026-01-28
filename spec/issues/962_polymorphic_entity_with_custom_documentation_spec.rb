@@ -10,7 +10,7 @@ describe '#962 empty entity with custom documentation type' do
       JSON.parse(last_response.body)
     end
 
-    before { skip 'grape-swagger < 2.1.0 does not support empty models' unless supports_empty_models? }
+    before { skip 'grape-swagger < 2.1.3 does not support empty models' unless supports_empty_models? }
 
     let(:app) do
       Class.new(Grape::API) do
@@ -42,7 +42,7 @@ describe '#962 empty entity with custom documentation type' do
       end
     end
 
-    specify do
+    it 'parses Array[object] type as array with $ref items' do
       expect(swagger_doc['definitions']['Report']['properties']['bar']).to eql({
         'type' => 'array',
         'description' => 'The bar in your report',
@@ -56,7 +56,7 @@ describe '#962 empty entity with custom documentation type' do
       })
     end
 
-    specify do
+    it 'generates empty Foo entity definition' do
       expect(swagger_doc['definitions']['Foo']).to eql({
         'type' => 'object',
         'properties' => {}
@@ -70,7 +70,7 @@ describe '#962 empty entity with custom documentation type' do
       JSON.parse(last_response.body)
     end
 
-    before { skip 'grape-swagger < 2.1.0 does not support empty models' unless supports_empty_models? }
+    before { skip 'grape-swagger < 2.1.3 does not support empty models' unless supports_empty_models? }
 
     let(:app) do
       Class.new(Grape::API) do
@@ -104,7 +104,7 @@ describe '#962 empty entity with custom documentation type' do
       end
     end
 
-    specify do
+    it 'parses Array[object] type as array with $ref items' do
       expect(swagger_doc['definitions']['Report']['properties']['bar']).to eql({
         'type' => 'array',
         'description' => 'The bar in your report',
