@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-CustomType = Class.new
+class CustomType
+end
 
 class CustomTypeParser
   attr_reader :model, :endpoint
