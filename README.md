@@ -6,10 +6,16 @@
 ## Table of Contents
 
 - [What is grape-swagger-entity?](#what-is-grape-swagger-entity)
+  - [What it does](#what-it-does)
+  - [Example Output](#example-output)
 - [Related Projects](#related-projects)
 - [Compatibility](#compatibility)
 - [Installation](#installation)
 - [Usage](#usage)
+  - [Basic Entity](#basic-entity)
+  - [Custom Model Description](#custom-model-description)
+  - [Entity References](#entity-references)
+  - [Documentation Options](#documentation-options)
 - [Development](#development)
 - [Contributing](#contributing)
 - [License](#license)
