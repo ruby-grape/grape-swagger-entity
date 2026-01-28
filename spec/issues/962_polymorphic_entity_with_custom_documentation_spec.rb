@@ -1,11 +1,16 @@
 # frozen_string_literal: true
 
 describe '#962 empty entity with custom documentation type' do
+  # grape-swagger < 2.1.3 doesn't support empty model definitions (PR #963)
+  let(:supports_empty_models?) { Gem::Version.new(GrapeSwagger::VERSION) >= Gem::Version.new('2.1.3') }
+
   context 'when entity has no properties' do
     subject(:swagger_doc) do
       get '/swagger_doc'
       JSON.parse(last_response.body)
     end
+
+    before { skip 'grape-swagger < 2.1.0 does not support empty models' unless supports_empty_models? }
 
     let(:app) do
       Class.new(Grape::API) do
@@ -64,6 +69,8 @@ describe '#962 empty entity with custom documentation type' do
       get '/swagger_doc'
       JSON.parse(last_response.body)
     end
+
+    before { skip 'grape-swagger < 2.1.0 does not support empty models' unless supports_empty_models? }
 
     let(:app) do
       Class.new(Grape::API) do
