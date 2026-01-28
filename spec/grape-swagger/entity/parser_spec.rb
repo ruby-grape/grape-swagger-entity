@@ -16,9 +16,10 @@ describe GrapeSwagger::Entity::Parser do
         let(:endpoint) { nil }
 
         it 'parses the model with the correct :using definition' do
-          expect(properties[:kind]['$ref']).to eq('#/definitions/Kind')
-          expect(properties[:kind2]['$ref']).to eq('#/definitions/Kind')
-          expect(properties[:kind3]['$ref']).to eq('#/definitions/Kind')
+          # $ref is wrapped in allOf when description is present (OpenAPI compliance)
+          expect(properties[:kind]['allOf']).to eq([{ '$ref' => '#/definitions/Kind' }])
+          expect(properties[:kind2]['allOf']).to eq([{ '$ref' => '#/definitions/Kind' }])
+          expect(properties[:kind3]['allOf']).to eq([{ '$ref' => '#/definitions/Kind' }])
         end
 
         it 'does not mark hidden attributes as required' do

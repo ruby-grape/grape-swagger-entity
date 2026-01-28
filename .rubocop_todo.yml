@@ -6,12 +6,13 @@
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
 
-# Offense count: 7
+# Offense count: 8
 # Configuration parameters: AllowedMethods.
 # AllowedMethods: enums
 Lint/ConstantDefinitionInBlock:
   Exclude:
     - 'spec/grape-swagger/entities/response_model_spec.rb'
+    - 'spec/issues/44_desc_in_entity_type_spec.rb'
     - 'spec/issues/962_polymorphic_entity_with_custom_documentation_spec.rb'
     - 'spec/support/shared_contexts/inheritance_api.rb'
     - 'spec/support/shared_contexts/this_api.rb'
@@ -43,7 +44,7 @@ Metrics/AbcSize:
 # Offense count: 2
 # Configuration parameters: CountComments, CountAsOne.
 Metrics/ClassLength:
-  Max: 135
+  Max: 145
 
 # Offense count: 2
 # Configuration parameters: AllowedMethods, AllowedPatterns.
@@ -100,7 +101,7 @@ RSpec/DescribeClass:
 # Offense count: 4
 # Configuration parameters: CountAsOne.
 RSpec/ExampleLength:
-  Max: 213
+  Max: 225
 
 # Offense count: 30
 RSpec/LeakyConstantDeclaration:
