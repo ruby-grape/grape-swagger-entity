@@ -110,7 +110,27 @@ module GrapeSwagger
         values = values.call if values.is_a?(Proc)
         type[:enum] = values if values.is_a?(Array)
 
+        if documentation.key?(:additional_properties)
+          type[:additionalProperties] = parse_additional_properties(documentation[:additional_properties])
+        end
+
         type
+      end
+
+      def parse_additional_properties(value)
+        case value
+        when String
+          { type: value.to_s }
+        when Class
+          if direct_model_type?(value) || ambiguous_model_type?(value)
+            name = GrapeSwagger::Entity::Helper.model_name(value, endpoint)
+            { '$ref' => "#/definitions/#{name}" }
+          else
+            { type: GrapeSwagger::DocMethods::DataType.call(value) }
+          end
+        else
+          value
+        end
       end
 
       def entity_model_type(name, entity_options)
