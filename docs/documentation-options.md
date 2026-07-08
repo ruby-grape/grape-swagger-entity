@@ -8,6 +8,7 @@ The `documentation` hash in entity exposures supports the following options:
 |--------|-------------|---------|
 | `type` | OpenAPI data type | `String`, `Integer`, `Boolean`, `Float`, `Date`, `DateTime` |
 | `is_array` | Marks field as array type | `true` / `false` |
+| `additional_properties` | Schema for free-form object values (maps) | `true`, `String`, `'string'`, `SomeEntity` |
 
 ## Description Options
 
@@ -86,4 +87,22 @@ expose :tags, documentation: {
   is_array: true,
   desc: 'Associated tags'
 }
+```
+
+### Additional properties (maps)
+
+For object-typed fields whose values follow a single schema (e.g. a string-to-string map),
+use `additional_properties` to set the OpenAPI [`additionalProperties`](https://swagger.io/specification/v2/#model-with-mapdictionary-properties)
+key on the resulting schema.
+
+```ruby
+# Allow any additional properties
+expose :metadata, documentation: { type: Hash, additional_properties: true }
+
+# Allow any additional properties of a particular type (Ruby class or type name)
+expose :counts,   documentation: { type: Hash, additional_properties: Integer }
+expose :tags,     documentation: { type: 'object', additional_properties: 'string' }
+
+# Allow any additional properties matching a defined entity
+expose :widgets,  documentation: { type: Hash, additional_properties: WidgetEntity }
 ```

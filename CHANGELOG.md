@@ -3,6 +3,7 @@
 #### Features
 
 * Your contribution here.
+* [#92](https://github.com/ruby-grape/grape-swagger-entity/pull/92) Add support for `additional_properties` - [@olivier-thatch](https://github.com/olivier-thatch).
 
 #### Fixes
 
