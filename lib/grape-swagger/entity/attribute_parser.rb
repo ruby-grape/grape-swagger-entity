@@ -97,12 +97,7 @@ module GrapeSwagger
       end
 
       def document_data_type(documentation, data_type)
-        type = if GrapeSwagger::DocMethods::DataType.primitive?(data_type)
-                 data = GrapeSwagger::DocMethods::DataType.mapping(data_type)
-                 { type: data.first, format: data.last }
-               else
-                 { type: data_type }
-               end
+        type = data_type_schema(data_type)
 
         type[:format] = documentation[:format] if documentation.key?(:format)
 
@@ -110,7 +105,51 @@ module GrapeSwagger
         values = values.call if values.is_a?(Proc)
         type[:enum] = values if values.is_a?(Array)
 
+        add_additional_properties(type, documentation)
+
         type
+      end
+
+      def add_additional_properties(type, documentation)
+        additional_properties = parse_additional_properties(documentation[:additional_properties])
+        type[:additionalProperties] = additional_properties unless additional_properties.nil?
+      end
+
+      # Maps an `additional_properties` option to its OpenAPI schema:
+      #   true / false / Hash - emitted as-is
+      #   String / Symbol     - $ref if the name looks like an entity, otherwise a type schema
+      #   Class               - $ref if a model parser is registered for it, otherwise a type schema
+      # Type schemas use the same primitive mapping as documented attributes (e.g. Float -> number/float).
+      # Any other value is ignored.
+      def parse_additional_properties(value)
+        case value
+        when true, false, Hash then value
+        when String, Symbol then additional_properties_from_name(value.to_s)
+        when Class then additional_properties_from_class(value)
+        end
+      end
+
+      def additional_properties_from_name(name)
+        return model_reference(name) if direct_model_type?(name)
+
+        data_type_schema(GrapeSwagger::DocMethods::DataType.call(name))
+      end
+
+      def additional_properties_from_class(klass)
+        return model_reference(klass) if GrapeSwagger.model_parsers.find(klass)
+
+        data_type_schema(GrapeSwagger::DocMethods::DataType.call(klass))
+      end
+
+      def model_reference(model)
+        { '$ref' => "#/definitions/#{GrapeSwagger::Entity::Helper.model_name(model, endpoint)}" }
+      end
+
+      def data_type_schema(data_type)
+        return { type: data_type } unless GrapeSwagger::DocMethods::DataType.primitive?(data_type)
+
+        type, format = GrapeSwagger::DocMethods::DataType.mapping(data_type)
+        { type: type, format: format }.compact
       end
 
       def entity_model_type(name, entity_options)

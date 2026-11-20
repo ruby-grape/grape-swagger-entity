@@ -145,9 +145,7 @@ module GrapeSwagger
         params = nested_entities
                  .map(&:nested_exposures)
                  .flatten
-                 .each_with_object({}) do |value, memo|
-          memo[value.attribute] = value.send(:options)
-        end
+                 .to_h { |value| [value.attribute, value.send(:options)] }
 
         properties, required = parse_grape_entity_params(params, nested_entities.last)
         documentation = entity_options[:documentation]
