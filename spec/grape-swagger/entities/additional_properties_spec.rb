@@ -5,6 +5,8 @@ module AdditionalPropertiesApi
     expose :name, documentation: { type: 'string' }
   end
 
+  Poro = Class.new
+
   class WithAdditionalProperties < Grape::Entity
     expose :open_map,
            documentation: { type: Hash, additional_properties: true }
@@ -14,6 +16,10 @@ module AdditionalPropertiesApi
            documentation: { type: 'object', additional_properties: 'string' }
     expose :entity_map,
            documentation: { type: Hash, additional_properties: ValueEntity }
+    expose :float_map,
+           documentation: { type: Hash, additional_properties: Float }
+    expose :poro_map,
+           documentation: { type: Hash, additional_properties: Poro }
   end
 end
 
@@ -54,6 +60,21 @@ describe 'additional_properties' do
       'type' => 'object',
       'additionalProperties' => { 'type' => 'string' }
     )
+  end
+
+  it 'documents a formatted primitive Ruby class with its swagger type and format' do
+    expect(properties['float_map']).to eq(
+      'type' => 'object',
+      'additionalProperties' => { 'type' => 'number', 'format' => 'float' }
+    )
+  end
+
+  it 'documents a class without a registered model parser as a typed schema' do
+    expect(properties['poro_map']).to eq(
+      'type' => 'object',
+      'additionalProperties' => { 'type' => 'AdditionalPropertiesApi_Poro' }
+    )
+    expect(swagger_doc['definitions']).not_to include('AdditionalPropertiesApi_Poro')
   end
 
   it 'documents an entity class as a $ref' do

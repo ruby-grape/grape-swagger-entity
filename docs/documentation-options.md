@@ -99,10 +99,13 @@ key on the resulting schema.
 # Allow any additional properties
 expose :metadata, documentation: { type: Hash, additional_properties: true }
 
-# Allow any additional properties of a particular type (Ruby class or type name)
+# Allow any additional properties of a particular type (Ruby class or type name).
+# Types are mapped like the `type` option, e.g. Float becomes `{ type: 'number', format: 'float' }`.
 expose :counts,   documentation: { type: Hash, additional_properties: Integer }
+expose :ratios,   documentation: { type: Hash, additional_properties: Float }
 expose :tags,     documentation: { type: 'object', additional_properties: 'string' }
+expose :flags,    documentation: { type: 'object', additional_properties: :boolean }
 
-# Allow any additional properties matching a defined entity
+# Allow any additional properties matching a defined entity (class or class name)
 expose :widgets,  documentation: { type: Hash, additional_properties: WidgetEntity }
 ```

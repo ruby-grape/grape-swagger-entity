@@ -361,16 +361,59 @@ describe GrapeSwagger::Entity::AttributeParser do
           it { is_expected.to include(type: 'object', additionalProperties: { type: 'string' }) }
         end
 
-        context 'when the value is a type name string' do
-          let(:entity_options) { { documentation: { type: 'object', additional_properties: 'string' } } }
+        {
+          Integer => { type: 'integer', format: 'int32' },
+          Float => { type: 'number', format: 'float' },
+          BigDecimal => { type: 'number', format: 'double' },
+          Date => { type: 'string', format: 'date' },
+          DateTime => { type: 'string', format: 'date-time' },
+          Time => { type: 'string', format: 'date-time' }
+        }.each do |klass, schema|
+          context "when the value is the formatted primitive class #{klass}" do
+            let(:entity_options) { { documentation: { type: Hash, additional_properties: klass } } }
 
-          it { is_expected.to include(type: 'object', additionalProperties: { type: 'string' }) }
+            it { is_expected.to include(type: 'object', additionalProperties: schema) }
+          end
+        end
+
+        {
+          'string' => { type: 'string' },
+          'Boolean' => { type: 'boolean' },
+          'Hash' => { type: 'object' },
+          'Float' => { type: 'number', format: 'float' },
+          :string => { type: 'string' },
+          :integer => { type: 'integer', format: 'int32' }
+        }.each do |name, schema|
+          context "when the value is the type name #{name.inspect}" do
+            let(:entity_options) { { documentation: { type: 'object', additional_properties: name } } }
+
+            it { is_expected.to include(type: 'object', additionalProperties: schema) }
+          end
         end
 
         context 'when the value is an entity class' do
           let(:entity_options) { { documentation: { type: Hash, additional_properties: ThisApi::Entities::Tag } } }
 
           it { is_expected.to include(type: 'object', additionalProperties: { '$ref' => '#/definitions/Tag' }) }
+        end
+
+        context 'when the value is an entity class name' do
+          let(:entity_options) { { documentation: { type: Hash, additional_properties: 'ThisApi::Entities::Tag' } } }
+
+          it { is_expected.to include(type: 'object', additionalProperties: { '$ref' => '#/definitions/Tag' }) }
+        end
+
+        context 'when the value is a class without a registered model parser' do
+          let(:entity_options) { { documentation: { type: Hash, additional_properties: poro } } }
+          let(:poro) { stub_const('SomePoro', Class.new) }
+
+          it { is_expected.to include(type: 'object', additionalProperties: { type: 'SomePoro' }) }
+        end
+
+        context 'when the value is unsupported' do
+          let(:entity_options) { { documentation: { type: Hash, additional_properties: 42 } } }
+
+          it { is_expected.not_to have_key(:additionalProperties) }
         end
 
         context 'when combined with is_array: true' do
