@@ -1,5 +1,41 @@
 ## Upgrading grape-swagger-entity
 
+### Upgrading to >= 0.7.2
+
+#### All Non-Array Entity References With Sibling Properties Use `allOf` Wrapper
+
+0.7.1 wrapped a non-array entity reference in `allOf` only when it had `desc` or `read_only`.
+Other properties next to the `$ref` were still ignored by OpenAPI tools, for example
+`x-nullable` from `documentation: { x: { nullable: true } }`, `example` and `default`.
+Now any non-array entity reference with a sibling property is wrapped.
+
+**Previous Output (`x-nullable` was ignored):**
+```json
+{
+  "spouse": {
+    "$ref": "#/definitions/Person",
+    "x-nullable": true
+  }
+}
+```
+
+**New Output:**
+```json
+{
+  "spouse": {
+    "allOf": [{ "$ref": "#/definitions/Person" }],
+    "x-nullable": true
+  }
+}
+```
+
+Entity references with no sibling properties still render as a bare `$ref`.
+
+**Action Required:**
+If you have code or tests that parse the raw Swagger/OpenAPI output and expect
+`$ref` at the top level for entity references with extensions, `example` or `default`,
+update them to handle the `allOf` wrapper.
+
 ### Upgrading to >= 0.7.1
 
 #### Non-Array Entity References Now Use `allOf` Wrapper
