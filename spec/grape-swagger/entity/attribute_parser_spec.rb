@@ -341,6 +341,47 @@ describe GrapeSwagger::Entity::AttributeParser do
           it { is_expected.to include(type: 'object', example: example_value, default: example_value) }
         end
       end
+
+      context 'when additional_properties is set' do
+        context 'when the value is true' do
+          let(:entity_options) { { documentation: { type: Hash, additional_properties: true } } }
+
+          it { is_expected.to include(type: 'object', additionalProperties: true) }
+        end
+
+        context 'when the value is false' do
+          let(:entity_options) { { documentation: { type: Hash, additional_properties: false } } }
+
+          it { is_expected.to include(type: 'object', additionalProperties: false) }
+        end
+
+        context 'when the value is a primitive class' do
+          let(:entity_options) { { documentation: { type: Hash, additional_properties: String } } }
+
+          it { is_expected.to include(type: 'object', additionalProperties: { type: 'string' }) }
+        end
+
+        context 'when the value is a type name string' do
+          let(:entity_options) { { documentation: { type: 'object', additional_properties: 'string' } } }
+
+          it { is_expected.to include(type: 'object', additionalProperties: { type: 'string' }) }
+        end
+
+        context 'when the value is an entity class' do
+          let(:entity_options) { { documentation: { type: Hash, additional_properties: ThisApi::Entities::Tag } } }
+
+          it { is_expected.to include(type: 'object', additionalProperties: { '$ref' => '#/definitions/Tag' }) }
+        end
+
+        context 'when combined with is_array: true' do
+          let(:entity_options) do
+            { documentation: { type: 'object', is_array: true, additional_properties: 'string' } }
+          end
+
+          it { is_expected.to include(type: :array) }
+          it { is_expected.to include(items: { type: 'object', additionalProperties: { type: 'string' } }) }
+        end
+      end
     end
   end
 end
