@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
 describe '#93 non-array entity references with sibling properties' do
-  subject(:properties) do
+  subject(:definition) do
     get '/swagger_doc'
-    JSON.parse(last_response.body)['definitions']['RefSiblingsParent']['properties']
+    JSON.parse(last_response.body)['definitions']['RefSiblingsParent']
   end
+
+  let(:properties) { definition['properties'] }
 
   let(:app) do
     Class.new(Grape::API) do
@@ -23,6 +25,7 @@ describe '#93 non-array entity references with sibling properties' do
           expose :nullable_list,
                  using: RefSiblingsChild,
                  documentation: { is_array: true, x: { nullable: true } }
+          expose :discriminator_ref, using: RefSiblingsChild, documentation: { is_discriminator: true }
         end
 
         desc 'Get a parent', success: RefSiblingsParent
@@ -67,5 +70,10 @@ describe '#93 non-array entity references with sibling properties' do
       'items' => { '$ref' => '#/definitions/RefSiblingsChild' },
       'x-nullable' => true
     )
+  end
+
+  it 'keeps a bare $ref for a discriminator, whose internal marker is not a sibling' do
+    expect(properties['discriminator_ref']).to eq('$ref' => '#/definitions/RefSiblingsChild')
+    expect(definition['discriminator']).to eq('discriminator_ref')
   end
 end
