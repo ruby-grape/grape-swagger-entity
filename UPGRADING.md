@@ -31,6 +31,9 @@ Now any non-array entity reference with a sibling property is wrapped.
 
 Entity references with no sibling properties still render as a bare `$ref`.
 
+Within the wrapped property, `allOf` is now the last key rather than the first. JSON consumers are
+not affected, but a text comparison of the raw output (for example a snapshot test) will show the change.
+
 **Action Required:**
 If you have code or tests that parse the raw Swagger/OpenAPI output and expect
 `$ref` at the top level for entity references with extensions, `example` or `default`,
