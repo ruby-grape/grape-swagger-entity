@@ -78,20 +78,17 @@ module GrapeSwagger
       end
 
       def add_documentation_to_memo(memo_entry, documentation)
-        return unless documentation
-
-        has_read_only = documentation[:read_only]
-        has_description = documentation[:desc]
-
-        return unless has_read_only || has_description
+        if documentation
+          memo_entry[:readOnly] = documentation[:read_only].to_s == 'true' if documentation[:read_only]
+          memo_entry[:description] = documentation[:desc] if documentation[:desc]
+        end
 
         # In OpenAPI/Swagger 2.0 and 3.0.x, $ref cannot have sibling properties - they are ignored.
-        # To add description or readOnly to a $ref, wrap it in allOf.
+        # To keep siblings (description, readOnly, example, x-* extensions, ...), wrap the $ref in allOf.
+        # :documentation is not a sibling: it carries is_discriminator to grape-swagger, which removes it.
         # See: https://swagger.io/docs/specification/using-ref/
-        wrap_ref_in_all_of(memo_entry) if memo_entry.key?('$ref')
-
-        memo_entry[:readOnly] = documentation[:read_only].to_s == 'true' if has_read_only
-        memo_entry[:description] = documentation[:desc] if has_description
+        siblings = memo_entry.keys - ['$ref', :documentation]
+        wrap_ref_in_all_of(memo_entry) if memo_entry.key?('$ref') && siblings.any?
       end
 
       def wrap_ref_in_all_of(memo_entry)

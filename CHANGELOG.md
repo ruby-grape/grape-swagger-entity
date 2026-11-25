@@ -7,6 +7,7 @@
 
 #### Fixes
 
+* [#93](https://github.com/ruby-grape/grape-swagger-entity/pull/93): Wrap non-array entity references in `allOf` whenever they have sibling properties, such as `x-nullable` (see [UPGRADING](UPGRADING.md)) - [@olivier-thatch](https://github.com/olivier-thatch).
 * Your contribution here.
 
 ### 0.7.1 (2026/01/28)
