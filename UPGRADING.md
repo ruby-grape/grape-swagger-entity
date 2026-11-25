@@ -8,6 +8,8 @@
 Other properties next to the `$ref` were still ignored by OpenAPI tools, for example
 `x-nullable` from `documentation: { x: { nullable: true } }`, `example` and `default`.
 Now any non-array entity reference with a sibling property is wrapped.
+The siblings are preserved next to the `allOf`; whether a tool acts on them is up to the tool.
+For example, OpenAPI 3.0 only applies `nullable` when `type` is in the same schema.
 
 **Previous Output (`x-nullable` was ignored):**
 ```json
@@ -30,6 +32,9 @@ Now any non-array entity reference with a sibling property is wrapped.
 ```
 
 Entity references with no sibling properties still render as a bare `$ref`.
+
+Within the wrapped property, `allOf` is now the last key rather than the first. JSON consumers are
+not affected, but a text comparison of the raw output (for example a snapshot test) will show the change.
 
 **Action Required:**
 If you have code or tests that parse the raw Swagger/OpenAPI output and expect

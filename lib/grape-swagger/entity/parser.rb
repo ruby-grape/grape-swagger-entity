@@ -3,6 +3,10 @@
 module GrapeSwagger
   module Entity
     class Parser
+      # Keys of an entity reference that are not siblings of its $ref: :documentation carries
+      # is_discriminator to grape-swagger, which removes it.
+      NON_SIBLING_KEYS = ['$ref', :documentation].freeze
+
       attr_reader :model, :endpoint, :attribute_parser
 
       def initialize(model, endpoint)
@@ -85,9 +89,8 @@ module GrapeSwagger
 
         # In OpenAPI/Swagger 2.0 and 3.0.x, $ref cannot have sibling properties - they are ignored.
         # To keep siblings (description, readOnly, example, x-* extensions, ...), wrap the $ref in allOf.
-        # :documentation is not a sibling: it carries is_discriminator to grape-swagger, which removes it.
         # See: https://swagger.io/docs/specification/using-ref/
-        siblings = memo_entry.keys - ['$ref', :documentation]
+        siblings = memo_entry.keys - NON_SIBLING_KEYS
         wrap_ref_in_all_of(memo_entry) if memo_entry.key?('$ref') && siblings.any?
       end
 
