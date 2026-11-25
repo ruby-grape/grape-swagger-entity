@@ -25,6 +25,7 @@ describe '#93 non-array entity references with sibling properties' do
           expose :nullable_list,
                  using: RefSiblingsChild,
                  documentation: { is_array: true, x: { nullable: true } }
+          expose :with_default, using: RefSiblingsChild, documentation: { default: { id: 0 } }
           expose :discriminator_ref, using: RefSiblingsChild, documentation: { is_discriminator: true }
         end
 
@@ -53,6 +54,13 @@ describe '#93 non-array entity references with sibling properties' do
     expect(properties['with_example']).to eq(
       'allOf' => [{ '$ref' => '#/definitions/RefSiblingsChild' }],
       'example' => { 'id' => 1 }
+    )
+  end
+
+  it 'wraps the $ref in allOf to keep a default' do
+    expect(properties['with_default']).to eq(
+      'allOf' => [{ '$ref' => '#/definitions/RefSiblingsChild' }],
+      'default' => { 'id' => 0 }
     )
   end
 
