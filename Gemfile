@@ -25,8 +25,8 @@ gem 'grape', grape_spec
 gem 'grape-swagger', grape_swagger_spec
 
 # grape < 2.1 calls Mustermann::Pattern#named_captures, which mustermann 4 removed.
-old_grape = grape_spec.is_a?(String) && !Gem::Requirement.new(grape_spec).satisfied_by?(Gem::Version.new('2.1'))
-gem 'mustermann', '< 4' if old_grape
+# The CI matrix sets PIN_MUSTERMANN for the grape ~> 2.0.0 rows.
+gem 'mustermann', '< 4' if ENV['PIN_MUSTERMANN'] == 'true'
 
 # activesupport 7.1, the last release for Ruby 3.0, passes quirks_mode to JSON.generate, which json 3 removed.
 gem 'json', '< 3' if Gem::Version.new(RUBY_VERSION) < Gem::Version.new('3.1')
