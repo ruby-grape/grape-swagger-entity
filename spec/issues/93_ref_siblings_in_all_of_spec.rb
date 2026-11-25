@@ -29,9 +29,20 @@ describe '#93 non-array entity references with sibling properties' do
           expose :discriminator_ref, using: RefSiblingsChild, documentation: { is_discriminator: true }
         end
 
+        class RefSiblingsDescribedDiscriminator < Grape::Entity
+          expose :kind,
+                 using: RefSiblingsChild,
+                 documentation: { is_discriminator: true, desc: 'Kind' }
+        end
+
         desc 'Get a parent', success: RefSiblingsParent
         get '/parent' do
           present({}, with: RefSiblingsParent)
+        end
+
+        desc 'Get a described discriminator', success: RefSiblingsDescribedDiscriminator
+        get '/described_discriminator' do
+          present({}, with: RefSiblingsDescribedDiscriminator)
         end
       end
 
@@ -83,5 +94,20 @@ describe '#93 non-array entity references with sibling properties' do
   it 'keeps a bare $ref for a discriminator, whose internal marker is not a sibling' do
     expect(properties['discriminator_ref']).to eq('$ref' => '#/definitions/RefSiblingsChild')
     expect(definition['discriminator']).to eq('discriminator_ref')
+  end
+
+  context 'with a discriminator that also has a description' do
+    subject(:definition) do
+      get '/swagger_doc'
+      JSON.parse(last_response.body)['definitions']['RefSiblingsDescribedDiscriminator']
+    end
+
+    # grape-swagger removes the internal :documentation marker; it must not leak next to the allOf.
+    it 'wraps the $ref and leaves no internal marker behind' do
+      expect(properties['kind']).to eq(
+        'allOf' => [{ '$ref' => '#/definitions/RefSiblingsChild' }],
+        'description' => 'Kind'
+      )
+    end
   end
 end
