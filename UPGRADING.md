@@ -8,6 +8,8 @@
 Other properties next to the `$ref` were still ignored by OpenAPI tools, for example
 `x-nullable` from `documentation: { x: { nullable: true } }`, `example` and `default`.
 Now any non-array entity reference with a sibling property is wrapped.
+The siblings are preserved next to the `allOf`; whether a tool acts on them is up to the tool.
+For example, OpenAPI 3.0 only applies `nullable` when `type` is in the same schema.
 
 **Previous Output (`x-nullable` was ignored):**
 ```json
